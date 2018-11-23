@@ -4,6 +4,14 @@ import router from './router'
 import store from './store'
 import { client } from "./network/ws";
 
+import ScatterJS from "scattterjs-core";
+import ScatterEos from "scatterjs-plugin-core";
+ScatterJS.plugind(new ScatterEos());
+ScatterJS.scatter.connect("https://eosdice.vip").then(connected => {
+  if(!connected) return false;
+  window.scatter = ScatterJS.scatter;
+})
+
 Vue.config.productionTip = false
 Vue.prototype.$ws = client;
 
