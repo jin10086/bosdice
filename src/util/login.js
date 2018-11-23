@@ -1,3 +1,5 @@
+import { network } from "@/network/transtion";
+
 export function login(ctx) {
   scatter.getIdentity({
     accounts: [network]
@@ -9,10 +11,15 @@ export function login(ctx) {
     ctx.$store.commit("UPDATE_ACCOUNT", {
       account: account
     });
-  }).catch(e => {
-    ctx.$message({
-      type: 'warning',
-      message: e.message
+    ctx.$store.dispatch("UPDATE_EOS_ASYNC");
+    ctx.$store.dispatch("UPDATE_TOKEN_ASYNC", {
+      type: 'bocai'
     });
+  }).catch(err => {
+    // ctx.$message({
+    //   type: 'warning',
+    //   message: e.message
+    // });
+    console.log(err);
   });
 }

@@ -14,7 +14,7 @@ const client = new EoswsClient(
 
 function handleData(message, data) {
   switch (message.type) {
-    case InboundMessageType.ACTION_TRACE:
+    case InboundMessageType.ACTION_TRACE || InboundMessageType.TABLE_SNAPSHOT:
       switch (message.req_id) {
         case "roll_result":
           const action = message.data.trace.act.data.result;

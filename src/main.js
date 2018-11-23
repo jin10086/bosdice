@@ -4,13 +4,24 @@ import router from './router'
 import store from './store'
 import { client } from "./network/ws";
 
-import ScatterJS from "scattterjs-core";
-import ScatterEos from "scatterjs-plugin-core";
-ScatterJS.plugind(new ScatterEos());
-ScatterJS.scatter.connect("https://eosdice.vip").then(connected => {
-  if(!connected) return false;
-  window.scatter = ScatterJS.scatter;
-})
+import ScatterJS from "scatterjs-core";
+import ScatterEOS from "scatterjs-plugin-eosjs";
+ScatterJS.plugins(new ScatterEOS());
+ScatterJS.scatter.connect("https://jacks.eosdice.vip").then(connected => {
+  if (!connected) {
+    console.log("scatter error");
+    return;
+  }
+  console.log(connected, 'ee')
+  if (!scatter.identify) return;
+  const account = scatter.identify.accounts.find(
+    account => account.blochchain === "eos"
+  );
+  if (!account) return;
+  this.$store.commit("UPDATE_ACCOUNT", {
+    account: account
+  });
+});
 
 Vue.config.productionTip = false
 Vue.prototype.$ws = client;
