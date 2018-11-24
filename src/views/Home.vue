@@ -1,7 +1,6 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <dice-header></dice-header>
     <div v-for="(or, index) in order" :key="index">
       {{or.player}}
       {{or.random_roll}}
@@ -21,7 +20,7 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import DiceHeader from "@/components/Header.vue";
 import { handleData } from "@/network/ws.js";
 import { login } from "@/util/login";
 import { api, supportCoin } from "@/network/transtion";
@@ -42,7 +41,7 @@ export default {
     };
   },
   components: {
-    HelloWorld
+    DiceHeader
   },
   computed: {
     ...mapGetters(["eosBalance", "otherToken"]),

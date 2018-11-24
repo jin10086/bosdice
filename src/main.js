@@ -2,7 +2,22 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import VueI18n from "vue-i18n";
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import cn from "@/lang/cn";
+import en from "@/lang/en";
 import { client } from "./network/ws";
+
+Vue.use(VueI18n);
+Vue.use(ElementUI);
+const i18n = {
+  locale: window.localStorage.getItem("dicelang") ? window.localStorage.getItem("dicelang"): "en",
+  messages: {
+    cn: cn,
+    en: en
+  } 
+}
 
 import ScatterJS from "scatterjs-core";
 import ScatterEOS from "scatterjs-plugin-eosjs";
@@ -38,5 +53,6 @@ Vue.prototype.$ws
 new Vue({
   router,
   store,
+  i18n,
   render: h => h(App)
 }).$mount('#app')
