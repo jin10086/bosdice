@@ -17,6 +17,9 @@ export default new Vuex.Store({
     },
     otherToken: state => {
       return state.otherToken
+    },
+    username: state => {
+      return state.account ? state.account.name : false;
     }
   },
   mutations: {

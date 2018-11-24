@@ -11,15 +11,18 @@ export function login(ctx) {
     ctx.$store.commit("UPDATE_ACCOUNT", {
       account: account
     });
+    ctx.$message({
+      message: "登录成功",
+      type: "success"
+    });
     ctx.$store.dispatch("UPDATE_EOS_ASYNC");
     ctx.$store.dispatch("UPDATE_TOKEN_ASYNC", {
       type: 'bocai'
     });
   }).catch(err => {
-    // ctx.$message({
-    //   type: 'warning',
-    //   message: e.message
-    // });
-    console.log(err);
+    ctx.$message({
+      type: 'error',
+      message: err.message
+    });
   });
 }
