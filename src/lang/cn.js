@@ -97,7 +97,7 @@ export default {
     `
   },
   order: {
-    all: "时间",
+    all: "所有投注",
     my: "我的投注",
     transaction: "我的交易",
     time: "时间",

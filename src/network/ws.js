@@ -25,12 +25,16 @@ function handleData(message) {
       break;
 
     case InboundMessageType.TABLE_DELTA:
-      if (message.data)
+      if (message.data  && message.req_id === "dice-auction")
         return message.data.rows[0].json;
+      if (message.data  && message.req_id === "dice-rich")
+        return message.data.rows;
 
     case InboundMessageType.TABLE_SNAPSHOT:
-      if (message.data)
+      if (message.data && message.req_id === "dice-auction")
         return message.data.rows[0].json;
+      if (message.data  && message.req_id === "dice-rich")
+        return message.data.rows;
 
     case InboundMessageType.LISTENING:
       const listeningResp = message;
@@ -39,16 +43,16 @@ function handleData(message) {
           listeningResp.data.next_block
         }`
       );
-      return false;
+      break;
 
     case InboundMessageType.ERROR:
       const error = message.data;
       console.log(`Received error: ${error.message} (${error.code})`, error.details);
-      return false;
+      break;
 
     default:
       console.log(`Unhandled message of type [${message.type}].`);
-      return false;
+      break;
   }
 }
 

@@ -122,8 +122,9 @@ export default {
 
 <style lang="less">
 .middle {
-  width: 300px;
-  padding: 56px 15px;
+  width: 320px;
+  padding-top: 56px;
+  margin: 30px;
   .panel-wrap {
     background-color: #161933;
     padding-bottom: 24px;

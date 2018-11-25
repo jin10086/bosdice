@@ -8,6 +8,7 @@
       </div>
     </div>
     <div class="main">
+      <dice-rich></dice-rich>
       <dice-roll :activeToken="activeToken" :showToekn="token"></dice-roll>
       <dice-auction></dice-auction>
     </div>
@@ -21,6 +22,7 @@ import DiceHeader from "@/components/Header.vue";
 import DiceOrder from "@/components/Order.vue";
 import DiceRoll from "@/components/Roll.vue";
 import DiceAuction from "@/components/Auction.vue";
+import DiceRich from "@/components/Rich.vue";
 import { login } from "@/util/login";
 import { api, supportCoin } from "@/network/transtion";
 import { mapGetters } from "vuex";
@@ -37,7 +39,8 @@ export default {
     DiceHeader,
     DiceRoll,
     DiceOrder,
-    DiceAuction
+    DiceAuction,
+    DiceRich
   },
   computed: {
     token: {
@@ -77,6 +80,10 @@ export default {
 </script>
 
 <style lang="less">
+.main{
+  display: flex;
+  justify-content: center;
+}
 .active {
   background-color: #f1940f !important;
 }
