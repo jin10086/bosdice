@@ -2,15 +2,15 @@
   <div class="roll">
     <div class="roll-header">
       <div>
-        <span>{{$t('roll.payout')}}</span>
+        <span>赔率</span>
         <strong>{{lossPercent}}x</strong>
       </div>
       <div>
-        <span>{{$t('roll.rollUnder')}}</span>
+        <span>小于该数获胜</span>
         <strong>{{roll}}</strong>
       </div>
       <div>
-        <span>{{$t('roll.winChance')}}</span>
+        <span>中奖概率</span>
         <strong>{{roll -1}}%</strong>
       </div>
     </div>
@@ -18,7 +18,7 @@
       <vue-slider v-model="roll" class="slider-roll" :process-style="{background: '#3c3'}" :tooltip-style="{background: '#3c3'}" :min="2" :max="96"></vue-slider>
       <div class="roll-middle">
         <div class="field-amount">
-          <div class="title">{{$t('roll.betAmount')}}</div>
+          <div class="title">投注金额</div>
           <div class="content">
             <input type="text" autocomplete="off" class="jack-input" v-model="amount"/>
             <div class="amount-action">
@@ -29,12 +29,21 @@
           </div>
         </div>
         <div class="field-profit">
-          <div class="title">{{$t('roll.payToWin')}}</div>
+          <div class="title">赢取奖金</div>
           <div class="content">
             {{winMoney}}
           </div>
-          <div></div>
         </div>
+      </div>
+      <div class="roll-footer">
+        <div class="eos">{{eosBalance}} <span class="symbol">EOS</span></div>
+        <div class="login-wrap">
+          <div class="login">
+            <span v-if="username" @click="doRoll">掷骰子</span>
+            <span v-else @click="login">登录</span>
+          </div>
+        </div>
+        <div class="token">{{otherToken}} <span class="symbol">{{showToekn.toUpperCase()}}</span> </div>
       </div>
     </div>
   </div>
@@ -43,380 +52,59 @@
 <script>
 import vueSlider from "vue-slider-component";
 import { mapGetters } from "vuex";
-import { login } from "../utils/fuc";
-import { api } from "../utils/tarnstion";
-import eosApi from "@/utils/eos";
-import moment from "moment";
+import { login } from "@/util/login";
+import { api, supportCoin } from "@/network/transtion";
 export default {
-  name: "jack-roll",
+  name: "dice-roll",
   data() {
     return {
       roll: 50,
-      amount: 0.5,
-      siderTable: false,
-      tableWidth: "60px",
-      tableroll: "-60px",
-      runData: [],
-      myEosAmount: "0.0000 EOS",
-      myKeyAmout: "0.0000 KEY",
-      myJKSAmout: "0.0000 JACKY",
-      maxAmout: 100,
-      minAmout: 0.5,
-      winAmout: 100,
-      jkrEndtime: "5:00",
-      interval: null,
-      myBetAmount: 0
+      amount: 0.5
     };
   },
   components: {
     vueSlider
   },
+  // activeToken 表示使用押注的代币, showToken表示显示余额的代币
+  props: ["activeToken", "showToekn"],
   computed: {
     lossPercent() {
       return (98 / (this.roll - 1)).toFixed(4);
-    },
-    sortedRunData() {
-      let newArr = [...this.runData];
-      return newArr.sort((a, b) => {
-        if (a.amount && b.amount) {
-          return b.amount.split(" ")[0] - a.amount.split(" ")[0];
-        }
-        return b.rank_id - a.rank_id;
-      });
     },
     winMoney() {
       this.winAmout = this.amount * this.lossPercent;
       return (this.amount * this.lossPercent).toFixed(4);
     },
-    ...mapGetters(["loginStatus"])
-  },
-  watch: {
-    loginStatus: function(val, old) {
-      const _this = this;
-      if (val === true) {
-        const geteosbalance = {
-          type: "get_table_rows",
-          listen: true,
-          fetch: true,
-          req_id: "geteosbalance",
-          data: {
-            code: "eosio.token",
-            scope: this.$store.state.account.name,
-            table: "accounts",
-            json: true
-          }
-        };
-        const getotherbalance = {
-          type: "get_table_rows",
-          listen: true,
-          fetch: true,
-          req_id: "getotherbalance",
-          data: {
-            code: "eosbocai1111",
-            scope: this.$store.state.account.name,
-            table: "accounts",
-            json: true
-          }
-        };
-        const getcontractbalance = {
-          type: "get_table_rows",
-          listen: true,
-          fetch: true,
-          req_id: "getcontractbalance",
-          data: {
-            code: "eosio.token",
-            scope: "eosbocaijack",
-            table: "accounts",
-            json: true
-          }
-        };
-        const getmystake = {
-          type: "get_table_rows",
-          listen: true,
-          fetch: true,
-          req_id: "getmystake",
-          data: {
-            code: "eosbocaijack",
-            scope: this.$store.state.account.name,
-            table: "stake",
-            json: true
-          }
-        };
-        this.$ws.addEventListener("open", () => {
-          if (!this.$ws.msg_queue[getotherbalance.req_id]) {
-            this.$ws.send(JSON.stringify(getotherbalance));
-          }
-          if (!this.$ws.msg_queue[geteosbalance.req_id]) {
-            this.$ws.send(JSON.stringify(geteosbalance));
-          }
-          if (!this.$ws.msg_queue[getcontractbalance.req_id]) {
-            this.$ws.send(JSON.stringify(getcontractbalance));
-          }
-          if (!this.$ws.msg_queue[getmystake.req_id]) {
-            this.$ws.send(JSON.stringify(getmystake));
-          }
-        });
-        if (this.$ws.readyState === 1) {
-          if (!this.$ws.msg_queue[geteosbalance.req_id]) {
-            this.$ws.send(JSON.stringify(geteosbalance));
-          }
-          if (!this.$ws.msg_queue[getotherbalance.req_id]) {
-            this.$ws.send(JSON.stringify(getotherbalance));
-          }
-          if (!this.$ws.msg_queue[getcontractbalance.req_id]) {
-            this.$ws.send(JSON.stringify(getcontractbalance));
-          }
-          if (!this.$ws.msg_queue[getmystake.req_id]) {
-            this.$ws.send(JSON.stringify(getmystake));
-          }
-        }
-        this.$ws.addEventListener("message", event => {
-          let data = JSON.parse(event.data);
-          if (data.req_id === "geteosbalance") {
-            if (data.type === "table_delta") {
-              console.log(data.data.dbop.new.json);
-              _this.myEosAmount = data.data.dbop.new.json.balance;
-            }
-            if (data.type === "table_snapshot") {
-              console.log(data.data.rows[0].json);
-              _this.myEosAmount = data.data.rows[0].json.balance;
-            }
-          }
-
-          if (data.req_id === "getcontractbalance") {
-            if (data.type === "table_delta") {
-              let contractAmout = Number(
-                data.data.dbop.new.json.balance.split(" ")[0]
-              );
-              _this.maxAmout =
-                (contractAmout -
-                  this.$store.state.fomopool -
-                  this.$store.state.jkrpool -
-                  this.$store.state.keypool -
-                  this.$store.state.rankpool) /
-                10;
-            }
-            if (data.type === "table_snapshot") {
-              let contractAmout = Number(
-                data.data.rows[0].json.balance.split(" ")[0]
-              );
-              _this.maxAmout =
-                (contractAmout -
-                  this.$store.state.fomopool -
-                  this.$store.state.jkrpool -
-                  this.$store.state.keypool -
-                  this.$store.state.rankpool) /
-                10;
-            }
-            console.log(_this.maxAmout);
-          }
-
-          if (data.req_id === "getotherbalance") {
-            let _data = [];
-            if (data.type === "table_delta") {
-              _data = data.data.dbop.new;
-              let b = _data.json.balance;
-              if (b.split(" ")[1] === "KEY") {
-                _this.myKeyAmout = b;
-                _this.$store.state.balance["key"] = Number(b.split(" ")[0]);
-              }
-              if (b.split(" ")[1] === "JACKS") {
-                _this.myJKSAmout = b;
-                _this.$store.state.balance["jks"] = Number(b.split(" ")[0]);
-              }
-            }
-            if (data.type === "table_snapshot") {
-              _data = data.data.rows;
-              _data.forEach(element => {
-                let b = element.json.balance;
-                // console.log(b);
-                if (b.split(" ")[1] === "KEY") {
-                  _this.myKeyAmout = b;
-                  _this.$store.state.balance["key"] = Number(b.split(" ")[0]);
-                }
-                if (b.split(" ")[1] === "JACKS") {
-                  _this.myJKSAmout = b;
-                  _this.$store.state.balance["jks"] = Number(b.split(" ")[0]);
-                }
-              });
-            }
-          }
-
-          if (data.req_id === "getmystake") {
-            if (data.type === "table_delta") {
-              _this.$store.state.stake.my = data.data.dbop.new.json;
-            }
-            if (data.type === "table_snapshot") {
-              if (data.data.rows.length) {
-                _this.$store.state.stake.my = data.data.rows[0].json;
-              }
-            }
-          }
-        });
-      }
-    }
-  },
-  methods: {
-    calcJkrTimer() {
-      let current = new Date().getTime();
-      let roll = this.$store.state.rankenttime * 1000 - current;
-      if (roll <= 0) {
-        this.jkrEndtime = "0:00";
-        return;
-      }
-      let duration = moment.duration(roll);
-      let seconds = duration.seconds() || 0;
-      if (seconds < 10) {
-        seconds = "0" + seconds;
-      }
-      this.jkrEndtime = `${duration.minutes() || 0}:${seconds}`;
-    },
-    login() {
-      login(this);
-    },
     getref() {
       let url = new URL(location.href);
+      console.log(url);
       let ref = url.searchParams.get("ref");
+      console.log(ref, 22)
       if (ref) {
         return ref;
       } else {
         return "";
       }
     },
-    changeAmount(number) {
-      if (number < 0) {
-        // 所有的eos
-        this.amount = Number(this.myEosAmount.split(" ")[0]);
-      } else {
-        this.amount = Math.round(this.amount * number);
-      }
-    },
-    showSiderTable() {
-      if (!this.siderTable) {
-        this.tableWidth = "300px !important";
-      } else {
-        this.tableWidth = "60px";
-        this.tableroll = "-60px";
-      }
-      const width = document.body.clientWidth;
-      console.log(width, "wi");
-      if (width <= 900) {
-        this.tableWidth = "100% !important";
-        this.tableroll = "0px !important";
-      }
-      this.siderTable = !this.siderTable;
-    },
-    handleRoll() {
-      let referrer = this.getref();
-      if (this.winAmout > this.maxAmout) {
-        this.$message({
-          message: this.$t("bet.fail.message1") + this.maxAmout,
-          type: "error"
-        });
-        return;
-      }
-      if (this.amount < this.minAmout) {
-        this.$message({
-          message: this.$t("bet.fail.message2") + this.minAmout,
-          type: "error"
-        });
-        return;
-      }
-      this.$message.info(this.$t("waitConfirm"));
-      let data = {
-        from: this.$store.state.account.name,
-        to: "eosbocaijack",
-        quantity: Number(this.amount).toFixed(4) + " EOS",
-        memo: `jacks-${new Date().getTime()}-${this.roll}-${referrer}`
-      };
-      api("eosio.token", "transfer", data, this)
-        .then(res => {
-          console.log(res, "res");
-        })
-        .catch(err => {
-          console.log(err, "err");
-        });
-    },
-    getRankList() {
-      eosApi
-        .getTableRows({
-          json: true,
-          code: "eosbocaijack",
-          table: "rank",
-          scope: "eosbocaijack"
-        })
-        .then(res => {
-          if (res.rows) {
-            this.runData = res.rows;
-            if (this.runData.length) {
-              for (let i = 0; i < this.runData.length; i++) {
-                this.getRankItem(this.runData[i].player, i);
-              }
-            }
-          }
-        });
-    },
-    getRankItem(name, index) {
-      eosApi
-        .getTableRows({
-          json: true,
-          code: "eosbocaijack",
-          table: "users",
-          scope: name
-        })
-        .then(res => {
-          if (res.rows && res.rows.length) {
-            const amount = res.rows[0].amount;
-            const temp = { ...this.runData[index] };
-            temp.amount = amount;
-            this.$set(this.runData, index, temp);
-          }
-        });
-    },
-    getMyBetAmount() {
-      const name = this.$store.state.account.name;
-      if (name) {
-        eosApi
-          .getTableRows({
-            json: true,
-            code: "eosbocaijack",
-            table: "users",
-            scope: name
-          })
-          .then(res => {
-            if (res.rows && res.rows.length) {
-              let current_id = res.rows[0].current_id;
-              if (current_id == this.$store.state.rankid) {
-                this.myBetAmount = res.rows[0].amount;
-              } else {
-                this.myBetAmount = "0.0000 EOS";
-              }
-            }
-          });
-      }
-    },
-    getEOS() {
-      if (!this.$store.state.account.name) {
-        this.currentEOS = 0;
-        return;
-      }
-      return eosApi
-        .getAccount(this.$store.state.account.name)
-        .then(({ core_liquid_balance }) => {
-          this.myEosAmount = Number(core_liquid_balance.replace(/\sEOS/, ""));
-        });
-    }
+    ...mapGetters(["username","eosBalance", "otherToken"])
   },
-  mounted() {
-    this.getRankList();
-    this.getMyBetAmount();
-    this.interval = setInterval(() => {
-      this.getMyBetAmount();
-      this.getRankList();
-    }, 5000);
-    this.fomoTimer = setInterval(() => {
-      this.calcJkrTimer();
-    }, 1000)
+  methods: {
+    login() {
+      login(this);
+    },
+    doRoll() {
+      api(
+        this.activeToken,
+        "transfer",
+        {
+          from: this.$store.state.account.name,
+          to: "eosbocai2222",
+          quantity: this.amount,
+          memo: `dice-${new Date().getTime()}-${this.roll}-${this.getref}`
+        },
+        this
+      );
+    }
   }
 };
 </script>
@@ -424,10 +112,8 @@ export default {
 <style lang="less">
 @media (max-width: 768px) {
   .sidebar {
-    roll: 0px !important;
     position: relative !important;
     top: 0px !important;
-    roll: 0px !important;
     min-height: 70px !important;
     width: 100% !important;
   }
@@ -447,139 +133,18 @@ export default {
 .vue-slider-tooltip {
   display: none !important;
 }
+@media (max-width:768px) {
+  .roll {
+    width: 100% !important;
+  }
+}
 .roll {
-  width: 505px;
-  padding: 100px 15px 30px 0;
+  width: 660px;
+  padding: 30px 15px;
   position: relative;
-  .jkr-close {
-    roll: 230px;
-  }
-  .sidebar {
-    position: absolute;
-    z-index: 1;
-    top: 100px;
-    roll: -60px;
-    min-height: 345px;
-    width: 60px;
-    padding: 0;
-    background: linear-gradient(90deg, rgb(40, 40, 40) 0px, rgb(24, 24, 24));
-    img {
-      width: 60px;
-      height: 60px;
-      position: absolute;
-      top: 0;
-      roll: 0;
-    }
-    .box-table {
-      width: 100%;
-      min-height: 345px;
-      table {
-        margin-top: 8px;
-        border-collapse: collapse;
-      }
-      &-total {
-        th:first-child {
-          width: 20%;
-        }
-        .td-not-win {
-          line-height: 25px;
-          height: 25px;
-          td {
-            line-height: 25px;
-            height: 25px;
-          }
-        }
-        tr,
-        th {
-          background-color: rgb(34, 34, 34);
-          font-size: 14px;
-          line-height: 27px;
-          text-align: center;
-          color: rgb(255, 255, 255);
-          width: 40%;
-          border-top: 1px dashed rgb(127, 127, 127);
-          border-bottom: 1px dashed rgb(127, 127, 127);
-        }
-        td {
-          font-size: 14px;
-          text-align: center;
-          color: rgb(255, 255, 255);
-          background-color: rgb(40, 40, 40);
-          line-height: 26px;
-          height: 26px;
-          border-bottom: 1px dashed rgb(127, 127, 127);
-        }
-        text-align: center;
-        padding: 10px 0;
-        p {
-          font-size: 12px;
-          color: rgb(219, 219, 219);
-          line-height: 16px;
-        }
-        strong {
-          display: block;
-          font-size: 21px;
-          color: rgb(51, 204, 51);
-          text-shadow: rgb(44, 170, 44) 0px 0px 0.2em,
-            rgb(44, 170, 44) 0px 0px 0.2em;
-          padding-roll: 10px;
-          font-family: OpenSansSemiBold;
-        }
-        p:last-child {
-          font-size: 12px;
-          color: rgb(127, 127, 127);
-          line-height: 16px;
-        }
-      }
-    }
-    .box {
-      width: 345px;
-      height: 60px;
-      position: absolute;
-      bottom: -60px;
-      transform-origin: top roll;
-      transform: rotate(-90deg);
-      display: flex;
-      justify-content: flex-end;
-      flex-direction: column;
-      .sidebar-des {
-        margin-bottom: 4px;
-      }
-      div {
-        width: 100%;
-        text-align: center;
-        cursor: pointer;
-        strong {
-          font-size: 22px;
-          color: rgb(51, 204, 51);
-          text-shadow: rgb(44, 170, 44) 0px 0px 0.2em,
-            rgb(44, 170, 44) 0px 0px 0.2em;
-          font-family: OpenSansSemiBold;
-          padding: 0px 5px;
-          cursor: pointer;
-        }
-        span {
-          color: rgb(127, 127, 127);
-          font-size: 12px;
-          em {
-            font-style: normal;
-            color: rgb(219, 219, 219);
-            font-size: 14px;
-            font-weight: 700;
-            padding-roll: 5px;
-          }
-        }
-      }
-    }
-    &-title {
-      text-align: center;
-      font-size: 12px;
-      font-weight: 400;
-    }
-  }
   .roll-header {
     height: 105px;
-    background-color: #1e1e1e;
+    background-color: #1c233f;
     display: flex;
     position: relative;
     img {
@@ -611,57 +176,60 @@ export default {
     }
   }
   .roll-main {
-    height: 240px;
+    min-height: 240px;
     padding: 30px;
-    background-color: #111;
+    background-color: #161933;
     .slider-roll {
-      background: #1e1e1e;
+      background: #1e6b59;
+      cursor: pointer;
+      width: 100%;
     }
     @media (max-width: 768px) {
       .roll-middle {
-        display: block !important;
-      }
-      .field-amount {
-        margin-right: 0 !important;
-        width: 100% !important;
-      }
-      .field-profit {
-        width: 100% !important;
+        flex-direction: column;
+        .field-amount {
+          width: 100% !important;
+        }
+        .field-profit {
+          div {
+            padding-left: 10px;
+          }
+        }
       }
     }
     .roll-middle {
       display: flex;
       .field-amount {
-        width: 270px;
-        margin-right: 30px;
+        width: 66%;
+        margin-right: 15px;
         margin-top: 15px;
         .title {
-          text-align: roll;
+          text-align: left;
           font-size: 12px;
           line-height: 12px;
           color: #7f7f7f;
-          padding-roll: 10px;
+          padding-left: 10px;
         }
         .content {
           display: flex;
-          justify-content: space-between;
+          flex-wrap: nowrap;
           height: 32px;
           width: 100%;
           color: #fff;
           font-size: 16px;
-          font-family: OpenSansSemiBold;
           margin-top: 10px;
-          padding-roll: 35px;
-          background: #1e1e1e no-repeat url("../assets/eos.png");
-          background-size: contain;
+          padding-left: 10px;
           .jack-input {
             border: none;
             line-height: 33px;
-            width: 120px;
+            width: calc(100% - 108px);
             padding: 0;
-            background-color: #1e1e1e;
+            background-color: #3b435c;
             color: #fff;
+            flex-shrink: 2;
             font-size: 16px;
+            padding-left: 6px;
+            border-right: 1px dashed #1c233f;
             &:focus {
               outline: none;
             }
@@ -669,9 +237,9 @@ export default {
           .amount-action {
             height: 32px;
             line-height: 32px;
-            width: 115px;
+            width: 108px;
             color: #7f7f7f;
-            background-color: #282828;
+            background-color: #3b435c;
             span {
               font-size: 12px;
               cursor: pointer;
@@ -687,12 +255,12 @@ export default {
       .field-profit {
         width: 130px;
         margin-top: 15px;
+        text-align: left;
         .title {
-          text-align: roll;
+          text-align: left;
           font-size: 12px;
           line-height: 12px;
           color: #7f7f7f;
-          padding-roll: 10px;
         }
         .content {
           height: 32px;
@@ -700,39 +268,9 @@ export default {
           width: 100%;
           color: #fff;
           font-size: 16px;
-          font-family: OpenSansSemiBold;
           margin-top: 10px;
-          padding-roll: 35px;
-          background: #1e1e1e no-repeat url("../assets/eos.png");
-          background-size: contain;
         }
       }
-    }
-  }
-  .roll-footer {
-    padding-top: 30px;
-    display: flex;
-    div {
-      flex: 2;
-      font-size: 18px;
-      font-weight: 400;
-      text-align: roll;
-      button {
-        text-align: center;
-        width: 105px;
-        line-height: 50px;
-        text-align: center;
-        font-size: 20px;
-        font-weight: 700;
-        background-color: #3c3;
-        color: white;
-        box-shadow: 0 0 27px 0 rgba(51, 204, 51, 0.5);
-        border: 0;
-        cursor: pointer;
-      }
-    }
-    .pc-jkr {
-      display: none;
     }
   }
 }
@@ -775,5 +313,55 @@ export default {
   background-position: center center;
   background-size: contain;
   z-index: 1000;
+}
+
+.roll-footer {
+  display: flex;
+  margin-top: 24px;
+  div {
+    flex-grow: 1;
+    flex-basis: 142px;
+  }
+  .eos, .token {
+    font-size: 22px;
+    font-weight: 600;
+    height: 48px;
+    line-height: 48px;
+    .symbol {
+      font-size: 0.7em;
+      color: rgb(153, 153, 153);
+    }
+    text-align: left;
+  }
+  .token {
+    text-align: right;
+  }
+}
+@media (max-width: 768px) {
+    .roll-footer {
+      flex-direction: column;
+      .login-wrap {
+        order: -1;
+      }
+      .eos, .token {
+        text-align: left;
+      }
+      div {
+        flex-basis: auto;
+      }
+    }
+  }
+.login {
+  width: 132px;
+  height: 48px;
+  line-height: 48px;
+  background-color: #28b6e4;
+  border: none;
+  border-radius: 6px;
+  padding: 0 5px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0 auto;
 }
 </style>

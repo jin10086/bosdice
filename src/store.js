@@ -8,15 +8,15 @@ export default new Vuex.Store({
   state: {
     account: "",
     // 分别是eos余额和别的代币余额
-    eosBalance: 0.0000,
-    otherToken: 0.0000
+    eosBalance: '0.0000',
+    otherToken: '0.0000'
   },
   getters: {
     eosBalance: state => {
       return state.eosBalance;
     },
     otherToken: state => {
-      return state.otherToken
+      return state.otherToken;
     },
     username: state => {
       return state.account ? state.account.name : false;
@@ -58,7 +58,6 @@ export default new Vuex.Store({
         scope: state.account.name,
         json: true
       }).then((res) => {
-        console.log(res, 'kk')
         // num = res.rows.length === 0 ? 0.0000 : res.rows[0].balance.split(" ")[0];
         if(res.rows.length) {
           res.rows.forEach(row => {
@@ -67,7 +66,6 @@ export default new Vuex.Store({
             }
           });
         }
-        console.log(res, 'hh')
         commit('UPDATE_TOKEN', {
           balance: num
         });

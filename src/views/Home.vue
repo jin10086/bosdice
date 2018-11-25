@@ -7,14 +7,12 @@
       {{or.roll_under}}
     </div>
     <div class="tab-btns">
-      <div v-for="(coin, index) in supportCoin" :key="index" class="btn" @click="switchToken(index)">
-        <img :src="coin.src" />
-        <div>{{coin.symbol}}</div>
+      <div v-for="(coin, index) in supportCoin" :key="index" class="btn" @click="switchToken(index)" :class="{active: index === activeToken}">
+        <img :src="coin.src"/>
+        <div class="mobile-none">{{coin.symbol}}</div>
       </div>
     </div>
-    <button @click="login">登录</button>
-    <button @click="roll">Roll</button>
-    EOS:{{eosBalance}}, {{token.toUpperCase()}}: {{otherToken}}
+    <dice-roll :activeToken="activeToken" :showToekn="token"></dice-roll>
   </div>
 </template>
 
@@ -24,6 +22,7 @@ import DiceHeader from "@/components/Header.vue";
 import { handleData } from "@/network/ws.js";
 import { login } from "@/util/login";
 import { api, supportCoin } from "@/network/transtion";
+import DiceRoll from "@/components/Roll.vue";
 import { mapGetters } from "vuex";
 
 export default {
@@ -41,10 +40,10 @@ export default {
     };
   },
   components: {
-    DiceHeader
+    DiceHeader,
+    DiceRoll
   },
   computed: {
-    ...mapGetters(["eosBalance", "otherToken"]),
     token: {
       get() {
         return this.activeToken === "eos" ? "bocai" : this.activeToken;
@@ -53,32 +52,26 @@ export default {
         this.activeToken = newValue;
         window.localStorage.setItem("diceToken", newValue);
       }
-    }
+    },
+    ...mapGetters(["username"])
   },
   watch: {
     token(newValue) {
-      this.$store.dispatch("UPDATE_TOKEN_ASYNC", {
-        type: newValue === "eos" ? "bocai" : newValue
-      });
+      if (this.username) {
+        this.$store.dispatch("UPDATE_TOKEN_ASYNC", {
+          type: newValue === "eos" ? "bocai" : newValue
+        });
+      }
+    },
+    username(newValue) {
+      if (newValue) {
+        this.$store.dispatch("UPDATE_TOKEN_ASYNC", {
+          type: newValue === "eos" ? "bocai" : this.token
+        });
+      }
     }
   },
   methods: {
-    login() {
-      login(this);
-    },
-    roll() {
-      api(
-        this.activeToken,
-        "transfer",
-        {
-          from: this.$store.state.account.name,
-          to: "eosbocai2222",
-          quantity: 0.5,
-          memo: `dice-${new Date().getTime()}-96-`
-        },
-        this
-      );
-    },
     switchToken(token) {
       console.log(token, "switchtoken");
       this.token = token;
@@ -107,15 +100,33 @@ export default {
 </script>
 
 <style lang="less">
+.active {
+  background-color: #f1940f !important;
+}
 .tab-btns {
-  height: 30px;
+  height: 58px;
   display: flex;
-  width: 600px;
-  justify-content: center;
+  flex-wrap: no-wrap;
+  margin: 0 auto;
+  padding: 16px 0 5px;
+  overflow-x: auto;
+  max-width: fit-content;
+  &::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #3c4771;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-track-piece {
+    background-color: #1c233f;
+  } 
   .btn {
-    height: 26px;
-    line-height: 26px;
+    height: 32px;
+    line-height: 32px;
     display: flex;
+    align-items: center;
     background-color: #252e51;
     color: white;
     border-radius: 4px;

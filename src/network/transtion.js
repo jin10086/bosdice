@@ -82,8 +82,8 @@ export const supportCoin = {
 }
 
 export function api(coinType, action, data, vm) {
-  // vm.$message("等待交易确认");
-  console.log("等待交易确认");
+  // coinType 表示 押注使用的代币
+  vm.$message.info("等待交易确认");
   if (data.quantity) {
     data.quantity = Number(data.quantity).toFixed(4) + " " + supportCoin[coinType].symbol;
     if (data.quantity < supportCoin[coinType].minAmount) {
@@ -105,12 +105,15 @@ export function api(coinType, action, data, vm) {
         }],
         data: data
       }]
-    }).then((mes) => {
-      console.log(mes);
-      // vm.$message("交易成功，等待结果");
+    }).then(() => {
+      vm.$message.success("交易成功，等待结果");
+      vm.$store.dispatch("UPDATE_EOS_ASYNC");
+      vm.$store.dispatch("UPDATE_TOKEN_ASYNC", {
+        type: coinType === "eos" ? "bocai" : coinType
+      });
     }).catch((err) => {
       console.log(err, 'rr');
-      // vm.$message(handleError(err));
+      vm.$message.error(handleError(err));
     })
   }
 }

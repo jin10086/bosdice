@@ -40,7 +40,7 @@
       <i class="el-icon-menu dice-menu" @click="mobileShow = !mobileShow"></i>
     </div>
   </div>
-  <transition>
+  <transition name="el-zoom-in-center">
     <div v-show="mobileShow">
       <el-button type="text" @click="(window.open('https://jacks.eosdice.vip'))">EOSJACKS</el-button>
       <el-button type="text">历史公告</el-button>
@@ -249,7 +249,7 @@ export default {
     &:hover {
       outline: none;
     }
-    margin-right: 24px;
+    margin-right: 12px;
   }
 }
 
@@ -276,6 +276,9 @@ export default {
   .logo {
     width: 80px !important;
     height: 20px !important;
+  }
+  .custom-class {
+    width: 90% !important;
   }
 }
 </style>
