@@ -36,27 +36,33 @@ function handleError(errmsg) {
       // return this.$t("refererNotExist");
       return "不存在推荐者";
     if (e.includes("start at utc+8 2018-10-30 21:00:00"))
-      return this.$t("playDiceAt");
+      return "不存在推荐者";
+      // return this.$t("playDiceAt");
     if (e.includes("start at utc+8 2018-10-29 21:00:00"))
-      return this.$t("buytokenAt");
+      // return this.$t("buytokenAt");
+      return "不存在推荐者";
     if (e.includes("signature_rejected"))
-      return this.$t("apiErrors.signature_rejected");
+      // return this.$t("apiErrors.signature_rejected");
+      return "不存在推荐者";
     if (e.includes("leeway_deadline_exception"))
-      return this.$t("apiErrors.cpuUsageExceeded");
+      // return this.$t("apiErrors.cpuUsageExceeded");
+      return "不存在推荐者";
     if (e.includes("tx_net_usage_exceeded"))
-      return this.$t("apiErrors.netUsageExceeded");
+      // return this.$t("apiErrors.netUsageExceeded");
+      return "不存在推荐者";
     if (
       e.includes("deadline_exception") ||
       e.includes("tx_cpu_usage_exceeded")
     )
-      return this.$t("apiErrors.deadlineExceeded");
+      // return this.$t("apiErrors.deadlineExceeded");
+      return "不存在推荐者";
     try {
       e = JSON.parse(e);
     } catch (e) { }
   }
-  return (
-    this.$t("apiErrors.unexpectedError") + "\n" + JSON.stringify(e, null)
-  );
+  return "未知错误";
+    // this.$t("apiErrors.unexpectedError") + "\n" + JSON.stringify(e, null)
+    // return "不存在推荐者";
 }
 
 // 添加币种图片，src为base64

@@ -1,18 +1,16 @@
 <template>
   <div class="home">
     <dice-header></dice-header>
-    <!-- <div v-for="(or, index) in order" :key="index">
-      {{or.player}}
-      {{or.random_roll}}
-      {{or.roll_under}}
-    </div> -->
     <div class="tab-btns">
       <div v-for="(coin, index) in supportCoin" :key="index" class="btn" @click="switchToken(index)" :class="{active: index === activeToken}">
         <img :src="coin.src"/>
         <div class="mobile-none">{{coin.symbol}}</div>
       </div>
     </div>
-    <dice-roll :activeToken="activeToken" :showToekn="token"></dice-roll>
+    <div class="main">
+      <dice-roll :activeToken="activeToken" :showToekn="token"></dice-roll>
+      <dice-auction></dice-auction>
+    </div>
     <dice-order></dice-order>
   </div>
 </template>
@@ -22,6 +20,7 @@
 import DiceHeader from "@/components/Header.vue";
 import DiceOrder from "@/components/Order.vue";
 import DiceRoll from "@/components/Roll.vue";
+import DiceAuction from "@/components/Auction.vue";
 import { login } from "@/util/login";
 import { api, supportCoin } from "@/network/transtion";
 import { mapGetters } from "vuex";
@@ -37,7 +36,8 @@ export default {
   components: {
     DiceHeader,
     DiceRoll,
-    DiceOrder
+    DiceOrder,
+    DiceAuction
   },
   computed: {
     token: {
@@ -115,5 +115,8 @@ export default {
       margin-right: 6px;
     }
   }
+}
+.main {
+  display: flex;
 }
 </style>

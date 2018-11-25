@@ -13,5 +13,13 @@ export default {
     bet: "BET",
     roll: "ROLL",
     payout: "PAYOUT"
+  },
+  auction: {
+    round: "ROUND",
+    endIn: "ENDS IN",
+    last: "LAST BID",
+    placeBid: "PLACE A BID IN BOCAI",
+    login: "LOGIN",
+    bid: "BID"
   }
 }

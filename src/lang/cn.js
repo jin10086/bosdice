@@ -106,5 +106,13 @@ export default {
     bet: "投注",
     roll: "开奖号码",
     payout: "奖金"
+  },
+  auction: {
+    round: "回合",
+    endIn: "结束",
+    last: "最后下注",
+    placeBid: "在BOCAI出价",
+    login: "登录",
+    bid: "竞标"
   }
 }

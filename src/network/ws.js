@@ -12,21 +12,25 @@ const client = new EoswsClient(
   )
 );
 
-function handleData(message, data) {
+function handleData(message) {
   switch (message.type) {
-    case InboundMessageType.ACTION_TRACE || InboundMessageType.TABLE_SNAPSHOT:
+    case InboundMessageType.ACTION_TRACE:
       switch (message.req_id) {
         case "roll_result":
           const block_time = message.data.trace.block_time.split("T")[1].split(".")[0];
           const action = message.data.trace.act.data.result;
           action["block_time"] = block_time;
-          data.unshift(action);
-          if(data.length > 30) {
-            data.shift();
-          }
-          break;
+          return action;
       }
       break;
+
+    case InboundMessageType.TABLE_DELTA:
+      if (message.data)
+        return message.data.rows[0].json;
+
+    case InboundMessageType.TABLE_SNAPSHOT:
+      if (message.data)
+        return message.data.rows[0].json;
 
     case InboundMessageType.LISTENING:
       const listeningResp = message;
@@ -35,15 +39,16 @@ function handleData(message, data) {
           listeningResp.data.next_block
         }`
       );
-      break
+      return false;
 
     case InboundMessageType.ERROR:
       const error = message.data;
       console.log(`Received error: ${error.message} (${error.code})`, error.details);
-      break
+      return false;
 
     default:
       console.log(`Unhandled message of type [${message.type}].`);
+      return false;
   }
 }
 

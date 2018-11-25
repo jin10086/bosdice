@@ -124,7 +124,10 @@ export default {
       { req_id: "roll_result" }
     );
     this.ws_identify.onMessage(message => {
-      handleData(message, _this.allBets);
+      if(handleData(message)) _this.allBets.unshift(handleData(message));
+      if(_this.allBets.length > 30) {
+        _this.allBets.shift();
+      }
     });
   },
 
