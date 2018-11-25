@@ -95,5 +95,16 @@ export default {
     </div>
     </div>
     `
+  },
+  order: {
+    all: "时间",
+    my: "我的投注",
+    transaction: "我的交易",
+    time: "时间",
+    better: "投注者",
+    rollUnder: "小于该数获胜",
+    bet: "投注",
+    roll: "开奖号码",
+    payout: "奖金"
   }
 }

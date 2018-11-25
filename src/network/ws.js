@@ -17,7 +17,9 @@ function handleData(message, data) {
     case InboundMessageType.ACTION_TRACE || InboundMessageType.TABLE_SNAPSHOT:
       switch (message.req_id) {
         case "roll_result":
+          const block_time = message.data.trace.block_time.split("T")[1].split(".")[0];
           const action = message.data.trace.act.data.result;
+          action["block_time"] = block_time;
           data.unshift(action);
           if(data.length > 30) {
             data.shift();

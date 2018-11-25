@@ -1,11 +1,11 @@
 <template>
   <div class="home">
     <dice-header></dice-header>
-    <div v-for="(or, index) in order" :key="index">
+    <!-- <div v-for="(or, index) in order" :key="index">
       {{or.player}}
       {{or.random_roll}}
       {{or.roll_under}}
-    </div>
+    </div> -->
     <div class="tab-btns">
       <div v-for="(coin, index) in supportCoin" :key="index" class="btn" @click="switchToken(index)" :class="{active: index === activeToken}">
         <img :src="coin.src"/>
@@ -13,35 +13,31 @@
       </div>
     </div>
     <dice-roll :activeToken="activeToken" :showToekn="token"></dice-roll>
+    <dice-order></dice-order>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import DiceHeader from "@/components/Header.vue";
-import { handleData } from "@/network/ws.js";
+import DiceOrder from "@/components/Order.vue";
+import DiceRoll from "@/components/Roll.vue";
 import { login } from "@/util/login";
 import { api, supportCoin } from "@/network/transtion";
-import DiceRoll from "@/components/Roll.vue";
 import { mapGetters } from "vuex";
 
 export default {
   name: "home",
   data() {
     return {
-      ws_identify: "",
-      order: [
-        {
-          account: "hy"
-        }
-      ],
       supportCoin: supportCoin,
       activeToken: "eos"
     };
   },
   components: {
     DiceHeader,
-    DiceRoll
+    DiceRoll,
+    DiceOrder
   },
   computed: {
     token: {
@@ -76,25 +72,6 @@ export default {
       console.log(token, "switchtoken");
       this.token = token;
     }
-  },
-  mounted() {
-    const _this = this;
-    this.ws_identify = this.$ws.getActionTraces(
-      {
-        account: "eosbocailogs",
-        action_name: "result",
-        receiver: "eosbocailogs"
-      },
-      { req_id: "roll_result" }
-    );
-    this.ws_identify.onMessage(message => {
-      handleData(message, _this.order);
-    });
-  },
-
-  destroyed() {
-    console.log(this.ws_identify);
-    this.ws_identify.unlisten();
   }
 };
 </script>
