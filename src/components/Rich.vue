@@ -13,7 +13,6 @@
               <th>WAGER</th>
             </tr>
           </thead>
-          <div class="rich-rank">
             <tbody>
               <tr v-for="(rank, index) in sortedRunData" :key="index" :class="{'td-not-win': index >= 5}">
                 <td :class="{'run-rank-1': index === 0}" v-if="index === 0"></td>
@@ -22,15 +21,14 @@
                 <td :class="{'run-rank-4': index === 3}" v-else-if="index === 3"></td>
                 <td :class="{'run-rank-5': index === 4}" v-else-if="index === 4"></td>
                 <td v-else>{{index + 1}}</td>
-                <td>{{rank.json.player}}</td>
+                <td>{{rank.player}}</td>
                 <td>{{rank.amount}}</td>
               </tr>
-            </tbody> 
-          </div>
+            </tbody>
         </table>
         <div>
-          <div>hanyang</div>
-          <div>WAGER 999 EOS</div>
+          <div>{{username ? username : "------"}}</div>
+          <div>WAGER {{myBet}}</div>
         </div>
       </div>
     </div>
@@ -38,13 +36,47 @@
 </template>
 
 <script>
+import { restApi } from "@/network/transtion";
 import { handleData } from "@/network/ws.js";
+import { mapGetters } from "vuex";
 export default {
   name: "dice-rich",
   data() {
     return {
+      ws_identify: "",
+      runData: [],
       sortedRunData: [],
-      ws_identify: ""
+      my_ws_identify: "",
+      myBet: "0.0000 EOS"
+    };
+  },
+  computed: {
+    ...mapGetters(["username"])
+  },
+  watch: {
+    username(newValue) {
+      const _this = this;
+      if (newValue) {
+        this.my_ws_identify = this.$ws.getTableRows(
+        {
+          code: "eosbocaijack",
+          scope: newValue,
+          table: "rank",
+          json: true
+        },
+        { req_id: "dice-rich-my", fetch: true }
+        );
+        this.my_ws_identify.onMessage(mes => {
+          const res = handleData(mes);
+          if (typeof res === "object") {
+            if (res.length !== 0) {
+              _this.myBet = res[0].amount;
+            }
+          }
+        });
+      } else {
+        this.my_ws_identify.unlisten();
+      }
     }
   },
   mounted() {
@@ -56,11 +88,30 @@ export default {
         table: "rank",
         json: true
       },
-      { req_id: "dice-rich" , fetch: true}
+      { req_id: "dice-rich", fetch: true }
     );
     this.ws_identify.onMessage(message => {
       const mes = handleData(message);
-      if(mes) _this.sortedRunData = mes;
+      if (mes) _this.runData = mes.slice(0, 10);
+      let tempData = [];
+      this.runData.forEach(item => {
+        restApi.getTableRows({
+          code: "eosbocaijack",
+          scope: item.json.player,
+          table: "users",
+          json: true
+        }).then(res => {
+          if (res.rows && res.rows.length) {
+            const amount = res.rows[0].amount;
+            const person = {
+              amount: amount,
+              player: item.json.player
+            };
+            tempData.push(person);
+          }
+        });
+      });
+      this.sortedRunData = tempData;
     });
   },
   destroyed() {
@@ -105,6 +156,7 @@ export default {
   background-size: contain;
   z-index: 1000;
 }
+
 .sidebar {
   min-height: 345px;
   padding: 0;
@@ -112,84 +164,52 @@ export default {
   background: #1c233f;
   margin: 30px;
   height: 400px;
-  .box-table {
-    width: 100%;
-    // min-height: 345px;
-    table {
-      margin-top: 8px;
-      border-collapse: collapse;
-    }
-    &-total {
-      th:first-child {
-        width: 20%;
-      }
-      .td-not-win {
-        line-height: 30px;
-        height: 30px;
-        td {
-          line-height: 30px;
-          height: 30px;
-        }
-      }
-      tbody {
-        height: 200px !important;
-        overflow: hidden;
-      }
-      // tr,
-      th {
-        background-color: #1c233f;
-        font-size: 14px;
-        line-height: 40px;
-        height: 40px;
-        text-align: center;
-        color: rgb(255, 255, 255);
-        width: 40%;
-        border-top: 4px solid #284561;
-        border-bottom: 4px solid #284561;
-      }
-      .rich-rank{
-        width: 320px;
-        tbody {
-          width: 320px;
-        }
-        td {
-          font-size: 14px;
-          text-align: center;
-          color: rgb(255, 255, 255);
-          background-color: rgb(40, 40, 40);
-          line-height: 30px;
-          height: 30px;
-          // width: 40%;
-          border-bottom: 1px dashed rgb(127, 127, 127);
-        }
-      }
-      text-align: center;
-      padding: 10px 0;
-      p {
-        font-size: 12px;
-        color: rgb(219, 219, 219);
-        line-height: 16px;
-      }
-      strong {
-        display: block;
-        font-size: 21px;
-        color: rgb(51, 204, 51);
-        text-shadow: rgb(44, 170, 44) 0px 0px 0.2em,
-          rgb(44, 170, 44) 0px 0px 0.2em;
-        padding-left: 10px;
-        font-family: OpenSansSemiBold;
-      }
-      p:last-child {
-        font-size: 12px;
-        color: rgb(127, 127, 127);
-        line-height: 16px;
-      }
-    }
-  }
-  &-title {
-    text-align: center;
+  p {
     font-size: 12px;
-    font-weight: 400;
+    color: rgb(219, 219, 219);
+    line-height: 16px;
+  }
+  strong {
+    display: block;
+    font-size: 21px;
+    color: rgb(51, 204, 51);
+    text-shadow: rgb(44, 170, 44) 0px 0px 0.2em, rgb(44, 170, 44) 0px 0px 0.2em;
+    padding-left: 10px;
+    font-family: OpenSansSemiBold;
+  }
+  p:last-child {
+    font-size: 12px;
+    color: rgb(127, 127, 127);
+    line-height: 16px;
+  }
+  table {
+    margin-top: 8px;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+  }
+  thead {
+    border-top: 4px solid #284561;
+    border-bottom: 4px solid #284561;
+    background-color: #161933;
+    font-size: 18px;
+    line-height: 40px;
+    height: 40px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+  }
+  tbody {
+    height: 220px;
+    overflow: hidden;
+    // display: block;
+  }
+  tbody tr {
+    font-size: 14px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    background-color: rgb(40, 40, 40);
+    line-height: 22px;
+    height: 22px;
+    border-bottom: 1px dashed rgb(127, 127, 127);
   }
 }
 </style>

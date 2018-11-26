@@ -29,11 +29,15 @@ function handleData(message) {
         return message.data.rows[0].json;
       if (message.data  && message.req_id === "dice-rich")
         return message.data.rows;
+      if (message.data && message.req_id === "dice-rich-my")
+        return message.data.rows;
 
     case InboundMessageType.TABLE_SNAPSHOT:
       if (message.data && message.req_id === "dice-auction")
         return message.data.rows[0].json;
       if (message.data  && message.req_id === "dice-rich")
+        return message.data.rows;
+      if (message.data && message.req_id === "dice-rich-my")
         return message.data.rows;
 
     case InboundMessageType.LISTENING:
