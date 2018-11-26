@@ -295,6 +295,7 @@ export default {
     font-weight: 600;
     height: 48px;
     line-height: 48px;
+    display: flex;
     .symbol {
       font-size: 0.7em;
       color: rgb(153, 153, 153);
@@ -302,7 +303,7 @@ export default {
     text-align: left;
   }
   .token {
-    text-align: right;
+    justify-content: flex-end;
   }
 }
 @media (max-width: 768px) {
@@ -313,6 +314,7 @@ export default {
       }
       .eos, .token {
         text-align: left;
+        justify-content: flex-start;
       }
       div {
         flex-basis: auto;
