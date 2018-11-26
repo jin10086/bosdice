@@ -36,14 +36,14 @@
         </div>
       </div>
       <div class="roll-footer">
-        <div class="eos">{{eosBalance}} <span class="symbol">EOS</span></div>
+        <div class="eos">{{eosBalance}} <span class="symbol"> EOS</span></div>
         <div class="login-wrap">
           <div class="login">
             <span v-if="username" @click="doRoll">掷骰子</span>
             <span v-else @click="login">登录</span>
           </div>
         </div>
-        <div class="token">{{otherToken}} <span class="symbol">{{showToekn.toUpperCase()}}</span> </div>
+        <div class="token">{{otherToken}} <span class="symbol"> {{showToekn.toUpperCase()}}</span> </div>
       </div>
     </div>
   </div>

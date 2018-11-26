@@ -116,7 +116,7 @@ export default {
       }
       left /= 1000;
       const min = '0' + Math.floor(left / 60);
-      let sec = left % 60;
+      let sec = Math.floor(left % 60);
       if (sec < 10) {
         sec = '0' + sec;
       }
@@ -137,7 +137,6 @@ export default {
     this.ws_identify.onMessage(message => {
       const fomo = handleData(message);
       if(fomo) {
-        // console.log(fomo, 33)
         _this.fomopool = fomo.json.fomopool;
         _this.endTime = fomo.json.endtime;
         _this.lastBuyPerson = fomo.json.lastPlayer;

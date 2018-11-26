@@ -70,7 +70,7 @@ export default {
       }
       left /= 1000;
       const min = '0' + Math.floor(left / 60);
-      let sec = left % 60;
+      let sec = Math.floor(left % 60);
       if (sec < 10) {
         sec = '0' + sec;
       }
