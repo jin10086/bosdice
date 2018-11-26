@@ -45,26 +45,38 @@ export default {
     return {
       ws_identify: "",
       runData: [],
-      sortedRunData: [],
+      sortedRunData1: [],
       my_ws_identify: "",
       myBet: "0.0000 EOS"
     };
   },
   computed: {
-    ...mapGetters(["username"])
+    ...mapGetters(["username"]),
+    sortedRunData() {
+      const tempdata = this.sortedRunData1;
+      return tempdata.sort(function(a, b) {
+        if (Number(a.amount.split(" ")[0]) > Number(b.amount.split(" ")[0])) {
+          return -1;
+        }
+        if (Number(a.amount.split(" ")[0]) < Number(b.amount.split(" ")[0])) {
+          return 1;
+        }
+        return 0;
+      });
+    }
   },
   watch: {
     username(newValue) {
       const _this = this;
       if (newValue) {
         this.my_ws_identify = this.$ws.getTableRows(
-        {
-          code: "eosbocaijack",
-          scope: newValue,
-          table: "rank",
-          json: true
-        },
-        { req_id: "dice-rich-my", fetch: true }
+          {
+            code: "eosbocaijack",
+            scope: newValue,
+            table: "rank",
+            json: true
+          },
+          { req_id: "dice-rich-my", fetch: true }
         );
         this.my_ws_identify.onMessage(mes => {
           const res = handleData(mes);
@@ -78,6 +90,19 @@ export default {
         this.my_ws_identify.unlisten();
       }
     }
+    // sortedRunData1(newValue) {
+    //   const tempData = newValue;
+    //   tempData.sort(function(a, b) {
+    //     if (Number(a.amount.split(" ")[0]) > Number(b.amount.split(" ")[0])) {
+    //       return -1;
+    //     }
+    //     if (Number(a.amount.split(" ")[0]) < Number(b.amount.split(" ")[0])) {
+    //       return 1;
+    //     }
+    //     return 0;
+    //   });
+    //   this.sortedRunData = tempData;
+    // }
   },
   mounted() {
     const _this = this;
@@ -95,23 +120,26 @@ export default {
       if (mes) _this.runData = mes.slice(0, 10);
       let tempData = [];
       this.runData.forEach(item => {
-        restApi.getTableRows({
-          code: "eosbocaijack",
-          scope: item.json.player,
-          table: "users",
-          json: true
-        }).then(res => {
-          if (res.rows && res.rows.length) {
-            const amount = res.rows[0].amount;
-            const person = {
-              amount: amount,
-              player: item.json.player
-            };
-            tempData.push(person);
-          }
-        });
+        restApi
+          .getTableRows({
+            code: "eosbocaijack",
+            scope: item.json.player,
+            table: "users",
+            json: true
+          })
+          .then(res => {
+            if (res.rows && res.rows.length) {
+              const amount = res.rows[0].amount;
+              const person = {
+                amount: amount,
+                player: item.json.player
+              };
+              tempData.push(person);
+            }
+          });
       });
-      this.sortedRunData = tempData;
+      // console.log(tempData, )
+      this.sortedRunData1 = tempData;
     });
   },
   destroyed() {

@@ -31,6 +31,9 @@ function handleData(message) {
         return message.data.rows;
       if (message.data && message.req_id === "dice-rich-my")
         return message.data.rows;
+      if (message.data && message.req_id === "fomo-pot")
+        return message.data.rows[0];
+      break;
 
     case InboundMessageType.TABLE_SNAPSHOT:
       if (message.data && message.req_id === "dice-auction")
@@ -39,6 +42,9 @@ function handleData(message) {
         return message.data.rows;
       if (message.data && message.req_id === "dice-rich-my")
         return message.data.rows;
+      if (message.data && message.req_id === "fomo-pot")
+        return message.data.rows[0];
+      break;
 
     case InboundMessageType.LISTENING:
       const listeningResp = message;
