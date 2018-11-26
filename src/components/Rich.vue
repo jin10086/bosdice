@@ -2,10 +2,13 @@
   <div class="sidebar">
     <div class="box-table">
       <div class="box-table-total">
+        <div @click="showTable=!showTable">
         <p>RUN FOR</p>
         <strong>23 EOS</strong>
         <em>44:00</em>
-        <table width="100%" style="text-align: center;">
+        </div>
+        <transition name="el-zoom-in-top">
+        <table width="100%" style="text-align: center;" v-show="showTable">
           <thead>
             <tr>
               <th>RANK</th>
@@ -26,6 +29,7 @@
               </tr>
             </tbody>
         </table>
+        </transition>
         <div>
           <div>{{username ? username : "------"}}</div>
           <div>WAGER {{myBet}}</div>
@@ -47,7 +51,8 @@ export default {
       runData: [],
       sortedRunData1: [],
       my_ws_identify: "",
-      myBet: "0.0000 EOS"
+      myBet: "0.0000 EOS",
+      showTable: true
     };
   },
   computed: {
@@ -105,6 +110,10 @@ export default {
     // }
   },
   mounted() {
+    const width = document.body.clientWidth
+    if (width < 768 ) {
+      this.showTable = false;
+    }
     const _this = this;
     this.ws_identify = this.$ws.getTableRows(
       {
@@ -185,6 +194,13 @@ export default {
   z-index: 1000;
 }
 
+@media (max-width: 768px) {
+  .sidebar {
+    width: 90% !important;
+    margin: 30px auto !important;
+    height: auto !important;
+  }
+}
 .sidebar {
   min-height: 345px;
   padding: 0;

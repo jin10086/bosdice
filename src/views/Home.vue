@@ -19,8 +19,13 @@
     </div>
     <div class="main">
       <dice-rich></dice-rich>
-      <dice-roll :activeToken="activeToken" :showToekn="token"></dice-roll>
-      <dice-auction></dice-auction>
+      <dice-roll :activeToken="activeToken" :showToekn="token" class="mobile-none"></dice-roll>
+      <dice-auction class="mobile-none"></dice-auction>
+      <div class="mobile-show componet-tab">
+        <span :class="{'active-componet': currentComponent === 'dice-roll'}" @click="currentComponent = 'dice-roll'">DICE</span>
+        <span :class="{'active-componet': currentComponent === 'dice-auction'}" @click="currentComponent = 'dice-auction'">BICAI AUCTION</span>
+      </div>
+      <component :is="currentComponent" class="mobile-show" v-bind="currentProp"></component>
     </div>
     <dice-order></dice-order>
   </div>
@@ -48,7 +53,8 @@ export default {
       endTime: "",
       lastBuyPerson: "",
       showEndTime: "",
-      fomopool: ""
+      fomopool: "",
+      currentComponent: "dice-roll"
     };
   },
   components: {
@@ -59,6 +65,12 @@ export default {
     DiceRich
   },
   computed: {
+    currentProp() {
+      return this.currentComponent === "dice-roll" ? {
+        activeToken: this.activeToken,
+        showToekn: this.token 
+      } : {};
+    },
     minAmount() {
       const number = this.fomopool.split(" ")[0];
       return number < 500 ? "0.5 EOS" : (number / 1000) + " EOS";
@@ -157,7 +169,36 @@ export default {
     font-weight: 600;
   }
 }
+.mobile-show {
+  display: none;
+}
 @media (max-width: 768px) {
+  .mobile-show {
+    display: block;
+  }
+  .componet-tab {
+    color: #989a99;
+    display: flex;
+    justify-content: center;
+    span {
+      display: block;
+      height: 30px;
+      width: 130px;
+      text-align: center;
+    }
+    // span:first-child {
+    //   // padding-right: 24px;
+    //   text-align: right;
+    // }
+    // span:last-child {
+    //   // padding-left: 36px;
+    //   text-align: left;
+    // }
+    .active-componet {
+      color: #fff;
+      border-bottom: 1px solid #fff;
+    }
+  }
   .fomo {
     width: 90%;
     .title {
@@ -165,6 +206,10 @@ export default {
       flex-direction: column;
       align-items: flex-start;
     }
+  }
+  .main {
+    display: flex;
+    flex-direction: column;
   }
 }
 .main{

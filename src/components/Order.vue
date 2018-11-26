@@ -139,6 +139,12 @@ export default {
 </script>
 
 <style lang="less">
+@media (max-width: 768px) {
+  .order {
+    width: 100% !important;
+  }
+}
+
 .order {
   background-color: #161933;
   padding: 30px 0 50px;
