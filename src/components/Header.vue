@@ -9,7 +9,7 @@
         <el-button type="text" @click="window.open('https://deltadex.io/embed/eosdicevip/eosbocai1111-BOCAI')">交易BOCAI</el-button>
         <el-button type="text" @click="openVip">VIP</el-button>
         <el-button type="text" @click="openRoadMap">Road Map</el-button>
-        <el-button type="text">分红池</el-button>
+        <el-button type="text" @click="divideDialog = true">分红池</el-button>
         <el-button type="text" @click="openToken">TOKEN介绍</el-button>
         <el-button type="text" @click="openHowto">玩法介绍</el-button>
         <el-button type="text" @click="inviteFriend=true">邀请好友</el-button>
@@ -47,13 +47,83 @@
       <el-button type="text" @click="window.open('https://deltadex.io/embed/eosdicevip/eosbocai1111-BOCAI')">交易BOCAI</el-button>
       <el-button type="text" @click="openVip">VIP</el-button>
       <el-button type="text" @click="openRoadMap">Road Map</el-button>
-      <el-button type="text">分红池</el-button>
+      <el-button type="text" @click="divideDialog = true">分红池</el-button>
       <el-button type="text" @click="openToken">TOKEN介绍</el-button>
       <el-button type="text" @click="openHowto">玩法介绍</el-button>
       <el-button type="text" @click="inviteFriend=true">邀请好友</el-button>
       <el-button type="text" style="margin-left:10px;" @click="openContact">联系我们</el-button>
     </div>
   </transition>
+  <!-- dialog -->
+
+  <!-- token 开始-->
+  <el-dialog custom-class="custom-class" :visible.sync="tokenDialog">
+    <div v-html="$t('header.token')"></div>
+  </el-dialog>
+  <!-- token 结束 -->
+
+  <!-- 分红池 开始 -->
+  <el-dialog custom-class="divide-class" :visible.sync="divideDialog">
+    <div class="title">
+      <div><h2 :class="{'on-tab': tab1}" @click="tab1=true">分红池</h2></div>
+      <div><h2 :class="{'on-tab': !tab1}" @click="tab1=false">质押与分红</h2></div>
+    </div>
+    <div class="divide" v-show="tab1">
+      <h3>质押与分红</h3>
+      <div class="item">
+        <div class="left">
+          <img src="../assets/eos.png" />
+          <p>历史总分红:</p>
+        </div>
+        <div class="right">
+          <div>
+            <p>你一共领取了</p>
+            <p>0.0000 EOS</p>
+          </div>
+          <div>
+            <p>可以领取分红</p>
+            <p>0.0000 EOS</p>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div class="item">
+        <div class="left">
+          <img src="../assets/token.png" />
+          <p>全网质押比:</p>
+        </div>
+        <div class="right">
+          <div>
+            <p>当前流通</p>
+            <p>0.0000 EOS</p>
+          </div>
+          <div>
+            <p>当前质押</p>
+            <p>0.0000 EOS</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="stake" v-show="!tab1">
+      <div class="my-divide">
+        <div class="item-1">
+          <div class="title">我的分红: 0.0000 EOS</div><el-button type="primary">提现</el-button>
+        </div>
+      </div>
+      <div class="stake-content">
+        <div class="title">可质押: 0 BOCAI</div>
+        <div class="input-content"><el-input v-model="input" placeholder="请输入内容" class="dice-input"></el-input><el-button type="primary">质押</el-button></div>
+      </div>
+      <div class="stake-content">
+        <div class="title">已质押: 0.0000 BOCAI(占质押总量的 0.00 %)</div>
+        <div class="input-content"><el-input v-model="input" placeholder="请输入内容" class="dice-input"></el-input><el-button type="primary">赎回</el-button></div>
+        <div class="tips">赎回需24小时，赎回中的BOCAI不享受分红</div>
+      </div>
+    </div>
+  </el-dialog>
+  <!-- 分红池 结束 -->
+
+  <!-- dialog -->
 </div>
 </template>
 
@@ -67,7 +137,12 @@ export default {
       dicelang: window.localStorage.getItem("dicelang") ? window.localStorage.getItem("dicelang"): "en",
       window: window,
       inviteFriend: false,
-      mobileShow: false
+      mobileShow: false,
+      // dialogs
+      tokenDialog: false,
+      divideDialog: false,
+      // 是否在分红池选项
+      tab1: true
     };
   },
   methods: {
@@ -110,16 +185,7 @@ export default {
       })
     },
     openToken() {
-      this.$msgbox({
-        title: ' ',
-        message: this.$t("header.token"),
-        callback: () => {},
-        showConfirmButton: false,
-        dangerouslyUseHTMLString: true,
-        showClose: true,
-        lockScroll: false,
-        customClass: "custom-class"
-      })
+      this.tokenDialog = true;
     },
     openHowto() {
       this.$msgbox({
@@ -161,6 +227,158 @@ export default {
 </script>
 
 <style lang="less">
+.divide-class {
+  background: linear-gradient(to bottom right,#5f00ff,#ec6e42) !important;
+  // background-color: #861b7f !important;
+  color: white !important;
+  div {
+    color: #fff;
+  }
+  .title {
+    display: flex;
+    justify-content: center;
+    div {
+      flex: auto;
+      cursor: pointer;
+      // text-align: center;
+      display: flex;
+      justify-content: center;
+      h2 {
+        width: fit-content;
+        padding: 4px 24px;
+        padding-bottom: 10px;
+      }
+    }
+    .on-tab  {
+      border-bottom: 2px solid #fff;
+    }
+  }
+  .stake {
+    .my-divide {
+      margin: 0 auto;
+      margin-top: 24px;
+      width: 90%;
+      .item-1 {
+        background-image: linear-gradient(-90deg,#7c36d2,#f61c69);
+        border-radius: 4px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        padding: 12px 24px;
+        justify-content: space-between;
+        .title {
+          font-weight: 600;
+          font-size: 20px;
+        }
+      }
+    }
+    .stake-content {
+      background: #662199;
+      width: 90%;
+      margin: 0 auto;
+      margin-top: 24px;
+      .tips {
+        font-weight: 600;
+        padding: 14px;
+      }
+      .title {
+        font-weight: 600;
+        padding: 12px;
+        justify-content: flex-start;
+      }
+      .input-content {
+        display: flex;
+        padding: 12px;
+        .dice-input {
+          margin-right: 24px;
+        }
+      }
+    }
+  }
+  .divide {
+    margin: 0 auto;
+    width: 90%;
+    margin-top: 12px;
+    h3 {
+      text-align: left;
+      margin-bottom: 12px;
+    }
+    .item{
+      border-radius: 6px;
+      background-color: #5c178f;
+      overflow: hidden;
+      height: 140px;
+      display: flex;
+      .left {
+        width: 50%;
+        img {
+          width: 48px;
+          margin: 12px auto;
+        }
+        p {
+          font-size: 16px;
+          font-weight: 600;
+          margin-bottom: 16px;
+        }
+        height: 140px;
+      }
+      .right {
+        width: 50%;
+        height: 100%;
+        background-color: #8b38af;
+        display: inline-block;
+        text-align: right;
+        padding-right: 12px;
+        padding-left: 12px;
+        div {
+          padding-top: 8px;
+          font-weight: 600;
+          line-height: 24px;
+        }
+        div:first-child {
+          height: 60px;
+          border-bottom: 1px solid rgba(0,0,0,.15);
+        }
+      }
+    }
+    // .left {
+    //   width: 50%;
+    //   display: inline-block;
+    //   img {
+    //     width: 48px;
+    //     margin: 12px auto;
+    //   }
+    //   p {
+    //     font-size: 16px;
+    //     font-weight: 600;
+    //     margin-bottom: 16px;
+    //   }
+    // }
+    // .right {
+    //   width: 50%;
+    //   background-color: #8b38af;
+    //   height: 100% !important;
+    //   flex: auto;
+    //   display: flex;
+    //   flex-direction: column;
+    //   div {
+    //     flex: auto;
+    //     padding: 10px 10px;
+    //     text-align: right;
+    //     font-weight: 600;
+    //     letter-spacing: .5px;
+    //     p {
+    //       margin-top: 4px;
+    //       margin-bottom: 6px;
+    //     }
+    //   }
+    //   div:first-child {
+    //     height: 60px;
+    //     border-bottom: 1px solid rgba(0,0,0,.15);
+    //   }
+    // }
+  }
+}
 .header {
   display: flex;
   justify-content: space-between;
@@ -199,6 +417,7 @@ export default {
   border: none !important;
   width: 40% !important;
   color: #fff;
+  text-align: left;
 }
 .vip-content, .road-map, .token-intro, .howto, .contact {
   color: #fff;
@@ -278,6 +497,9 @@ export default {
     height: 20px !important;
   }
   .custom-class {
+    width: 90% !important;
+  }
+  .divide-class {
     width: 90% !important;
   }
 }

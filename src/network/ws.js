@@ -25,24 +25,24 @@ function handleData(message) {
       break;
 
     case InboundMessageType.TABLE_DELTA:
-      if (message.data.rows.length !== 0  && message.req_id === "dice-auction")
+      if (message.req_id === "dice-auction" && message.data.rows.length !== 0)
         return message.data.rows[0].json;
-      if (message.data  && message.req_id === "dice-rich")
+      if (message.req_id === "dice-rich" && message.data)
         return message.data.rows;
-      if (message.data && message.req_id === "dice-rich-my")
+      if (message.req_id === "dice-rich-my" && message.data)
         return message.data.rows;
-      if (message.data.rows.length !== 0 && message.req_id === "fomo-pot")
+      if (message.req_id === "fomo-pot" && message.data.rows.length !== 0)
         return message.data.rows[0];
       break;
 
     case InboundMessageType.TABLE_SNAPSHOT:
-      if (message.data.rows.length !== 0 && message.req_id === "dice-auction")
+      if (message.req_id === "dice-auction" && message.data.rows.length !== 0)
         return message.data.rows[0].json;
-      if (message.data  && message.req_id === "dice-rich")
+      if (message.req_id === "dice-rich" && message.data)
         return message.data.rows;
-      if (message.data && message.req_id === "dice-rich-my")
+      if (message.req_id === "dice-rich-my" && message.data)
         return message.data.rows;
-      if (message.data.rows.length !== 0 && message.req_id === "fomo-pot")
+      if (message.req_id === "fomo-pot" && message.data.rows.length !== 0)
         return message.data.rows[0];
       break;
 
