@@ -59,7 +59,8 @@ export default {
   data() {
     return {
       roll: 50,
-      amount: 0.5
+      amount: 0.5,
+      maxAmount: 0
     };
   },
   components: {
@@ -88,13 +89,18 @@ export default {
     },
     ...mapGetters(["username","eosBalance", "otherToken"])
   },
+  watch: {
+    activeToken() {
+      this.getMax();
+    }
+  },
   methods: {
     login() {
       login(this);
     },
     doRoll() {
-      if(this.getMax()) {
-        if (this.amount <= this.getMax()) {
+      if(this.totalAmount) {
+        if (this.amount <= this.totalAmount) {
           api(
             this.activeToken,
             "transfer",
@@ -106,15 +112,16 @@ export default {
             },
             this
           );
+          this.getMax();
         } else {
-          this.$message.warning(`最大金额不能超过${this.getMax()}`);
+          this.$message.warning(`最大金额不能超过${this.totalAmount}`);
         }
       }
     },
     changeAmount(number) {
       if (number === 3) {
-        if (this.getMax()) {
-          this.amount = this.getMax();
+        if (this.totalAmount) {
+          this.amount = this.totalAmount;
         }
       } else {
         this.amount *= number;
@@ -127,20 +134,22 @@ export default {
         scope: 'bocai.game',
         json: true
       }).then(res => {
-        let totalAmount = 1000;
         if (res && res.rows) {
           res.rows.forEach(item => {
             if (item.balance.split(" ")[1] === this.activeToken.toUpperCase()) {
-              totalAmount = item.balance.split(" ")[0];
+              this.totalAmount = item.balance.split(" ")[0];
             }
           });
         }
         if (this.activeToken === 'eos' && this.$store.state.fomoPool) {
-          totalAmount -= this.$store.state.fomoPool.split(" ")[0];
+          this.totalAmount -= this.$store.state.fomoPool.split(" ")[0];
         }
-        return totalAmount / 100;
+        this.totalAmount = Number(this.totalAmount).toFixed(4);
       });
     }
+  },
+  mounted() {
+    this.getMax();
   }
 };
 </script>
