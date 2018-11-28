@@ -143,6 +143,9 @@ export default {
       const fomo = handleData(message);
       if(fomo) {
         _this.fomopool = fomo.json.fomopool;
+        _this.$store.commit("UPDATE_FOMO", {
+          fomo: _this.fomopool
+        });
         _this.endTime = fomo.json.endtime;
         _this.lastBuyPerson = fomo.json.lastPlayer;
       }

@@ -9,7 +9,8 @@ export default new Vuex.Store({
     account: "",
     // 分别是eos余额和别的代币余额
     eosBalance: '0.0000',
-    otherToken: '0.0000'
+    otherToken: '0.0000',
+    fomoPool: 0
   },
   getters: {
     eosBalance: state => {
@@ -31,6 +32,9 @@ export default new Vuex.Store({
     },
     UPDATE_TOKEN(state, payload) {
       state.otherToken = payload.balance;
+    },
+    UPDATE_FOMO(state, payload) {
+      state.fomoPool = payload.fomo;
     }
   },
   actions: {

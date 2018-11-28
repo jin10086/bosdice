@@ -53,7 +53,7 @@
 import vueSlider from "vue-slider-component";
 import { mapGetters } from "vuex";
 import { login } from "@/util/login";
-import { api, supportCoin } from "@/network/transtion";
+import { api, supportCoin, restApi } from "@/network/transtion";
 export default {
   name: "dice-roll",
   data() {
@@ -93,20 +93,53 @@ export default {
       login(this);
     },
     doRoll() {
-      api(
-        this.activeToken,
-        "transfer",
-        {
-          from: this.$store.state.account.name,
-          to: "bocai.game",
-          quantity: this.amount,
-          memo: `dice-${new Date().getTime()}-${this.roll}-${this.getref}`
-        },
-        this
-      );
+      if(this.getMax()) {
+        if (this.amount <= this.getMax()) {
+          api(
+            this.activeToken,
+            "transfer",
+            {
+              from: this.$store.state.account.name,
+              to: "bocai.game",
+              quantity: this.amount,
+              memo: `dice-${new Date().getTime()}-${this.roll}-${this.getref}`
+            },
+            this
+          );
+        } else {
+          this.$message.warning(`最大金额不能超过${this.getMax()}`);
+        }
+      }
     },
     changeAmount(number) {
-      this.amount *= number;
+      if (number === 3) {
+        if (this.getMax()) {
+          this.amount = this.getMax();
+        }
+      } else {
+        this.amount *= number;
+      }
+    },
+    getMax() {
+      restApi.getTableRows({
+        code: supportCoin[this.activeToken].contract,
+        table: 'accounts',
+        scope: 'bocai.game',
+        json: true
+      }).then(res => {
+        let totalAmount = 1000;
+        if (res && res.rows) {
+          res.rows.forEach(item => {
+            if (item.balance.split(" ")[1] === this.activeToken.toUpperCase()) {
+              totalAmount = item.balance.split(" ")[0];
+            }
+          });
+        }
+        if (this.activeToken === 'eos' && this.$store.state.fomoPool) {
+          totalAmount -= this.$store.state.fomoPool.split(" ")[0];
+        }
+        return totalAmount / 100;
+      });
     }
   }
 };
