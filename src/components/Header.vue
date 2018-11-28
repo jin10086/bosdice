@@ -107,7 +107,7 @@
             </div>
             <div>
               <p>可以领取分红</p>
-              <p> {{canGet}} EOS</p>
+              <p>{{canGet}} EOS</p>
             </div>
           </div>
         </div>
@@ -133,7 +133,7 @@
         <div class="my-divide">
           <div class="item-1">
             <div class="title">我的分红: {{canGet}} EOS</div>
-            <el-button type="primary">提现</el-button>
+            <el-button type="primary" @click="withdraw">提现</el-button>
           </div>
         </div>
         <div class="stake-content">
@@ -160,13 +160,15 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { restApi } from "@/network/transtion";
+import { restApi, eosTransaction } from "@/network/transtion";
 import { login } from "@/util/login";
 export default {
   name: "diceheader",
   data() {
     return {
-      dicelang: window.localStorage.getItem("dicelang") ? window.localStorage.getItem("dicelang"): "en",
+      dicelang: window.localStorage.getItem("dicelang")
+        ? window.localStorage.getItem("dicelang")
+        : "en",
       window: window,
       inviteFriend: false,
       mobileShow: false,
@@ -176,67 +178,93 @@ export default {
       // 是否在分红池选项
       tab1: true,
       // 历史总分红
-      totalShare: '0.0000',
+      totalShare: "0.0000",
       // 当前质押
-      totalStaked: '0.0000',
+      totalStaked: "0.0000",
       // 每个股份的价格
-      earningsPerShare: '0.0000',
+      earningsPerShare: "0.0000",
       // 已领取分红
-      totalout: '0.0000',
+      totalout: "0.0000",
       // 已领取分红
-      payout: '0.0000',
+      payout: "0.0000",
       // 质押的BOCAI
-      currentStake: '0.0000',
+      currentStake: "0.0000",
       // 当前流通
-      allCirculate: '0.0000',
+      allCirculate: "0.0000",
       // 需要减去的流通的BOCAI
       subBocai: 0,
       supply: 8800000000,
-      myBocai: '0.0000',
+      myBocai: "0.0000",
       // 质押
-      stake: '',
-      redeem: ''
+      stake: "",
+      redeem: ""
     };
   },
   watch: {
     divideDialog(newValue) {
       if (newValue) {
-        restApi.getTableRows({
-          code: "eosbocaidivi",
-          scope: "eosbocaidivi",
-          table: "global",
-          json: true
-        }).then(res => {
-          // console.log(res, 'poll')
-          if (res.rows && res.rows.length !== 0) {
-            this.totalStaked = res.rows[0].total_staked / 10000;
-            this.totalShare = res.rows[0].total_share / 10000;
-            this.earningsPerShare = parseInt(res.rows[0].earnings_per_share.substr(2).match(/.{1,2}/g).reverse().join(""), 16) || 0;
-          }
-        });
-        if (this.username) {
-          restApi.getTableRows({
-            code: "eosbocaidivi",
-            scope: this.username,
-            table: "voters",
-            json: true
-          }).then(res => {
-            console.log(res, 'voters')
-            if (res.rows && res.rows.length !== 0) {
-              this.currentStake = res.rows[0].staked / 10000;
-              this.payout = res.rows[0].payout;
-              this.totalout = (res.rows[0].totalout / 10000).toFixed(4);
-            }
-          })
-        }
-        if (this.subBocai) {
-          this.allCirculate = (this.supply - this.subBocai).toFixed(4);
-        }
+        this.updateDivide();
         this.bocaiAmount();
       }
     }
   },
   methods: {
+    withdraw() {
+      // 提现
+      if (this.username) {
+        eosTransaction("eosbocaidivi", "claim", {from: this.username}).then(()=> {
+          this.$message.success("提现成功");
+        }).catch(() => {
+          this.$message.error("发生错误");
+        });
+      } else {
+        this.$message.info("请先登录");
+      }
+    },
+    updateDivide() {
+      restApi
+        .getTableRows({
+          code: "eosbocaidivi",
+          scope: "eosbocaidivi",
+          table: "global",
+          json: true
+        })
+        .then(res => {
+          if (res.rows && res.rows.length !== 0) {
+            this.totalStaked = res.rows[0].total_staked / 10000;
+            this.totalShare = res.rows[0].total_share / 10000;
+            this.earningsPerShare =
+              parseInt(
+                res.rows[0].earnings_per_share
+                  .substr(2)
+                  .match(/.{1,2}/g)
+                  .reverse()
+                  .join(""),
+                16
+              ) || 0;
+          }
+        });
+      if (this.username) {
+        restApi
+          .getTableRows({
+            code: "eosbocaidivi",
+            scope: this.username,
+            table: "voters",
+            json: true
+          })
+          .then(res => {
+            console.log(res, "voters");
+            if (res.rows && res.rows.length !== 0) {
+              this.currentStake = res.rows[0].staked / 10000;
+              this.payout = res.rows[0].payout;
+              this.totalout = (res.rows[0].totalout / 10000).toFixed(4);
+            }
+          });
+      }
+      if (this.subBocai) {
+        this.allCirculate = (this.supply - this.subBocai).toFixed(4);
+      }
+    },
     changeLang(command) {
       this.dicelang = command;
       window.localStorage.setItem("dicelang", command);
@@ -253,7 +281,7 @@ export default {
     },
     openVip() {
       this.$msgbox({
-        title: ' ',
+        title: " ",
         message: this.$t("header.vipConetent"),
         callback: () => {},
         showConfirmButton: false,
@@ -261,11 +289,11 @@ export default {
         showClose: true,
         lockScroll: false,
         customClass: "custom-class"
-      })
+      });
     },
     openRoadMap() {
       this.$msgbox({
-        title: ' ',
+        title: " ",
         message: this.$t("header.roadMap"),
         callback: () => {},
         showConfirmButton: false,
@@ -273,14 +301,14 @@ export default {
         showClose: true,
         lockScroll: false,
         customClass: "custom-class"
-      })
+      });
     },
     openToken() {
       this.tokenDialog = true;
     },
     openHowto() {
       this.$msgbox({
-        title: ' ',
+        title: " ",
         message: this.$t("header.howto"),
         callback: () => {},
         showConfirmButton: false,
@@ -288,7 +316,7 @@ export default {
         showClose: true,
         lockScroll: false,
         customClass: "custom-class"
-      })
+      });
     },
     copyLink() {
       const referText = document.getElementById("referId");
@@ -297,7 +325,7 @@ export default {
     },
     openContact() {
       this.$msgbox({
-        title: ' ',
+        title: " ",
         message: this.$t("header.contact"),
         callback: () => {},
         showConfirmButton: false,
@@ -305,7 +333,7 @@ export default {
         showClose: true,
         lockScroll: false,
         customClass: "custom-class"
-      })
+      });
     },
     // 需要減去的BOCAI
     getSubCirculate() {
@@ -373,25 +401,32 @@ export default {
               " "
             )[0];
           }
-          _this.subBocai = (
+          _this.subBocai =
             Number(_commBalance) +
             Number(_devBalance) +
             Number(_bocai2222Balance) +
             Number(_jk2uslllkjfdBalance) +
-            Number(_bocaiairgrabBalance));
+            Number(_bocaiairgrabBalance);
         }
       );
     },
     bocaiAmount() {
+      const _this = this;
       if (this.username) {
-        restApi.getTableRows({
-          code: 'eosbocai1111',
-          table: 'accounts',
-          scope: this.username,
-          json: true
-        }).then((res) => {
-          this.myBocai = res.rows[0].balance.split(" ")[0];
-        });
+        restApi
+          .getTableRows({
+            code: "eosbocai1111",
+            table: "accounts",
+            scope: this.username,
+            json: true
+          })
+          .then(res => {
+            res.rows.forEach(item => {
+              if (item.balance.split(" ")[1] === "BOCAI") {
+                _this.myBocai = item.balance.split(" ")[0];
+              }
+            });
+          });
       }
     }
   },
@@ -402,9 +437,14 @@ export default {
     },
     canGet() {
       if (this.earningsPerShare && this.currentStake) {
-        return (((this.earningsPerShare * this.currentStake * 10000) / Math.pow(2, 32) - this.payout) / 10000).toFixed(4);
+        return (
+          ((this.earningsPerShare * this.currentStake * 10000) /
+            Math.pow(2, 32) -
+            this.payout) /
+          10000
+        ).toFixed(4);
       } else {
-        return '0.0000';
+        return "0.0000";
       }
     },
     stakeRatio() {
@@ -419,23 +459,25 @@ export default {
   },
   mounted() {
     this.getSubCirculate();
-    restApi.getTableRows({
-      json: true,
-      code: "eosbocai1111",
-      table: "stat",
-      scope: "BOCAI"
-    }).then(res => {
-      if(res.rows && res.rows.length !== 0) {
-        this.supply = res.rows[0].supply.slice(0, -6);
-      }
-    });
+    restApi
+      .getTableRows({
+        json: true,
+        code: "eosbocai1111",
+        table: "stat",
+        scope: "BOCAI"
+      })
+      .then(res => {
+        if (res.rows && res.rows.length !== 0) {
+          this.supply = res.rows[0].supply.slice(0, -6);
+        }
+      });
   }
 };
 </script>
 
 <style lang="less">
 .divide-class {
-  background: linear-gradient(to bottom right,#5f00ff,#ec6e42) !important;
+  background: linear-gradient(to bottom right, #5f00ff, #ec6e42) !important;
   // background-color: #861b7f !important;
   color: white !important;
   div {
@@ -456,7 +498,7 @@ export default {
         padding-bottom: 10px;
       }
     }
-    .on-tab  {
+    .on-tab {
       border-bottom: 2px solid #fff;
     }
   }
@@ -466,7 +508,7 @@ export default {
       margin-top: 24px;
       width: 90%;
       .item-1 {
-        background-image: linear-gradient(-90deg,#7c36d2,#f61c69);
+        background-image: linear-gradient(-90deg, #7c36d2, #f61c69);
         border-radius: 4px;
         margin: 0 auto;
         display: flex;
@@ -510,7 +552,7 @@ export default {
       text-align: left;
       margin-bottom: 12px;
     }
-    .item{
+    .item {
       border-radius: 6px;
       background-color: #5c178f;
       overflow: hidden;
@@ -544,7 +586,7 @@ export default {
         }
         div:first-child {
           height: 60px;
-          border-bottom: 1px solid rgba(0,0,0,.15);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.15);
         }
       }
     }
@@ -619,14 +661,18 @@ export default {
   height: 25px;
 }
 .custom-class {
-  background: linear-gradient(to bottom right,#5f00ff,#ec6e42);
+  background: linear-gradient(to bottom right, #5f00ff, #ec6e42);
   background-color: #861b7f !important;
   border: none !important;
   width: 40% !important;
   color: #fff;
   text-align: left;
 }
-.vip-content, .road-map, .token-intro, .howto, .contact {
+.vip-content,
+.road-map,
+.token-intro,
+.howto,
+.contact {
   color: #fff;
   h1 {
     text-align: center;
@@ -634,7 +680,7 @@ export default {
   }
   p {
     font-weight: 600;
-    letter-spacing: .5px;
+    letter-spacing: 0.5px;
     font-size: 15px;
   }
   li {
@@ -642,7 +688,7 @@ export default {
     margin-bottom: 10px;
     font-size: 15px;
     font-weight: 600;
-    letter-spacing: .5px;
+    letter-spacing: 0.5px;
   }
   a {
     color: #0191ee;
@@ -683,7 +729,7 @@ export default {
   display: none !important;
 }
 
-@media (max-width:768px) {
+@media (max-width: 768px) {
   .dice-menu {
     display: block !important;
     margin-left: 6px;
@@ -697,7 +743,7 @@ export default {
     line-height: 56px;
   }
   .dice-dropdwon {
-    margin-left: 4px!important;
+    margin-left: 4px !important;
   }
   .logo {
     width: 80px !important;

@@ -87,6 +87,31 @@ export const supportCoin = {
   }
 }
 
+export function eosTransaction(account, name, data) {
+  if(scatter) {
+    return new Promise((resolve, reject) => {
+      const eos = scatter.eos(network, Eos, {});
+      eos.transaction({
+        actions: [{
+          // 合约账户
+          account: account,
+          // 交易类型
+          name: name,
+          authorization: [{
+            actor: store.state.account.name,
+            permission: store.state.account.authority
+          }],
+          data: data
+        }]
+      }).then(() => {
+        resolve("success");
+      }).catch(() => {
+        reject("error");
+      });
+    });
+  }
+}
+
 export function api(coinType, action, data, vm) {
   // coinType 表示 押注使用的代币
   vm.$message.info("等待交易确认");
