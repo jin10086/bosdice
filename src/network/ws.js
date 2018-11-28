@@ -31,8 +31,8 @@ function handleData(message) {
         return message.data.rows;
       if (message.req_id === "dice-rich-my" && message.data)
         return message.data.rows;
-      if (message.req_id === "fomo-pot" && message.data.rows.length !== 0)
-        return message.data.rows[0];
+      if (message.req_id === "fomo-pot")
+        return message.data.dbop.new;
       break;
 
     case InboundMessageType.TABLE_SNAPSHOT:
