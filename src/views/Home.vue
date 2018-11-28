@@ -18,14 +18,16 @@
       </div>
     </div>
     <div class="main">
-      <dice-rich></dice-rich>
-      <dice-roll :activeToken="activeToken" :showToekn="token" class="mobile-none"></dice-roll>
+      <!-- <dice-rich></dice-rich> -->
+      <dice-roll :activeToken="activeToken" :showToekn="token"></dice-roll>
+      <div style="display:none">
       <dice-auction class="mobile-none"></dice-auction>
       <div class="mobile-show componet-tab">
         <span :class="{'active-componet': currentComponent === 'dice-roll'}" @click="currentComponent = 'dice-roll'">DICE</span>
         <span :class="{'active-componet': currentComponent === 'dice-auction'}" @click="currentComponent = 'dice-auction'">BICAI AUCTION</span>
       </div>
       <component :is="currentComponent" class="mobile-show" v-bind="currentProp"></component>
+      </div>
     </div>
     <dice-order></dice-order>
   </div>
@@ -37,7 +39,7 @@ import DiceHeader from "@/components/Header.vue";
 import DiceOrder from "@/components/Order.vue";
 import DiceRoll from "@/components/Roll.vue";
 import DiceAuction from "@/components/Auction.vue";
-import DiceRich from "@/components/Rich.vue";
+// import DiceRich from "@/components/Rich.vue";
 import { login } from "@/util/login";
 import { api, supportCoin } from "@/network/transtion";
 import { handleData } from "@/network/ws.js";
@@ -61,8 +63,8 @@ export default {
     DiceHeader,
     DiceRoll,
     DiceOrder,
-    DiceAuction,
-    DiceRich
+    DiceAuction
+    // DiceRich
   },
   computed: {
     currentProp() {
@@ -73,7 +75,7 @@ export default {
     },
     minAmount() {
       const number = this.fomopool.split(" ")[0];
-      return number < 500 ? "0.5 EOS" : (number / 1000) + " EOS";
+      return (number / 1000).toFixed(4) + " EOS";
     },
     token: {
       get() {

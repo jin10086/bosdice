@@ -4,11 +4,11 @@
       <img src="../assets/eosdice.png" class="logo">
       <div class="right">
         <div class="mobile-none">
-          <el-button type="text" @click="(window.open('https://jacks.eosdice.vip'))">EOSJACKS</el-button>
-          <el-button type="text">历史公告</el-button>
+          <!-- <el-button type="text" @click="(window.open('https://jacks.eosdice.vip'))">EOSJACKS</el-button> -->
+          <!-- <el-button type="text">历史公告</el-button> -->
           <el-button
             type="text"
-            @click="window.open('https://deltadex.io/embed/eosdicevip/eosbocai1111-BOCAI')"
+            @click="window.open('https://deltadex.io/embed/eosdicevip/eosbocai1111-BOCAI', '_self')"
           >交易BOCAI</el-button>
           <el-button type="text" @click="openVip">VIP</el-button>
           <el-button type="text" @click="openRoadMap">Road Map</el-button>
@@ -62,8 +62,8 @@
     </div>
     <transition name="el-zoom-in-center">
       <div v-show="mobileShow">
-        <el-button type="text" @click="(window.open('https://jacks.eosdice.vip'))">EOSJACKS</el-button>
-        <el-button type="text">历史公告</el-button>
+        <!-- <el-button type="text" @click="(window.open('https://jacks.eosdice.vip'))">EOSJACKS</el-button> -->
+        <!-- <el-button type="text">历史公告</el-button> -->
         <el-button
           type="text"
           @click="window.open('https://deltadex.io/embed/eosdicevip/eosbocai1111-BOCAI')"
@@ -485,12 +485,8 @@ export default {
     },
     canGet() {
       if (this.earningsPerShare && this.currentStake) {
-        return (
-          ((this.earningsPerShare * this.currentStake * 10000) /
-            Math.pow(2, 32) -
-            this.payout) /
-          10000
-        ).toFixed(4);
+        const get = ((this.earningsPerShare * this.currentStake * 10000) / Math.pow(2, 32) -this.payout) /10000;
+        return get < 0 ? "0.0000" : get.toFixed(4);
       } else {
         return "0.0000";
       }
