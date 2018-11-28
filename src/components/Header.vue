@@ -67,7 +67,7 @@
         <el-button
           type="text"
           @click="window.open('https://deltadex.io/embed/eosdicevip/eosbocai1111-BOCAI')"
-        >交易BOCAI</el-button>
+        >{{$t("header.exchange")}}</el-button>
         <el-button type="text" @click="openVip">VIP</el-button>
         <el-button type="text" @click="openRoadMap">{{$t("header.Roadmap")}}</el-button>
         <el-button type="text" @click="divideDialog = true">{{$t("header.PayoutPool")}}</el-button>
@@ -213,20 +213,20 @@ export default {
       // 提现
       if (this.username) {
         eosTransaction("eosbocaidivi", "claim", {from: this.username}).then(()=> {
-          this.$message.success("提现成功");
+          this.$message.success(this.$t("header.Cashwithdrawalsuccess"));
           this.updateDivide();
           this.bocaiAmount();
         }).catch(() => {
-          this.$message.error("发生错误");
+          this.$message.error("error...");
         });
       } else {
-        this.$message.info("请先登录");
+        this.$message.info(this.$t("header.loginfisrt"));
       }
     },
     handleStake() {
       // 质押
       if(!this.username) {
-        this.$message.error(`请先登录`);
+        this.$message.error(this.$t("header.loginfisrt"));
         return;
       }
       if (this.stake <= this.myBocai) {
@@ -239,18 +239,18 @@ export default {
           this.updateDivide();
           this.bocaiAmount();
           this.stake = "";
-          this.$message.success("交易成功");
+          this.$message.success(this.$t("header.transactionSuccessful"));
         }).catch(() => {
-          this.$message.error("发生错误");
+          this.$message.error("error");
         });
       } else {
-        this.$message.error(`质押不能超过当前BOCAI余额`);
+        this.$message.error(this.$t("header.stakefail"));
       }
     },
     handleUnstake() {
       // 赎回
       if(!this.username) {
-        this.$message.error(`请先登录`);
+        this.$message.error(this.$t("header.loginfisrt"));
         return;
       }
       if (this.redeem <= this.currentStake) {
@@ -260,13 +260,13 @@ export default {
         }).then(() => {
           this.updateDivide();
           this.bocaiAmount();
-          this.$message.success("交易成功");
+          this.$message.success(this.$t("header.transactionSuccessful"));
           this.redeem = "";
         }).catch(()=> {
-          this.$message.error("发生错误");
+          this.$message.error("error");
         });
       } else {
-        this.$message.error(`赎回不能超过当前质押BOCAI总数`);
+        this.$message.error(this.$t("header.unstakefail"));
       }
     },
     updateDivide() {
@@ -325,7 +325,7 @@ export default {
       this.$store.commit("UPDATE_ACCOUNT", {
         account: ""
       });
-      this.$message.success("登出成功");
+      this.$message.success(this.$t("header.logout"));
     },
     openVip() {
       this.$msgbox({
@@ -495,10 +495,10 @@ export default {
       return ((this.totalStaked / this.allCirculate) * 100).toFixed(2);
     },
     mostStake() {
-      return `最多可质押${this.myBocai}BOCAI`;
+      return this.$t("header.maxcanstake")+ `${this.myBocai} BOCAI`;
     },
     mostRedeem() {
-      return `最多可赎回${Number(this.currentStake).toFixed(4)}BOCAI`;
+      return this.$t("header.maxcanunstake") + `${Number(this.currentStake).toFixed(4)} BOCAI`;
     }
   },
   mounted() {

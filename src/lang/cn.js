@@ -28,7 +28,17 @@ export default {
     "unstake1": "赎回",
     "maxcanunstake": "最多可赎回",
     "unstakeMsg": "赎回需24小时，赎回中的BOCAI不享受分红",
-    "max canstake": "最多可质押",
+    "maxcanstake": "最多可质押",
+    loginfisrt:"请先登录",
+    "Cashwithdrawalsuccess":'提现成功',
+    "transactionSuccessful":"交易成功",
+    stakefail:"承诺不能超过目前的BOCAI余额",
+    unstakefail:"赎回不能超过当前质押BOCAI总数",
+    logout:"登出成功",
+
+
+
+
     vipConetent:`
     <div class="vip-content">
     <h1>VIP</h1>
