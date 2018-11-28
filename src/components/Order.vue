@@ -125,6 +125,17 @@ export default {
     );
     this.ws_identify.onMessage(message => {
       if(handleData(message)) _this.allBets.unshift(handleData(message));
+      const mes = handleData(message);
+      if (this.username) {
+        if (mes.player === this.username) {
+          // this.$message.success(``)
+          if(mes.random_roll < mes.roll_under) {
+            this.$message.success(`你掷出了{mes.random_roll},赢了{mes.payout}`);
+          } else {
+            this.$message.error(`你掷出了{mes.random_roll},输了{mes.amount}`);
+          }
+        }
+      }
       if(_this.allBets.length > 30) {
         _this.allBets.shift();
       }
