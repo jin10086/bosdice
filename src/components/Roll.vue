@@ -2,15 +2,15 @@
   <div class="roll">
     <div class="roll-header">
       <div>
-        <span>赔率</span>
+        <span>{{$t("roll.payout")}}</span>
         <strong>{{lossPercent}}x</strong>
       </div>
       <div>
-        <span>小于该数获胜</span>
+        <span>{{$t("roll.rollUnder")}}</span>
         <strong>{{roll}}</strong>
       </div>
       <div>
-        <span>中奖概率</span>
+        <span>{{$t("roll.winChance")}}</span>
         <strong>{{roll -1}}%</strong>
       </div>
     </div>
@@ -18,7 +18,7 @@
       <vue-slider v-model="roll" class="slider-roll" :process-style="{background: '#3c3'}" :tooltip-style="{background: '#3c3'}" :min="2" :max="96"></vue-slider>
       <div class="roll-middle">
         <div class="field-amount">
-          <div class="title">投注金额</div>
+          <div class="title">{{$t("roll.betAmount")}}</div>
           <div class="content">
             <input type="text" autocomplete="off" class="jack-input" v-model="amount"/>
             <div class="amount-action">
@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="field-profit">
-          <div class="title">赢取奖金</div>
+          <div class="title">{{$t("roll.payOutWin")}}</div>
           <div class="content">
             {{winMoney}}
           </div>
@@ -39,8 +39,8 @@
         <div class="eos">{{eosBalance }} <span class="symbol"> EOS</span></div>
         <div class="login-wrap">
           <div class="login">
-            <span v-if="username" @click="doRoll">掷骰子</span>
-            <span v-else @click="login">登录</span>
+            <span v-if="username" @click="doRoll">{{$t("roll.roll")}}</span>
+            <span v-else @click="login">{{$t("roll.login")}}</span>
           </div>
         </div>
         <div class="token">{{otherToken }} <span class="symbol"> {{showToekn.toUpperCase()}}</span> </div>
@@ -102,11 +102,11 @@ export default {
     doRoll() {
       if(this.totalAmount) {
         if (this.activeToken === 'eos' && this.amount > this.eosBalance) {
-          this.$message.info("您的EOS余额不足");
+          this.$message.info(this.$t("roll.noEos"));
           return;
         }
         if (this.amount > this.otherToken) {
-          this.$message.info(`您的${this.activeToken.toUpperCase()}余额不足`);
+          this.$message.info(this.$t("roll.noToken", {token: this.activeToken.toUpperCase()}));
           return;
         }
         if (this.winAmout <= this.totalAmount) {
@@ -123,7 +123,7 @@ export default {
           );
           this.getMax();
         } else {
-          this.$message.warning(`赢取最大金额不能超过${this.totalAmount}`);
+          this.$message.warning(this.$t("roll.maxPayout", {Amount: this.totalAmount}));
         }
       }
     },

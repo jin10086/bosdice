@@ -9,12 +9,12 @@
     </div>
     <div class="fomo">
       <div class="title">
-        <span>最后购买者:{{lastBuyPerson}}</span>
-        <span>倒计时:{{showEndTime}}</span>
-        <span>参与FOMO最低投注金额:{{minAmount}}</span>
+        <span>{{$t("home.lastBuy")}}:{{lastBuyPerson}}</span>
+        <span>{{$t("home.countdown")}}:{{showEndTime}}</span>
+        <span>{{$t("home.minAmount")}}:{{minAmount}}</span>
       </div>
       <div class="content">
-        <span>FOMO奖池:{{fomopool}}</span>
+        <span>{{$t("home.fomoPot")}}:{{fomopool}}</span>
       </div>
     </div>
     <div class="main">
@@ -113,7 +113,7 @@ export default {
       let current = new Date().getTime();
       let left = this.endTime * 1000 - current;
       if (left <= 0) {
-        this.showEndTime = "等待下一局开始";
+        this.showEndTime = this.$t("home.next");
         return;
       }
       left /= 1000;
