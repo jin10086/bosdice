@@ -140,14 +140,14 @@
           <div class="title">可质押: {{myBocai}} BOCAI</div>
           <div class="input-content">
             <el-input :placeholder="mostStake" class="dice-input" v-model="stake"></el-input>
-            <el-button type="primary">质押</el-button>
+            <el-button type="primary" @click="handleStake">质押</el-button>
           </div>
         </div>
         <div class="stake-content">
-          <div class="title">已质押: {{Number(currentStake).toFixed(4)}} BOCAI(占质押总量的 0.00 %)</div>
+          <div class="title">已质押: {{Number(currentStake).toFixed(4)}}BOCAI</div>
           <div class="input-content">
             <el-input :placeholder="mostRedeem" class="dice-input" v-model="redeem"></el-input>
-            <el-button type="primary">赎回</el-button>
+            <el-button type="primary" @click="handleUnstake">赎回</el-button>
           </div>
           <div class="tips">赎回需24小时，赎回中的BOCAI不享受分红</div>
         </div>
@@ -214,11 +214,59 @@ export default {
       if (this.username) {
         eosTransaction("eosbocaidivi", "claim", {from: this.username}).then(()=> {
           this.$message.success("提现成功");
+          this.updateDivide();
+          this.bocaiAmount();
         }).catch(() => {
           this.$message.error("发生错误");
         });
       } else {
         this.$message.info("请先登录");
+      }
+    },
+    handleStake() {
+      // 质押
+      if(!this.username) {
+        this.$message.error(`请先登录`);
+        return;
+      }
+      if (this.stake <= this.myBocai) {
+        eosTransaction("eosbocai1111", "transfer", {
+          from: this.username,
+          to: "eosbocaidivi",
+          quantity: `${(+this.stake).toFixed(4)} BOCAI`,
+          memo: "stake"
+        }).then(() => {
+          this.updateDivide();
+          this.bocaiAmount();
+          this.stake = "";
+          this.$message.success("交易成功");
+        }).catch(() => {
+          this.$message.error("发生错误");
+        });
+      } else {
+        this.$message.error(`质押不能超过当前BOCAI余额`);
+      }
+    },
+    handleUnstake() {
+      // 赎回
+      if(!this.username) {
+        this.$message.error(`请先登录`);
+        return;
+      }
+      if (this.redeem <= this.currentStake) {
+        eosTransaction("eosbocaidivi", "unstake", {
+          from: this.username,
+          quantity: `${(+this.redeem).toFixed(4)} BOCAI`,
+        }).then(() => {
+          this.updateDivide();
+          this.bocaiAmount();
+          this.$message.success("交易成功");
+          this.redeem = "";
+        }).catch(()=> {
+          this.$message.error("发生错误");
+        });
+      } else {
+        this.$message.error(`赎回不能超过当前质押BOCAI总数`);
       }
     },
     updateDivide() {
@@ -355,7 +403,7 @@ export default {
           json: true,
           code: "eosbocai1111",
           table: "accounts",
-          scope: "eosbocai2222"
+          scope: "bocai.game"
         }),
         restApi.getTableRows({
           json: true,

@@ -98,7 +98,7 @@ export default {
         "transfer",
         {
           from: this.$store.state.account.name,
-          to: "eosbocai2222",
+          to: "bocai.game",
           quantity: this.amount,
           memo: `dice-${new Date().getTime()}-${this.roll}-${this.getref}`
         },

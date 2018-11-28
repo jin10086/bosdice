@@ -115,7 +115,10 @@ export default {
         return;
       }
       left /= 1000;
-      const min = '0' + Math.floor(left / 60);
+      let min = Math.floor(left / 60);
+      if (min < 10) {
+        min = '0' + min;
+      }
       let sec = Math.floor(left % 60);
       if (sec < 10) {
         sec = '0' + sec;
@@ -127,8 +130,8 @@ export default {
     const _this = this;
     this.ws_identify = this.$ws.getTableRows(
       {
-        code: "eosbocai2222",
-        scope: "eosbocai2222",
+        code: "bocai.game",
+        scope: "bocai.game",
         table: "global",
         json: true
       },
