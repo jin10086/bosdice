@@ -14,55 +14,34 @@ export const restApi = Eos({
   chainId: network.chainId
 })
 
-function handleError(errmsg) {
+function handleError(errmsg, context) {
   let e = JSON.stringify(errmsg);
   if ("string" === typeof e) {
     if (e.includes("unsatisfied_authorization"))
-      // return this.$t("apiErrors.unsatisfiedAuthorization", {
-      //   accountName: this.account.name,
-      //   permission: this.account.authority
-      // });
-      return "未授权";
+      return context.$t("apiErrors.unsatisfiedAuthorization", {
+        accountName: context.$store.state.account.name,
+        permission: context.$store.state.account.authority
+      });
     if (e.includes("overdrawn balance"))
-      // return this.$t("apiErrors.overdrawnBalance", {
-      //   EOS_CORE_SYMBOL: Number(this.eos).toFixed(4) + " EOS"
-      // });
-      return "余额不足";
+      return context.$t("apiErrors.overdrawnBalance");
     if (e.includes("ram_usage_exceeded"))
-      // return this.$t("apiErrors.ramUsageExceeded");
-      return "ram不足";
-    if (e.includes("Time is up")) return this.$t("sellTokenEnd");
-    if (e.includes("referrer account does not exist"))
-      // return this.$t("refererNotExist");
-      return "不存在推荐者";
-    if (e.includes("start at utc+8 2018-10-30 21:00:00"))
-      return "不存在推荐者";
-      // return this.$t("playDiceAt");
-    if (e.includes("start at utc+8 2018-10-29 21:00:00"))
-      // return this.$t("buytokenAt");
-      return "不存在推荐者";
+      return context.$t("apiErrors.ramUsageExceeded");
     if (e.includes("signature_rejected"))
-      // return this.$t("apiErrors.signature_rejected");
-      return "不存在推荐者";
+      return context.$t("apiErrors.signature_rejected");
     if (e.includes("leeway_deadline_exception"))
-      // return this.$t("apiErrors.cpuUsageExceeded");
-      return "不存在推荐者";
+      return context.$t("apiErrors.cpuUsageExceeded");
     if (e.includes("tx_net_usage_exceeded"))
-      // return this.$t("apiErrors.netUsageExceeded");
-      return "不存在推荐者";
+      return context.$t("apiErrors.netUsageExceeded");
     if (
       e.includes("deadline_exception") ||
       e.includes("tx_cpu_usage_exceeded")
     )
-      // return this.$t("apiErrors.deadlineExceeded");
-      return "不存在推荐者";
+      return context.$t("apiErrors.deadlineExceeded");
     try {
       e = JSON.parse(e);
     } catch (e) { }
   }
-  return "未知错误";
-    // this.$t("apiErrors.unexpectedError") + "\n" + JSON.stringify(e, null)
-    // return "不存在推荐者";
+  return context.$t("apiErrors.unexpectedError") + "\n" + JSON.stringify(e, null);
 }
 
 // 添加币种图片，src为base64
@@ -114,10 +93,10 @@ export function eosTransaction(account, name, data) {
 
 export function api(coinType, action, data, vm) {
   // coinType 表示 押注使用的代币
-  vm.$message.info("等待交易确认");
+  vm.$message.info(vm.$t("apiErrors.waitFor"));
   if (data.quantity) {
     if (data.quantity < supportCoin[coinType].minAmount) {
-      vm.$message(`交易金额不能小于${supportCoin[coinType].minAmount} ${supportCoin[coinType].symbol}`)
+      vm.$message(`${vm.$t("apiErrors.noLessThan")}${supportCoin[coinType].minAmount} ${supportCoin[coinType].symbol}`)
       return;
     }
     data.quantity = Number(data.quantity).toFixed(4) + " " + supportCoin[coinType].symbol;
@@ -137,14 +116,13 @@ export function api(coinType, action, data, vm) {
         data: data
       }]
     }).then(() => {
-      vm.$message.success("交易成功，等待结果");
+      vm.$message.success(vm.$t("apiErrors.success"));
       vm.$store.dispatch("UPDATE_EOS_ASYNC");
       vm.$store.dispatch("UPDATE_TOKEN_ASYNC", {
         type: coinType === "eos" ? "bocai" : coinType
       });
     }).catch((err) => {
-      console.log(err, 'rr');
-      vm.$message.error(handleError(err));
+      vm.$message.error(handleError(err, vm));
     })
   }
 }

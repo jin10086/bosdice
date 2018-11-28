@@ -128,11 +128,16 @@ export default {
       const mes = handleData(message);
       if (this.username) {
         if (mes.player === this.username) {
-          // this.$message.success(``)
           if(mes.random_roll < mes.roll_under) {
-            this.$message.success(`你掷出了{mes.random_roll},赢了{mes.payout}`);
+            this.$message.success(this.$t("order.win", {
+              random: mes.random_roll,
+              payout: mes.payout
+            }));
           } else {
-            this.$message.error(`你掷出了{mes.random_roll},输了{mes.amount}`);
+            this.$message.error(this.$t("order.lose", {
+              random: mes.random_roll,
+              amount: mes.amount
+            }));
           }
         }
       }
@@ -143,7 +148,6 @@ export default {
   },
 
   destroyed() {
-    console.log(this.ws_identify);
     this.ws_identify.unlisten();
   }
 };

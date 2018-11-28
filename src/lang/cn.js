@@ -105,7 +105,9 @@ export default {
     rollUnder: "小于该数获胜",
     bet: "投注",
     roll: "开奖号码",
-    payout: "奖金"
+    payout: "奖金",
+    win: "你掷出了{random},赢了{payout}",
+    lose: "你掷出了{random},输了{amount}"
   },
   auction: {
     round: "回合",
@@ -114,5 +116,37 @@ export default {
     placeBid: "在BOCAI出价",
     login: "登录",
     bid: "竞标"
+  },
+  roll: {
+    payout: "赔率",
+    rollUnder: "小于该数获胜",
+    winChance: "中奖概率",
+    betAmount: "投注金额",
+    payOutWin: "赢取奖金",
+    roll: "掷骰子",
+    login: "登录",
+    noEos: "您的EOS余额不足",
+    noToken: "您的{token}余额不足",
+    maxPayout: "赢取最大金额不能超过{Amount}"
+  },
+  apiErrors: {
+    "unsatisfiedAuthorization": "请确认您正在使用 {accountName} 的 {permission} 私钥",
+    "overdrawnBalance": "交易失败，您没有足够的代币去支付",
+    "ramUsageExceeded": "交易失败，您没有足够的可用内存",
+    "cpuUsageExceeded": "交易失败，您没有足够的可用 CPU",
+    "netUsageExceeded": "交易失败，您没有足够的可用 NET",
+    "deadlineExceeded": "交易超时，请重试",
+    "unexpectedError": "交易失败，发生了未知的错误：",
+    "signature_rejected": "交易失败,你取消了交易",
+    "waitFor": "等待交易确认",
+    "noLessThan": "交易金额不能小于",
+    "success": "交易成功,等待结果"
+  },
+  home: {
+    lastBuy: "最后购买者",
+    countdown: "倒计时",
+    minAmount: "参与FOMO最低投注金额",
+    fomoPot: "FOMO 奖池",
+    next: "等待下一局开始"
   }
 }
