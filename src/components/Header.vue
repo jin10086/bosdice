@@ -9,29 +9,29 @@
           <el-button
             type="text"
             @click="window.open('https://deltadex.io/embed/eosdicevip/eosbocai1111-BOCAI', '_self')"
-          >交易BOCAI</el-button>
+          >{{$t("header.exchange")}}</el-button>
           <el-button type="text" @click="openVip">VIP</el-button>
-          <el-button type="text" @click="openRoadMap">Road Map</el-button>
-          <el-button type="text" @click="divideDialog = true">分红池</el-button>
-          <el-button type="text" @click="openToken">TOKEN介绍</el-button>
-          <el-button type="text" @click="openHowto">玩法介绍</el-button>
-          <el-button type="text" @click="inviteFriend=true">邀请好友</el-button>
-          <el-button type="text" style="margin: 0 10px;" @click="openContact">联系我们</el-button>
+          <el-button type="text" @click="openRoadMap">{{$t("header.Roadmap")}}</el-button>
+          <el-button type="text" @click="divideDialog = true">{{$t("header.PayoutPool")}}</el-button>
+          <el-button type="text" @click="openToken">{{$t("header.tokenDetail")}}</el-button>
+          <el-button type="text" @click="openHowto">{{$t("header.howtoplay")}}</el-button>
+          <el-button type="text" @click="inviteFriend=true">{{$t("header.Referrals")}}</el-button>
+          <el-button type="text" style="margin: 0 10px;" @click="openContact">{{$t("header.Social")}}</el-button>
         </div>
         <el-button type="text">
           <span v-if="username" @click="logout">
             {{username}}
             <i class="el-icon-caret-bottom"></i>
           </span>
-          <span v-else @click="login">登录</span>
+          <span v-else @click="login">{{$t("header.LOGIN")}}</span>
         </el-button>
         <el-dialog :visible.sync="inviteFriend" custom-class="custom-class">
-          <h3 slot="title">通过邀请获得返利!</h3>
+          <h3 slot="title">{{$t("header.GetRewardedWithReferrals")}}</h3>
           <div class="refer-class">
             <input v-model="myRefer" id="referId">
-            <el-button type="primary" @click="copyLink">复制</el-button>
+            <el-button type="primary" @click="copyLink">{{$t("header.Copy")}}</el-button>
           </div>
-          <h3 style="color:#fff; text-align:left; margin-top:10px">请勿错过！邀请好友即可获得他们 0.151% 的投注额</h3>
+          <h3 style="color:#fff; text-align:left; margin-top:10px">{{$t("header.refword")}}</h3>
         </el-dialog>
         <el-dropdown @command="changeLang" class="dice-dropdwon">
           <span class="el-dropdown-link">
@@ -69,12 +69,12 @@
           @click="window.open('https://deltadex.io/embed/eosdicevip/eosbocai1111-BOCAI')"
         >交易BOCAI</el-button>
         <el-button type="text" @click="openVip">VIP</el-button>
-        <el-button type="text" @click="openRoadMap">Road Map</el-button>
-        <el-button type="text" @click="divideDialog = true">分红池</el-button>
-        <el-button type="text" @click="openToken">TOKEN介绍</el-button>
-        <el-button type="text" @click="openHowto">玩法介绍</el-button>
-        <el-button type="text" @click="inviteFriend=true">邀请好友</el-button>
-        <el-button type="text" style="margin-left:10px;" @click="openContact">联系我们</el-button>
+        <el-button type="text" @click="openRoadMap">{{$t("header.Roadmap")}}</el-button>
+        <el-button type="text" @click="divideDialog = true">{{$t("header.PayoutPool")}}</el-button>
+        <el-button type="text" @click="openToken">{{$t("header.tokenDetail")}}</el-button>
+        <el-button type="text" @click="openHowto">{{$t("header.howtoplay")}}</el-button>
+        <el-button type="text" @click="inviteFriend=true">{{$t("header.Referrals")}}</el-button>
+        <el-button type="text" style="margin-left:10px;" @click="openContact">{{$t("header.Social")}}</el-button>
       </div>
     </transition>
     <!-- dialog -->
@@ -87,14 +87,14 @@
     <el-dialog custom-class="divide-class" :visible.sync="divideDialog">
       <div class="title">
         <div>
-          <h2 :class="{'on-tab': tab1}" @click="tab1=true">分红池</h2>
+          <h2 :class="{'on-tab': tab1}" @click="tab1=true">{{$t("header.PayoutPool")}}</h2>
         </div>
         <div>
-          <h2 :class="{'on-tab': !tab1}" @click="tab1=false">质押与分红</h2>
+          <h2 :class="{'on-tab': !tab1}" @click="tab1=false">{{$t("header.Stake")}}</h2>
         </div>
       </div>
       <div class="divide" v-show="tab1">
-        <h3>质押与分红</h3>
+        <h3>{{$t("header.Stake")}}</h3>
         <div class="item">
           <div class="left">
             <img src="../assets/eos.png">
@@ -102,11 +102,11 @@
           </div>
           <div class="right">
             <div>
-              <p>你一共领取了</p>
+              <p>{{$t("header.yourtotalstake")}}</p>
               <p>{{totalout}} EOS</p>
             </div>
             <div>
-              <p>可以领取分红</p>
+              <p>{{$t("header.canGet")}}</p>
               <p>{{canGet}} EOS</p>
             </div>
           </div>
@@ -115,15 +115,15 @@
         <div class="item">
           <div class="left">
             <img src="../assets/token.png">
-            <p>全网质押比:{{stakeRatio}}%</p>
+            <p>{{$t("header.allstake")}}:{{stakeRatio}}%</p>
           </div>
           <div class="right">
             <div>
-              <p>当前流通</p>
+              <p>{{$t("header.currentCirculation")}}</p>
               <p>{{allCirculate}} BOCAI</p>
             </div>
             <div>
-              <p>当前质押</p>
+              <p>{{$t("header.currentStake")}}</p>
               <p>{{totalStaked}} BOCAI</p>
             </div>
           </div>
@@ -132,24 +132,24 @@
       <div class="stake" v-show="!tab1">
         <div class="my-divide">
           <div class="item-1">
-            <div class="title">我的分红: {{canGet}} EOS</div>
-            <el-button type="primary" @click="withdraw">提现</el-button>
+            <div class="title">{{$t("header.myDividend")}}: {{canGet}} EOS</div>
+            <el-button type="primary" @click="withdraw">{{$t("header.withdraw")}}</el-button>
           </div>
         </div>
         <div class="stake-content">
-          <div class="title">可质押: {{myBocai}} BOCAI</div>
+          <div class="title">{{$t("header.canstake")}}: {{myBocai}} BOCAI</div>
           <div class="input-content">
             <el-input :placeholder="mostStake" class="dice-input" v-model="stake"></el-input>
-            <el-button type="primary" @click="handleStake">质押</el-button>
+            <el-button type="primary" @click="handleStake">{{$t("header.stake1")}}</el-button>
           </div>
         </div>
         <div class="stake-content">
-          <div class="title">已质押: {{Number(currentStake).toFixed(4)}}BOCAI</div>
+          <div class="title">{{$t("header.staked")}}: {{Number(currentStake).toFixed(4)}}BOCAI</div>
           <div class="input-content">
             <el-input :placeholder="mostRedeem" class="dice-input" v-model="redeem"></el-input>
-            <el-button type="primary" @click="handleUnstake">赎回</el-button>
+            <el-button type="primary" @click="handleUnstake">{{$t("header.unstake1")}}</el-button>
           </div>
-          <div class="tips">赎回需24小时，赎回中的BOCAI不享受分红</div>
+          <div class="tips">{{$t("header.unstakeMsg")}}</div>
         </div>
       </div>
     </el-dialog>
