@@ -2,6 +2,7 @@ export default {
   header: {
     cn: "简体中文",
     en: "English",
+    currentDividends: '历史总分红',
     "exchange": '交易BOCAI',
     howtoplay: "玩法介绍",
     Referrals: "邀请好友",

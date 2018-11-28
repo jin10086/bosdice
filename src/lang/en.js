@@ -2,6 +2,7 @@ export default {
   header: {
     cn: "简体中文",
     en: "English",
+    currentDividends: 'Historical total dividend',
     "exchange": 'Exchange',
     howtoplay: "HOW TO PLAY",
     Referrals: "Referrals",

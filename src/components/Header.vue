@@ -98,7 +98,7 @@
         <div class="item">
           <div class="left">
             <img src="../assets/eos.png">
-            <p>历史总分红: {{totalShare}} EOS</p>
+            <p>{{$t("header.currentDividends")}}: {{totalShare}} EOS</p>
           </div>
           <div class="right">
             <div>
