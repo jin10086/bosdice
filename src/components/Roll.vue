@@ -101,6 +101,14 @@ export default {
     },
     doRoll() {
       if(this.totalAmount) {
+        if (this.activeToken === 'eos' && this.amount > this.eosBalance) {
+          this.$message.info("您的EOS余额不足");
+          return;
+        }
+        if (this.amount > this.otherToken) {
+          this.$message.info(`您的${this.activeToken.toUpperCase()}余额不足`);
+          return;
+        }
         if (this.winAmout <= this.totalAmount) {
           api(
             this.activeToken,
