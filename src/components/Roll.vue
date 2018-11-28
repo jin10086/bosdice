@@ -137,14 +137,14 @@ export default {
         if (res && res.rows) {
           res.rows.forEach(item => {
             if (item.balance.split(" ")[1] === this.activeToken.toUpperCase()) {
-              this.totalAmount = item.balance.split(" ")[0];
+              this.totalAmount = Number(item.balance.split(" ")[0]);
             }
           });
         }
         if (this.activeToken === 'eos' && this.$store.state.fomoPool) {
-          this.totalAmount -= this.$store.state.fomoPool.split(" ")[0];
+          this.totalAmount -= Number(this.$store.state.fomoPool.split(" ")[0]);
         }
-        this.totalAmount = Number(this.totalAmount).toFixed(4);
+        this.totalAmount = Number(this.totalAmount/10).toFixed(4);
       });
     }
   },
