@@ -92,11 +92,7 @@ export default {
   watch: {
     activeToken() {
       this.getMax();
-    },
-    amount(newValue) {
-      if(newValue < 0.5) {
-        this.amount = 0.5;
-      }
+      this.amount = supportCoin[this.activeToken].minAmount
     }
   },
   methods: {
@@ -130,6 +126,9 @@ export default {
         }
       } else {
         this.amount *= number;
+        if (this.amount < supportCoin[this.activeToken].minAmount) {
+          this.amount = supportCoin[this.activeToken].minAmount;
+        }
       }
     },
     getMax() {
