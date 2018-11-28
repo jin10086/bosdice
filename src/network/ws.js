@@ -12,7 +12,8 @@ const client = new EoswsClient(
   )
 );
 
-function handleData(message) {
+/**
+function handleData1(message) {
   switch (message.type) {
     case InboundMessageType.ACTION_TRACE:
       switch (message.req_id) {
@@ -65,10 +66,48 @@ function handleData(message) {
       break;
   }
 }
+*/
 
-export { client, handleData };
+function handleData(message) {
+  if (message.type !== InboundMessageType.LISTENING && message.type !== InboundMessageType.ERROR){
+    switch (message.req_id) {
+      case "dice-auction":
+        if (message.data.rows.length !== 0) {
+          return message.data.rows[0].json;
+        }
+        break;
+      case "dice-rich":
+        if (message.data) {
+          return message.data.rows;
+        }
+        break;
+      case "dice-rich-my":
+        if (message.data) {
+          return message.data.rows;
+        }
+        break;
+      case "fomo-pot":
+        if (message.type === InboundMessageType.TABLE_DELTA) {
+          return message.data.dbop.new;
+        }
+        if (message.data.rows.length !== 0) {
+          return message.data.rows[0];
+        }
+        break;
+      case "roll_result":
+        console.log(message, 'handleWS');
+        const block_time = message.data.trace.block_time.split("T")[1].split(".")[0];
+        const action = message.data.trace.act.data.result;
+        action["block_time"] = block_time;
+        return action;
+    }
+  } else if (message.type === InboundMessageType.ERROR) {
+    const error = message.data;
+    console.log(`Received error: ${error.message} (${error.code})`, error.details);
+  }
+}
 
-
+export { client, handleData }
 /**
  * client 使用方法
  * handleData 是处理原始数据的函数，不想在这里处理，可以直接在vue文件中直接处理
@@ -76,4 +115,4 @@ export { client, handleData };
  * getActionTraces()、getTableRows(),这两个函数都可以有两个参数，前面是data,后面是options
  * options可以指定req_id、fetch(默认是listen)
  * data是参数
- */
+*/
