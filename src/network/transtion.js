@@ -116,11 +116,11 @@ export function api(coinType, action, data, vm) {
   // coinType 表示 押注使用的代币
   vm.$message.info("等待交易确认");
   if (data.quantity) {
-    data.quantity = Number(data.quantity).toFixed(4) + " " + supportCoin[coinType].symbol;
     if (data.quantity < supportCoin[coinType].minAmount) {
       vm.$message(`交易金额不能小于${supportCoin[coinType].minAmount} ${supportCoin[coinType].symbol}`)
       return;
     }
+    data.quantity = Number(data.quantity).toFixed(4) + " " + supportCoin[coinType].symbol;
   }
   if (scatter) {
     const eos = scatter.eos(network, Eos, {});
