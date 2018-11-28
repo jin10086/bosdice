@@ -92,6 +92,11 @@ export default {
   watch: {
     activeToken() {
       this.getMax();
+    },
+    amount(newValue) {
+      if(newValue < 0.5) {
+        this.amount = 0.5;
+      }
     }
   },
   methods: {
@@ -120,8 +125,8 @@ export default {
     },
     changeAmount(number) {
       if (number === 3) {
-        if (this.totalAmount) {
-          this.amount = this.totalAmount;
+        if (this.username) {
+          this.amount = this.activeToken === 'eos' ? this.eosBalance : this.otherToken;
         }
       } else {
         this.amount *= number;
@@ -144,7 +149,7 @@ export default {
         if (this.activeToken === 'eos' && this.$store.state.fomoPool) {
           this.totalAmount -= Number(this.$store.state.fomoPool.split(" ")[0]);
         }
-        this.totalAmount = Number(this.totalAmount/10).toFixed(4);
+        this.totalAmount = (Number(this.totalAmount) / 100).toFixed(4);
       });
     }
   },
