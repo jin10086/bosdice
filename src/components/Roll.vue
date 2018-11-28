@@ -60,7 +60,7 @@ export default {
     return {
       roll: 50,
       amount: 0.5,
-      maxAmount: 0
+      totalAmount: 0
     };
   },
   components: {
@@ -145,6 +145,11 @@ export default {
               this.totalAmount = Number(item.balance.split(" ")[0]);
             }
           });
+          if(!res.rows.some(item => {
+            return item.balance.split(" ")[1] === this.activeToken.toUpperCase();
+          })) {
+            this.totalAmount = 0;
+          }
         }
         if (this.activeToken === 'eos' && this.$store.state.fomoPool) {
           this.totalAmount -= Number(this.$store.state.fomoPool.split(" ")[0]);
