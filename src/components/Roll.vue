@@ -78,9 +78,7 @@ export default {
     },
     getref() {
       let url = new URL(location.href);
-      console.log(url);
       let ref = url.searchParams.get("ref");
-      console.log(ref, 22)
       if (ref) {
         return ref;
       } else {
@@ -356,6 +354,7 @@ export default {
     line-height: 48px;
     display: flex;
     .symbol {
+      margin-left: 0.7em;
       font-size: 0.7em;
       color: rgb(153, 153, 153);
     }

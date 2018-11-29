@@ -55,7 +55,6 @@ export default new Vuex.Store({
       }
       */
       let num = 0.0000;
-      console.log(supportCoin[(payload.type)].contract, 'contract');
       restApi.getTableRows({
         code: supportCoin[(payload.type)].contract,
         table: 'accounts',

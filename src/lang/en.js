@@ -113,10 +113,22 @@ export default {
   <li>** Contract code has been verified in eospark, please click to <a href="https://eospark.com/MainNet/contract/bocai.game" target="_blank">view</a></li>
   </div>
     `,
+  vipContent: `
+  <div class="vip-content">
+  <h1>VIP</h1>
+  <p>As a VIP, you will receive a bonus on all bets you place in any games on our platform. The higher your VIP Level, the greater your rewards! The VIP Bonus is paid directly to your "Account Balance".</p>
 
-
-
-
+  <li>1VIP-1: 1,000 EOSget 0.01% Bonus</li>
+  <li>2VIP-2: 5,000 EOSget 0.02% Bonus</li>
+  <li>3VIP-3: 10,000 EOSget 0.03% Bonus</li>
+  <li>4VIP-4: 50,000 EOSget 0.04% Bonus</li>
+  <li>5VIP-5: 100,000 EOSget 0.05% Bonus</li>
+  <li>6VIP-6: 500,000 EOSget 0.07% Bonus</li>
+  <li>7VIP-7: 1,000,000 EOSget 0.09% Bonus</li>
+  <li>8VIP-8: 5,000,000 EOSget 0.11% Bonus</li>
+  <li>9VIP-9: 10,000,000 EOSget 0.13% Bonus</li>
+  <li>10VIP-10: 50,000,000 EOSget 0.15% Bonus</li>
+  </div>`
   },
   order: {
     all: "ALL BETS",

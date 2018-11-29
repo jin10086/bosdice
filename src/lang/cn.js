@@ -39,7 +39,7 @@ export default {
 
 
 
-    vipConetent:`
+    vipContent:`
     <div class="vip-content">
     <h1>VIP</h1>
     <p>作为VIP，您将在我们平台上的任何游戏中获得所有投注的奖金。贵宾等级越高，奖励越多！VIP奖金会直接打到你的账号</p>

@@ -110,7 +110,6 @@ export default {
       if (mes) {
         that.diceJson = mes;
       }
-      console.log(mes, 11)
     });
   },
 

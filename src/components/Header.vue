@@ -301,7 +301,6 @@ export default {
             json: true
           })
           .then(res => {
-            console.log(res, "voters");
             if (res.rows && res.rows.length !== 0) {
               this.currentStake = res.rows[0].staked / 10000;
               this.payout = res.rows[0].payout;
@@ -330,7 +329,7 @@ export default {
     openVip() {
       this.$msgbox({
         title: " ",
-        message: this.$t("header.vipConetent"),
+        message: this.$t("header.vipContent"),
         callback: () => {},
         showConfirmButton: false,
         dangerouslyUseHTMLString: true,
