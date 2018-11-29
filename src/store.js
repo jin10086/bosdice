@@ -54,7 +54,7 @@ export default new Vuex.Store({
         type: bocai
       }
       */
-      let num = 0.0000;
+      let num = '0.0000';
       restApi.getTableRows({
         code: supportCoin[(payload.type)].contract,
         table: 'accounts',
