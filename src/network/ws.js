@@ -69,9 +69,9 @@ function handleData1(message) {
 */
 
 function formateTime(utc) {
-  utc = utc + 'Z';
-  const time = new Date();
-  return time.getHours+ ':' + time.getMinutes()+ ':' + time.getSeconds();
+   let localTime = new Date(utc + "Z").toTimeString();
+   localTime = localTime.split(" ")[0];
+   return localTime;
 }
 
 function handleData(message) {
