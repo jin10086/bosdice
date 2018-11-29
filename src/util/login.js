@@ -12,7 +12,7 @@ export function login(ctx) {
       account: account
     });
     ctx.$message({
-      message: "登录成功",
+      message: "login success",
       type: "success"
     });
     ctx.$store.dispatch("UPDATE_EOS_ASYNC");
