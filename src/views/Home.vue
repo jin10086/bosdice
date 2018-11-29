@@ -29,7 +29,7 @@
       <component :is="currentComponent" class="mobile-show" v-bind="currentProp"></component>
       </div>
     </div>
-    <dice-order></dice-order>
+    <dice-order :activeToken="activeToken"></dice-order>
   </div>
 </template>
 

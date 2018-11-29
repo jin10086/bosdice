@@ -93,7 +93,7 @@ export default {
       }
     }
   },
-
+  props: ["activeToken"],
   watch: {
     allBets(newValue) {
       if (this.username) {
@@ -128,6 +128,10 @@ export default {
       const mes = handleData(message);
       if (this.username) {
         if (mes.player === this.username) {
+          this.$store.dispatch("UPDATE_EOS_ASYNC");
+          this.$store.dispatch("UPDATE_TOKEN_ASYNC", {
+            type: this.activeToken === "eos" ? "bocai" : this.activeToken
+          });
           if(mes.random_roll < mes.roll_under) {
             this.$message.success(this.$t("order.win", {
               random: mes.random_roll,

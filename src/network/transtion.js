@@ -117,10 +117,6 @@ export function api(coinType, action, data, vm) {
       }]
     }).then(() => {
       vm.$message.success(vm.$t("apiErrors.success"));
-      vm.$store.dispatch("UPDATE_EOS_ASYNC");
-      vm.$store.dispatch("UPDATE_TOKEN_ASYNC", {
-        type: coinType === "eos" ? "bocai" : coinType
-      });
     }).catch((err) => {
       vm.$message.error(handleError(err, vm));
     })
