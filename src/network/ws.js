@@ -101,7 +101,6 @@ function handleData(message) {
         }
         break;
       case "roll_result":
-        console.log(message, 'handleWS');
         const block_time = formateTime(message.data.trace.block_time);
         const action = message.data.trace.act.data.result;
         action["block_time"] = block_time;

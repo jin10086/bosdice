@@ -38,10 +38,8 @@
       <div class="roll-footer">
         <div class="eos">{{eosBalance }} <span class="symbol"> EOS</span></div>
         <div class="login-wrap">
-          <div class="login">
-            <span v-if="username" @click="doRoll">{{$t("roll.roll")}}</span>
-            <span v-else @click="login">{{$t("roll.login")}}</span>
-          </div>
+          <span v-if="username" @click="doRoll" class="login">{{$t("roll.roll")}}</span>
+          <span v-else @click="login" class="login">{{$t("roll.login")}}</span>
         </div>
         <div class="token">{{otherToken }} <span class="symbol"> {{showToekn.toUpperCase()}}</span> </div>
       </div>
@@ -391,5 +389,6 @@ export default {
   font-weight: 600;
   cursor: pointer;
   margin: 0 auto;
+  display: inline-block;
 }
 </style>

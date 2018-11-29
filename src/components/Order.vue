@@ -222,7 +222,6 @@ export default {
         td {
           color: #fff;
           font-size: 14px;
-          width: 15%;
           height: 45px;
           line-height: 45px;
           font-weight: bold;
