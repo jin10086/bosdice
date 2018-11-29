@@ -43,28 +43,25 @@ export default {
     <div class="vip-content">
     <h1>VIP</h1>
     <p>作为VIP，您将在我们平台上的任何游戏中获得所有投注的奖金。贵宾等级越高，奖励越多！VIP奖金会直接打到你的账号</p>
-    <li>1 VIP-1: 1,000 EOS赢取 0.01% 额外奖励</li>
-    <li>2 VIP-2: 5,000 EOS赢取 0.02% 额外奖励</li>
-    <li>3 VIP-3: 10,000 EOS赢取 0.03% 额外奖励</li>
-    <li>4 VIP-4: 50,000 EOS赢取 0.04% 额外奖励</li>
-    <li>5 VIP-5: 100,000 EOS赢取 0.05% 额外奖励</li>
-    <li>6 VIP-6: 500,000 EOS赢取 0.07% 额外奖励</li>
-    <li>7 VIP-7: 1,000,000 EOS赢取 0.09% 额外奖励</li>
-    <li>8 VIP-8: 5,000,000 EOS赢取 0.11% 额外奖励</li>
-    <li>9 VIP-9: 10,000,000 EOS赢取 0.13% 额外奖励</li>
-    <li>10 VIP-10: 50,000,000 EOS赢取 0.15% 额外奖励</li>
+    <p class="vip-level">您累计下注 {bet} EOS, 只需再玩 {need} EOS, 将升级到 VIP-{level}</p>
+    <li><span class="icon">1</span> <span class="rank">VIP-1: 1,000 EOS</span>赢取 0.01% 额外奖励</li>
+    <li><span class="icon">2</span> <span class="rank"> VIP-2: 5,000 EOS</span>赢取 0.02% 额外奖励</li>
+    <li><span class="icon">3</span> <span class="rank"> VIP-3: 10,000 EOS</span>赢取 0.03% 额外奖励</li>
+    <li><span class="icon">4</span> <span class="rank"> VIP-4: 50,000 EOS</span>赢取 0.04% 额外奖励</li>
+    <li><span class="icon">5</span> <span class="rank"> VIP-5: 100,000 EOS</span>赢取 0.05% 额外奖励</li>
+    <li><span class="icon">6</span> <span class="rank"> VIP-6: 500,000 EOS</span>赢取 0.07% 额外奖励</li>
+    <li><span class="icon">7</span> <span class="rank"> VIP-7: 1,000,000 EOS</span>赢取 0.09% 额外奖励</li>
+    <li><span class="icon">8</span> <span class="rank"> VIP-8: 5,000,000 EOS</span>赢取 0.11% 额外奖励</li>
+    <li><span class="icon">9</span> <span class="rank"> VIP-9: 10,000,000 EOS</span>赢取 0.13% 额外奖励</li>
+    <li><span class="icon">10</span> <span class="rank"> VIP-10: 50,000,000 EOS</span>赢取 0.15% 额外奖励</li>
     <div>
     `,
-    roadMap: `
-    <div class="road-map">
-      <h1>路线图</h1>
-      <li>11-22 - 11-29 BOCAI可以玩DICE,并接入其他代币，如TPT,MEETONE等等</li>
-      <li>11-29 - 12-06 JACKS游戏转移到BOCAI,JACKS代币按照比率转为BOCAI,大户竞技场开启,拍卖JKR改成使用BOCAI拍卖。
-      对于JACKS游戏中,明知道系统BUG,却拼命利用BUG获取EOS代币的玩家，经过我们内部讨论，觉得该行为和 利用随机数BUG，盗取EOS的行为一致，我们会申请仲裁。对于无意中触发BUG行为的用户，我们不会追究。</li>
-      <li>12-06 - 12-13新游戏开发与测试</li>
-      <li>12-13 - 12-15 新游戏上线</li>
-    </div>
-    `,
+    roadTitle: "路线图",
+    road1: "BOCAI可以玩DICE,并接入其他代币，如TPT,MEETONE等等",
+    road2: `JACKS游戏转移到BOCAI,JACKS代币按照比率转为BOCAI,大户竞技场开启,拍卖JKR改成使用BOCAI拍卖。<br />
+    对于JACKS游戏中,明知道系统BUG,却拼命利用BUG获取EOS代币的玩家，经过我们内部讨论，觉得该行为和 利用随机数BUG，盗取EOS的行为一致，我们会申请仲裁。对于无意中触发BUG行为的用户，我们不会追究。`,
+    road3: "新游戏开发与测试",
+    road4: "新游戏上线",
     token: `
     <div class="token-intro">
     <h1>TOKEN介绍</h1>
@@ -74,7 +71,7 @@ export default {
     <li> 2. 社区奖励3％</li>
     <li> 3. 2％的开发者</li>
     <li> 4. 挖矿90％</li>
-    <hr>
+    <hr />
     <p>出售token</p>
     <p> 1EOS = 10000 BOCAI </p>
     <p>一共需要多少EOS：8800000000 * 5％/ 10000 = 44000 EOS </p>

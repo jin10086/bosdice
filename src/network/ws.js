@@ -68,6 +68,12 @@ function handleData1(message) {
 }
 */
 
+function formateTime(utc) {
+  utc = utc + 'Z';
+  const time = new Date();
+  return time.getHours+ ':' + time.getMinutes()+ ':' + time.getSeconds();
+}
+
 function handleData(message) {
   if (message.type !== InboundMessageType.LISTENING && message.type !== InboundMessageType.ERROR){
     switch (message.req_id) {
@@ -96,7 +102,7 @@ function handleData(message) {
         break;
       case "roll_result":
         console.log(message, 'handleWS');
-        const block_time = message.data.trace.block_time.split("T")[1].split(".")[0];
+        const block_time = formateTime(message.data.trace.block_time);
         const action = message.data.trace.act.data.result;
         action["block_time"] = block_time;
         return action;

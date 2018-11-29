@@ -11,7 +11,7 @@
             @click="window.open('https://deltadex.io/embed/eosdicevip/eosbocai1111-BOCAI', '_self')"
           >{{$t("header.exchange")}}</el-button>
           <el-button type="text" @click="openVip">VIP</el-button>
-          <el-button type="text" @click="openRoadMap">{{$t("header.Roadmap")}}</el-button>
+          <el-button type="text" @click="roadmapDialog=true">{{$t("header.Roadmap")}}</el-button>
           <el-button type="text" @click="divideDialog = true">{{$t("header.PayoutPool")}}</el-button>
           <el-button type="text" @click="openToken">{{$t("header.tokenDetail")}}</el-button>
           <el-button type="text" @click="openHowto">{{$t("header.howtoplay")}}</el-button>
@@ -69,7 +69,7 @@
           @click="window.open('https://deltadex.io/embed/eosdicevip/eosbocai1111-BOCAI')"
         >{{$t("header.exchange")}}</el-button>
         <el-button type="text" @click="openVip">VIP</el-button>
-        <el-button type="text" @click="openRoadMap">{{$t("header.Roadmap")}}</el-button>
+        <el-button type="text" @click="roadmapDialog= true">{{$t("header.Roadmap")}}</el-button>
         <el-button type="text" @click="divideDialog = true">{{$t("header.PayoutPool")}}</el-button>
         <el-button type="text" @click="openToken">{{$t("header.tokenDetail")}}</el-button>
         <el-button type="text" @click="openHowto">{{$t("header.howtoplay")}}</el-button>
@@ -78,11 +78,24 @@
       </div>
     </transition>
     <!-- dialog -->
+    <!-- RoadMap 开始 -->
+    <el-dialog custom-class="custom-class" :visible.sync="roadmapDialog" class="road-map">
+      <h1>{{$t("header.roadTitle")}}</h1>
+      <el-steps direction="vertical" :active="1">
+        <el-step title="11.22-11.29"><div slot="description">{{$t("header.road1")}}</div></el-step>
+        <el-step title="11.29-12.06"><div slot="description">{{$t("header.road2")}}</div>
+        </el-step>
+        <el-step title="12.06-12.13" process-status="process"> <div slot="description">{{$t("header.road3")}}</div></el-step>
+        <el-step title="12.13-12.15" process-status="process"> <div slot="description">{{$t("header.road4")}}</div></el-step>
+      </el-steps>
+    </el-dialog>
+    <!-- RoadMap 结束 -->
     <!-- token 开始-->
     <el-dialog custom-class="custom-class" :visible.sync="tokenDialog">
       <div v-html="$t('header.token')"></div>
     </el-dialog>
     <!-- token 结束 -->
+
     <!-- 分红池 开始 -->
     <el-dialog custom-class="divide-class" :visible.sync="divideDialog">
       <div class="title">
@@ -175,6 +188,7 @@ export default {
       // dialogs
       tokenDialog: false,
       divideDialog: false,
+      roadmapDialog: false,
       // 是否在分红池选项
       tab1: true,
       // 历史总分红
@@ -197,7 +211,10 @@ export default {
       myBocai: "0.0000",
       // 质押
       stake: "",
-      redeem: ""
+      redeem: "",
+      // 我的累计下注
+      myAllbet: '0.0000',
+      nextLevel: 1
     };
   },
   watch: {
@@ -205,6 +222,11 @@ export default {
       if (newValue) {
         this.updateDivide();
         this.bocaiAmount();
+      }
+    },
+    username(newValue) {
+      if(newValue) {
+        this.getMyEosBet();
       }
     }
   },
@@ -327,21 +349,14 @@ export default {
       this.$message.success(this.$t("header.logout"));
     },
     openVip() {
+      this.getMyEosBet();
       this.$msgbox({
         title: " ",
-        message: this.$t("header.vipContent"),
-        callback: () => {},
-        showConfirmButton: false,
-        dangerouslyUseHTMLString: true,
-        showClose: true,
-        lockScroll: false,
-        customClass: "custom-class"
-      });
-    },
-    openRoadMap() {
-      this.$msgbox({
-        title: " ",
-        message: this.$t("header.roadMap"),
+        message: this.$t("header.vipContent", {
+          bet: this.myAllbet,
+          need: this.nextLevelAmount,
+          level: this.nextLevel
+        }),
         callback: () => {},
         showConfirmButton: false,
         dangerouslyUseHTMLString: true,
@@ -475,6 +490,20 @@ export default {
             });
           });
       }
+    },
+    getMyEosBet() {
+      if (this.username) {
+        restApi.getTableRows({
+            json: true,
+            code: "eosbocai2222",
+            table: "users1",
+            scope: this.username
+          }).then(res => {
+            if (res.rows[0]) {
+              this.myAllbet = res.rows[0].amount.slice(0, -4);
+            }
+          });
+      }
     }
   },
   computed: {
@@ -498,7 +527,42 @@ export default {
     },
     mostRedeem() {
       return this.$t("header.maxcanunstake") + `${Number(this.currentStake).toFixed(4)} BOCAI`;
-    }
+    },
+    nextLevelAmount() {
+      let amount = 0;
+      if (this.myAllbet < 1000) {
+        amount = 1000 - this.myAllbet;
+        this.nextLevel = 1;
+      } else if (this.myAllbet < 5000) {
+        amount = 5000 - this.myAllbet;
+        this.nextLevel = 2;
+      } else if (this.myAllbet < 10000) {
+        amount = 10000 - this.myAllbet;
+        this.nextLevel = 3;
+      } else if (this.myAllbet < 50000) {
+        amount = 50000 - this.myAllbet;
+        this.nextLevel = 4;
+      } else if (this.myAllbet < 100000) {
+        amount = 100000 - this.myAllbet;
+        this.nextLevel = 5;
+      } else if (this.myAllbet < 500000) {
+        amount = 500000 - this.myAllbet;
+        this.nextLevel = 6;
+      } else if (this.myAllbet < 1000000) {
+        amount = 1000000 - this.myAllbet;
+        this.nextLevel = 7;
+      } else if (this.myAllbet < 5000000) {
+        amount = 5000000 - this.myAllbet;
+        this.nextLevel = 8;
+      } else if (this.myAllbet < 10000000) {
+        amount = 10000000 - this.myAllbet;
+        this.nextLevel = 9;
+      } else if (this.myAllbet < 50000000) {
+        amount = 50000000 - this.myAllbet;
+        this.nextLevel = 10;
+      }
+      return amount;
+    },
   },
   mounted() {
     this.getSubCirculate();
@@ -711,15 +775,24 @@ export default {
   color: #fff;
   text-align: left;
 }
+
 .vip-content,
 .road-map,
 .token-intro,
 .howto,
 .contact {
+  .vip-level {
+    background-image: linear-gradient(-90deg,#7c36d2,#f61c69);
+    border-radius: 10px;
+    box-shadow: 0 3px 8px 0 #5c1884;
+    margin: 10px 6px;
+    padding: 15px 20px;
+  }
   color: #fff;
   h1 {
     text-align: center;
     margin-bottom: 8px;
+    color: #fff;
   }
   p {
     font-weight: 600;
@@ -732,6 +805,20 @@ export default {
     font-size: 15px;
     font-weight: 600;
     letter-spacing: 0.5px;
+    .icon {
+      display: inline-block;
+      background: #f61c69;
+      border-radius: 50%;
+      height: 24px;
+      line-height: 24px;
+      margin-right: 8px;
+      text-align: center;
+      width: 24px;
+    }
+    .rank {
+      display: inline-block;
+      width: 200px;
+    }
   }
   a {
     color: #0191ee;
@@ -746,6 +833,18 @@ export default {
       width: 32px;
       cursor: pointer;
     }
+  }
+}
+
+.token-intro {
+  p, li {
+    margin-bottom: 10px;
+  }
+  hr {
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,.1);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
   }
 }
 

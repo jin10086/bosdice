@@ -10,7 +10,7 @@
     <div class="fomo">
       <div class="title">
         <span>{{$t("home.lastBuy")}}:{{lastBuyPerson}}</span>
-        <span>{{$t("home.countdown")}}:{{showEndTime}}</span>
+        <span class="mobile-on-margin">{{$t("home.countdown")}}:{{showEndTime}}</span>
         <span>{{$t("home.minAmount")}}:{{minAmount}}</span>
       </div>
       <div class="content">
@@ -160,14 +160,17 @@ export default {
 <style lang="less">
 .fomo {
   background-color: #1c233f;
-  width: 800px;
   padding: 15px 15px;
+  width: fit-content;
   margin: 0 auto;
   margin-top: 16px;
   .title {
     align-items: center;
     display: flex;
     justify-content: space-between;
+    span:nth-child(2) {
+      margin: 0 24px;
+    }
   }
   .content {
     text-align: center;
@@ -180,6 +183,9 @@ export default {
   display: none;
 }
 @media (max-width: 768px) {
+  .mobile-on-margin {
+    margin-left: 0 !important;
+  }
   .mobile-show {
     display: block;
   }

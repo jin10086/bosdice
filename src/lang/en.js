@@ -35,18 +35,11 @@ export default {
     stakefail:"stake cannot exceed the current BOCAI balance",
     unstakefail:"unstake cannot exceed the current BOCAI balance",
     logout:"logout success",
-    roadMap:`
-    <div class="road-map">
-    <h1>Road MAP</h1>
-    <li>11-22 - 11-29 BOCAI can play DICE and  other tokens such as TPT, MEETONE, etc.</li>
-    <li>
-    11-29 - 12-06  The JACKS game was transferred to BOCAI, the JACKS token was converted to BOCAI according to the ratio, the large arena opened, and the auction JKR was changed to use the BOCAI auction.
-  
-    </li>
-    <li>12-06 - 12-13  New game development and testing  </li>
-    <li>12-13 - 12-15  New game online  </li>
-    </div>
-    `,
+    roadTitle: "ROAD MAP",
+    road1: "BOCAI can play DICE and  other tokens such as TPT, MEETONE, etc.",
+    road2: `The JACKS game was transferred to BOCAI, the JACKS token was converted to BOCAI according to the ratio, the large arena opened, and the auction JKR was changed to use the BOCAI auction.`,
+    road3: "New game development and testing",
+    road4: "New game online",
     contact: `
     <div class="contact">
     <h1>Join the community</h1>
@@ -59,15 +52,13 @@ export default {
     `,
     token:`
     <div class="token-intro">
+    <h1>TOKEN DETAIL</h1>
     <p>Introduction</p>
     <p>Total tokens: 8,800,000,000</p>
-    
-        <ul>
-          <li>1. ICO 5% (eos pool)</li>
-          <li>2. Community incentives 3%</li>
-          <li>3. 2% developer</li>
-          <li>4. Mining 90% </li>
-        </ul>
+        <li>1. ICO 5% (eos pool)</li>
+        <li>2. Community incentives 3%</li>
+        <li>3. 2% developer</li>
+        <li>4. Mining 90% </li>
         <hr>
         <p>SELL TOKEN</p>
         <p>1EOS = 10000 BOCAI</p>
@@ -117,17 +108,17 @@ export default {
   <div class="vip-content">
   <h1>VIP</h1>
   <p>As a VIP, you will receive a bonus on all bets you place in any games on our platform. The higher your VIP Level, the greater your rewards! The VIP Bonus is paid directly to your "Account Balance".</p>
-
-  <li>1VIP-1: 1,000 EOSget 0.01% Bonus</li>
-  <li>2VIP-2: 5,000 EOSget 0.02% Bonus</li>
-  <li>3VIP-3: 10,000 EOSget 0.03% Bonus</li>
-  <li>4VIP-4: 50,000 EOSget 0.04% Bonus</li>
-  <li>5VIP-5: 100,000 EOSget 0.05% Bonus</li>
-  <li>6VIP-6: 500,000 EOSget 0.07% Bonus</li>
-  <li>7VIP-7: 1,000,000 EOSget 0.09% Bonus</li>
-  <li>8VIP-8: 5,000,000 EOSget 0.11% Bonus</li>
-  <li>9VIP-9: 10,000,000 EOSget 0.13% Bonus</li>
-  <li>10VIP-10: 50,000,000 EOSget 0.15% Bonus</li>
+  <p class="vip-level">Cumulative bets {bet} EOS, Just need {need} EOS more to level: VIP-{level}</p>
+  <li><span class="icon">1</span> <span class="rank">VIP-1: 1,000 EOS</span>get 0.01% Bonus</li>
+  <li><span class="icon">2</span> <span class="rank">VIP-2: 5,000 EOS</span>get 0.02% Bonus</li>
+  <li><span class="icon">3</span> <span class="rank">VIP-3: 10,000 EOS</span>get 0.03% Bonus</li>
+  <li><span class="icon">4</span> <span class="rank">VIP-4: 50,000 EOS</span>get 0.04% Bonus</li>
+  <li><span class="icon">5</span> <span class="rank">VIP-5: 100,000 EOS</span>get 0.05% Bonus</li>
+  <li><span class="icon">6</span> <span class="rank">VIP-6: 500,000 EOS</span>get 0.07% Bonus</li>
+  <li><span class="icon">7</span> <span class="rank">VIP-7: 1,000,000 EOS</span>get 0.09% Bonus</li>
+  <li><span class="icon">8</span> <span class="rank">VIP-8: 5,000,000 EOS</span>get 0.11% Bonus</li>
+  <li><span class="icon">9</span> <span class="rank">VIP-9: 10,000,000 EOS</span>get 0.13% Bonus</li>
+  <li><span class="icon">10</span> <span class="rank">VIP-10: 50,000,000 EOS</span>get 0.15% Bonus</li>
   </div>`
   },
   order: {

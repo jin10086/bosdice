@@ -19,7 +19,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr :class="{win: bet.random_roll < bet.roll_under, lose: !(bet.random_roll < bet.roll_under)}" v-for="(bet, index) in myBets" :key="index">
+            <tr :class="{win: bet.random_roll < bet.roll_under, lose: !(bet.random_roll < bet.roll_under)}" v-for="(bet, index) in allBets" :key="index">
               <td>{{bet.block_time}}</td>
               <td>{{bet.player}}</td>
               <td>{{bet.roll_under}}</td>
@@ -43,7 +43,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr :class="{win: bet.random_roll < bet.roll_under, lose: !(bet.random_roll < bet.roll_under)}" v-for="(bet, index) in allBets" :key="index">
+            <tr :class="{win: bet.random_roll < bet.roll_under, lose: !(bet.random_roll < bet.roll_under)}" v-for="(bet, index) in myBets" :key="index">
               <td>{{bet.block_time}}</td>
               <td>{{bet.player}}</td>
               <td>{{bet.roll_under}}</td>
