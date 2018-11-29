@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "deploy": "vue-cli-service build && gh-pages -d dist"
+    "deploy": "vue-cli-service build && echo 'eosdice.vip' >> ./dist/CNAME && gh-pages -d dist"
   },
   "dependencies": {
     "@dfuse/eosws-js": "^0.11.4",
