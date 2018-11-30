@@ -22,12 +22,17 @@ const i18n = {
 import ScatterJS from "scatterjs-core";
 import ScatterEOS from "scatterjs-plugin-eosjs";
 ScatterJS.plugins(new ScatterEOS());
-ScatterJS.scatter.connect("https://jacks.eosdice.vip").then(connected => {
+ScatterJS.scatter.connect("https://eosdice.vip").then(connected => {
   if (!connected) {
-    console.log("scatter error");
+    if (!window.localStorage.getItem("dicelang") || window.localStorage.getItem("dicelang") === "en"){
+      alert("Fail to connect to Scatter Wallet");
+    } else {
+      alert("Scatter钱包连接失败");
+    }
     return;
   }
   console.log(connected, 'ee')
+  window.scatter = ScatterJS.scatter;
   if (!scatter.identify) return;
   const account = scatter.identify.accounts.find(
     account => account.blochchain === "eos"
