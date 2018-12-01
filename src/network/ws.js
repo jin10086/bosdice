@@ -102,9 +102,12 @@ function handleData(message) {
         break;
       case "roll_result":
         const block_time = formateTime(message.data.trace.block_time);
-        const action = message.data.trace.act.data.result;
-        action["block_time"] = block_time;
-        return action;
+        if(message.data.trace.act.data.result) {
+          const action = message.data.trace.act.data.result;
+          action["block_time"] = block_time;
+          return action;
+        }
+        break;
     }
   } else if (message.type === InboundMessageType.ERROR) {
     const error = message.data;

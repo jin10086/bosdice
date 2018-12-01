@@ -126,7 +126,7 @@ export default {
     this.ws_identify.onMessage(message => {
       if(handleData(message)) _this.allBets.unshift(handleData(message));
       const mes = handleData(message);
-      if (this.username) {
+      if (this.username && mes) {
         if (mes.player === this.username) {
           this.$store.dispatch("UPDATE_EOS_ASYNC");
           this.$store.dispatch("UPDATE_TOKEN_ASYNC", {
