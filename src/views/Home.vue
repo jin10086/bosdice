@@ -61,7 +61,9 @@ export default {
       showEndTime: "",
       fomopool: "",
       currentComponent: "dice-roll",
-      announcementDialog: true
+      announcementDialog: false,
+      // 毫秒
+      announcementEndTime: 1543729427000
     };
   },
   components: {
@@ -158,6 +160,10 @@ export default {
     setInterval(()=> {
       _this.countDown();
     }, 1000);
+    let current = new Date().getTime();
+    if (this.announcementEndTime >= current) {
+      this.announcementDialog = true;
+    }
   }
 };
 </script>
@@ -173,7 +179,7 @@ export default {
 }
 @media (max-width: 768px) {
   .announcement-class {
-    width: 90%;
+    width: 90%!important;
   }
 }
 .fomo {
