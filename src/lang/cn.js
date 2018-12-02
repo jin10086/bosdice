@@ -182,5 +182,8 @@ export default {
     minAmount: "参与FOMO最低投注金额",
     fomoPot: "FOMO 奖池",
     next: "等待下一局开始"
-  }
+  },
+  announcement:"由于分红金额比较少，改为每周日晚上8点开始分红.",
+  "announcementTitle":"公告"
+
 }

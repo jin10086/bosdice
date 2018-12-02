@@ -173,5 +173,8 @@ export default {
     minAmount: "Min bet amount for FOMO",
     fomoPot: "FOMO POT",
     next: "Wait for next game"
-  }
+  },
+  announcement:"Since the amount of dividends is relatively small, the dividend will be changed to 8:00 pm every Sunday.",
+  "announcementTitle":"announcement"
+
 }

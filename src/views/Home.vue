@@ -31,8 +31,8 @@
     </div>
     <dice-order :activeToken="activeToken"></dice-order>
     <el-dialog :visible.sync="announcementDialog" custom-class="announcement-class">
-      <h2 slot="title">公告</h2>
-      <p class="announce-content">公告</p>
+      <h2 slot="title">{{$t("announcementTitle")}}</h2>
+      <p class="announce-content">{{ $t("announcement") }}</p>
     </el-dialog>
   </div>
 </template>
@@ -63,7 +63,7 @@ export default {
       currentComponent: "dice-roll",
       announcementDialog: false,
       // 毫秒
-      announcementEndTime: 1543729427000
+      announcementEndTime: 1543924800000
     };
   },
   components: {
