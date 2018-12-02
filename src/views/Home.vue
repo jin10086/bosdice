@@ -30,6 +30,10 @@
       </div>
     </div>
     <dice-order :activeToken="activeToken"></dice-order>
+    <el-dialog :visible.sync="announcementDialog" custom-class="announcement-class">
+      <h2 slot="title">公告</h2>
+      <p class="announce-content">公告</p>
+    </el-dialog>
   </div>
 </template>
 
@@ -56,7 +60,8 @@ export default {
       lastBuyPerson: "",
       showEndTime: "",
       fomopool: "",
-      currentComponent: "dice-roll"
+      currentComponent: "dice-roll",
+      announcementDialog: true
     };
   },
   components: {
@@ -158,6 +163,19 @@ export default {
 </script>
 
 <style lang="less">
+.announcement-class {
+  background: linear-gradient(to bottom right, #5f00ff, #ec6e42) !important;
+  color: white !important;
+}
+.announce-content {
+  text-align: left;
+  color: white!important;
+}
+@media (max-width: 768px) {
+  .announcement-class {
+    width: 90%;
+  }
+}
 .fomo {
   background-color: #1c233f;
   padding: 15px 15px;
