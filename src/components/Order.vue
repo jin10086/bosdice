@@ -97,10 +97,8 @@ export default {
   watch: {
     allBets(newValue) {
       if (this.username) {
-        this.myBets = newValue.map(item => {
-          if(item.player === this.username) {
-            return item;
-          }
+        this.myBets = newValue.filter(item => {
+          return item.player === this.username;
         })
         if (this.myBets.length === 31) {
           this.myBets.shift();
