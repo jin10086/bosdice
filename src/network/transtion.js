@@ -3,14 +3,14 @@ import Eos from "eosjs";
 
 export const network = {
   blockchain: "eos",
-  host: "api1.eosasia.one",
+  host: "api.eosbeijing.one",
   port: 443,
   protocol: "https",
   chainId: "aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906"
 }
 
 export const restApi = Eos({
-  httpEndpoint: `${network.protocol}://${network.host}:${network.port}`,
+  httpEndpoint: `${network.protocol}://proxy.eosnode.tools:${network.port}`,
   chainId: network.chainId
 })
 
