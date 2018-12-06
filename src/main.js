@@ -32,7 +32,7 @@ ScatterJS.scatter.connect("https://eosdice.vip").then(connected => {
     return;
   }
   window.scatter = ScatterJS.scatter;
-  if (window.scatter) {
+  if (window.scatter.identity) {
     const account = window.scatter.identity.accounts.find(
       account => account.blockchain === "eos"
     );

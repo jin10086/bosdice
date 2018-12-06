@@ -108,6 +108,7 @@ export default {
         this.$store.dispatch("UPDATE_TOKEN_ASYNC", {
           type: newValue === "eos" ? "bocai" : this.token
         });
+        this.$store.dispatch("UPDATE_EOS_ASYNC");
       }
     }
   },
