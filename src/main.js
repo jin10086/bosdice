@@ -31,16 +31,16 @@ ScatterJS.scatter.connect("https://eosdice.vip").then(connected => {
     }
     return;
   }
-  console.log(connected, 'ee')
   window.scatter = ScatterJS.scatter;
-  if (!scatter.identify) return;
-  const account = scatter.identify.accounts.find(
-    account => account.blochchain === "eos"
-  );
-  if (!account) return;
-  this.$store.commit("UPDATE_ACCOUNT", {
-    account: account
-  });
+  if (window.scatter) {
+    const account = window.scatter.identity.accounts.find(
+      account => account.blockchain === "eos"
+    );
+    if (!account) return;
+    store.commit("UPDATE_ACCOUNT", {
+      account: account
+    });
+  }
 });
 
 Vue.config.productionTip = false
