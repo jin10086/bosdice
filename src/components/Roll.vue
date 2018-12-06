@@ -97,14 +97,14 @@ export default {
     },
     doRoll() {
       if(this.totalAmount) {
-        // if (this.activeToken === 'eos' && this.amount > this.eosBalance) {
-        //   this.$message.info(this.$t("roll.noEos"));
-        //   return;
-        // }
-        // if (this.amount > this.otherToken) {
-        //   this.$message.info(this.$t("roll.noToken", {token: this.activeToken.toUpperCase()}));
-        //   return;
-        // }
+        if (this.activeToken === 'eos' && this.amount > this.eosBalance) {
+          this.$message.info(this.$t("roll.noEos"));
+          return;
+        }
+        if (this.amount > this.otherToken) {
+          this.$message.info(this.$t("roll.noToken", {token: this.activeToken.toUpperCase()}));
+          return;
+        }
         if (this.winAmout <= this.totalAmount) {
           api(
             this.activeToken,
