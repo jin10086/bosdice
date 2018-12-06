@@ -346,6 +346,7 @@ export default {
       this.$store.commit("UPDATE_ACCOUNT", {
         account: ""
       });
+      scatter.forgetIdentity();
       this.$message.success(this.$t("header.logout"));
     },
     openVip() {
