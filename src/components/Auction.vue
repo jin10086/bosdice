@@ -92,25 +92,25 @@ export default {
     }
   },
   mounted() {
-    const that = this;
-    setInterval(() => {
-      that.countDown()
-    }, 1000);
-    this.ws_identify = this.$ws.getTableRows(
-      {
-        code: "eosbocaijack",
-        scope: "eosbocaijack",
-        table: "jks",
-        json: true
-      },
-      { req_id: "dice-auction" , fetch: true}
-    );
-    this.ws_identify.onMessage(message => {
-      const mes = handleData(message);
-      if (mes) {
-        that.diceJson = mes;
-      }
-    });
+    // const that = this;
+    // setInterval(() => {
+    //   that.countDown()
+    // }, 1000);
+    // this.ws_identify = this.$ws.getTableRows(
+    //   {
+    //     code: "eosbocaijack",
+    //     scope: "eosbocaijack",
+    //     table: "jks",
+    //     json: true
+    //   },
+    //   { req_id: "dice-auction" , fetch: true}
+    // );
+    // this.ws_identify.onMessage(message => {
+    //   const mes = handleData(message);
+    //   if (mes) {
+    //     that.diceJson = mes;
+    //   }
+    // });
   },
 
   destroyed() {

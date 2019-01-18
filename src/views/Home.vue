@@ -7,7 +7,7 @@
         <div class="mobile-none">{{coin.symbol}}</div>
       </div>
     </div>
-    <div class="fomo">
+    <!-- <div class="fomo">
       <div class="title">
         <span>{{$t("home.lastBuy")}}:{{lastBuyPerson}}</span>
         <span class="mobile-on-margin">{{$t("home.countdown")}}:{{showEndTime}}</span>
@@ -16,7 +16,7 @@
       <div class="content">
         <span>{{$t("home.fomoPot")}}:{{fomopool}}</span>
       </div>
-    </div>
+    </div> -->
     <div class="main">
       <!-- <dice-rich></dice-rich> -->
       <dice-roll :activeToken="activeToken" :showToekn="token"></dice-roll>

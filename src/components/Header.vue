@@ -544,7 +544,7 @@ export default {
     },
   },
   mounted() {
-    this.getSubCirculate();
+    // this.getSubCirculate();
     restApi
       .getTableRows({
         json: true,

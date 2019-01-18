@@ -8,11 +8,11 @@
 export default {
   name: "about",
   mounted() {
-    this.$ws
-      .getTableRows({ code: "eosbocaijack", scope: "eosbocaijack", table: "fomo", json: true },{fetch: true})
-      .onMessage(message => {
-        console.log(message, "about");
-      });
+    // this.$ws
+    //   .getTableRows({ code: "eosbocaijack", scope: "eosbocaijack", table: "fomo", json: true },{fetch: true})
+    //   .onMessage(message => {
+    //     console.log(message, "about");
+    //   });
   }
 };
 </script>
