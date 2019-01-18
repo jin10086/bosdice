@@ -140,8 +140,8 @@ export default {
     const _this = this;
     this.ws_identify = this.$ws.getTableRows(
       {
-        code: "bocai.game",
-        scope: "bocai.game",
+        code: "bosdiceadmin",
+        scope: "bosdiceadmin",
         table: "global",
         json: true
       },

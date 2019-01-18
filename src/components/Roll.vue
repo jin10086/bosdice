@@ -111,7 +111,7 @@ export default {
             "transfer",
             {
               from: this.$store.state.account.name,
-              to: "bocai.game",
+              to: "bosdiceadmin",
               quantity: this.amount,
               memo: `dice-${new Date().getTime()}-${this.roll}-${this.getref}`
             },
@@ -139,7 +139,7 @@ export default {
       restApi.getTableRows({
         code: supportCoin[this.activeToken].contract,
         table: 'accounts',
-        scope: 'bocai.game',
+        scope: 'bosdiceadmin',
         json: true
       }).then(res => {
         if (res && res.rows) {

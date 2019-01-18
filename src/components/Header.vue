@@ -6,14 +6,14 @@
         <div class="mobile-none">
           <!-- <el-button type="text" @click="(window.open('https://jacks.eosdice.vip'))">EOSJACKS</el-button> -->
           <!-- <el-button type="text">历史公告</el-button> -->
-          <el-button
+          <!-- <el-button
             type="text"
-            @click="window.open('https://deltadex.io/embed/eosdicevip/eosbocai1111-BOCAI', '_self')"
-          >{{$t("header.exchange")}}</el-button>
-          <el-button type="text" @click="openVip">VIP</el-button>
-          <el-button type="text" @click="roadmapDialog=true">{{$t("header.Roadmap")}}</el-button>
-          <el-button type="text" @click="divideDialog = true">{{$t("header.PayoutPool")}}</el-button>
-          <el-button type="text" @click="openToken">{{$t("header.tokenDetail")}}</el-button>
+            @click="window.open('https://deltadex.io/embed/eosdicevip/bosdicetokem-BOCAI', '_self')"
+          >{{$t("header.exchange")}}</el-button> -->
+          <!-- <el-button type="text" @click="openVip">VIP</el-button> -->
+          <!-- <el-button type="text" @click="roadmapDialog=true">{{$t("header.Roadmap")}}</el-button> -->
+          <!-- <el-button type="text" @click="divideDialog = true">{{$t("header.PayoutPool")}}</el-button> -->
+          <!-- <el-button type="text" @click="openToken">{{$t("header.tokenDetail")}}</el-button> -->
           <el-button type="text" @click="openHowto">{{$t("header.howtoplay")}}</el-button>
           <el-button type="text" @click="inviteFriend=true">{{$t("header.Referrals")}}</el-button>
           <el-button type="text" style="margin: 0 10px;" @click="openContact">{{$t("header.Social")}}</el-button>
@@ -66,7 +66,7 @@
         <!-- <el-button type="text">历史公告</el-button> -->
         <el-button
           type="text"
-          @click="window.open('https://deltadex.io/embed/eosdicevip/eosbocai1111-BOCAI')"
+          @click="window.open('https://deltadex.io/embed/eosdicevip/bosdicetokem-BOCAI')"
         >{{$t("header.exchange")}}</el-button>
         <el-button type="text" @click="openVip">VIP</el-button>
         <el-button type="text" @click="roadmapDialog= true">{{$t("header.Roadmap")}}</el-button>
@@ -252,7 +252,7 @@ export default {
         return;
       }
       if (this.stake <= this.myBocai) {
-        eosTransaction("eosbocai1111", "transfer", {
+        eosTransaction("bosdicetokem", "transfer", {
           from: this.username,
           to: "eosbocaidivi",
           quantity: `${(+this.stake).toFixed(4)} BOCAI`,
@@ -399,86 +399,64 @@ export default {
       });
     },
     // 需要減去的BOCAI
-    getSubCirculate() {
-      const _this = this;
-      Promise.all([
-        restApi.getTableRows({
-          json: true,
-          code: "eosbocai1111",
-          table: "accounts",
-          scope: "eosbocaicomm"
-        }),
-        restApi.getTableRows({
-          json: true,
-          code: "eosbocai1111",
-          table: "accounts",
-          scope: "eosbocaidevv"
-        }),
-        restApi.getTableRows({
-          json: true,
-          code: "eosbocai1111",
-          table: "accounts",
-          scope: "bocai.game"
-        }),
-        restApi.getTableRows({
-          json: true,
-          code: "eosbocai1111",
-          table: "accounts",
-          scope: "jk2uslllkjfd"
-        }),
-        restApi.getTableRows({
-          json: true,
-          code: "eosbocai1111",
-          table: "accounts",
-          scope: "bocaiairgrab"
-        })
-      ]).then(
-        ([
-          commBalance,
-          devBalance,
-          bocai2222Balance,
-          jk2uslllkjfdBalance,
-          bocaiairgrabBalance
-        ]) => {
-          let _commBalance = 0;
-          let _devBalance = 0;
-          let _bocai2222Balance = 0;
-          let _jk2uslllkjfdBalance = 0;
-          let _bocaiairgrabBalance = 0;
-          if (commBalance.rows.length) {
-            _commBalance = commBalance.rows[0].balance.split(" ")[0];
-          }
-          if (devBalance.rows.length) {
-            _devBalance = devBalance.rows[0].balance.split(" ")[0];
-          }
-          if (bocai2222Balance.rows.length) {
-            _bocai2222Balance = bocai2222Balance.rows[0].balance.split(" ")[0];
-          }
-          if (bocaiairgrabBalance.rows.length) {
-            _bocaiairgrabBalance = bocaiairgrabBalance.rows[0].balance.split(
-              " "
-            )[0];
-          }
-          if (jk2uslllkjfdBalance.rows.length) {
-            _jk2uslllkjfdBalance = jk2uslllkjfdBalance.rows[0].balance.split(
-              " "
-            )[0];
-          }
-          _this.subBocai =
-            Number(_commBalance) +
-            Number(_devBalance) +
-            Number(_bocai2222Balance) +
-            Number(_jk2uslllkjfdBalance) +
-            Number(_bocaiairgrabBalance);
-        }
-      );
-    },
+    // getSubCirculate() {
+    //   const _this = this;
+    //   Promise.all([
+    //     restApi.getTableRows({
+    //       json: true,
+    //       code: "bosdicetokem",
+    //       table: "accounts",
+    //       scope: "bosdicedevvv"
+    //     }),
+    //     restApi.getTableRows({
+    //       json: true,
+    //       code: "bosdicetokem",
+    //       table: "accounts",
+    //       scope: "bosdiceadmin"
+    //     })
+    //   ]).then(
+    //     ([
+    //       bocaiairgrabBalance
+    //     ]) => {
+    //       let _commBalance = 0;
+    //       let _devBalance = 0;
+    //       let _bocai2222Balance = 0;
+    //       let _jk2uslllkjfdBalance = 0;
+    //       let _bocaiairgrabBalance = 0;
+    //       if (commBalance.rows.length) {
+    //         _commBalance = commBalance.rows[0].balance.split(" ")[0];
+    //       }
+    //       if (devBalance.rows.length) {
+    //         _devBalance = devBalance.rows[0].balance.split(" ")[0];
+    //       }
+    //       if (bocai2222Balance.rows.length) {
+    //         _bocai2222Balance = bocai2222Balance.rows[0].balance.split(" ")[0];
+    //       }
+    //       if (bocaiairgrabBalance.rows.length) {
+    //         _bocaiairgrabBalance = bocaiairgrabBalance.rows[0].balance.split(
+    //           " "
+    //         )[0];
+    //       }
+    //       if (jk2uslllkjfdBalance.rows.length) {
+    //         _jk2uslllkjfdBalance = jk2uslllkjfdBalance.rows[0].balance.split(
+    //           " "
+    //         )[0];
+    //       }
+    //       _this.subBocai =
+    //         Number(_commBalance) +
+    //         Number(_devBalance) +
+    //         Number(_bocai2222Balance) +
+    //         Number(_jk2uslllkjfdBalance) +
+    //         Number(_bocaiairgrabBalance);
+    //     }
+    //   );
+    // },
     bocaiAmount() {
       const _this = this;
       if (this.username) {
         restApi
           .getTableRows({
-            code: "eosbocai1111",
+            code: "bosdicetokem",
             table: "accounts",
             scope: this.username,
             json: true
@@ -496,8 +474,8 @@ export default {
       if (this.username) {
         restApi.getTableRows({
             json: true,
-            code: "eosbocai2222",
-            table: "users1",
+            code: "bosdiceadmin",
+            table: "users",
             scope: this.username
           }).then(res => {
             if (res.rows[0]) {
@@ -570,7 +548,7 @@ export default {
     restApi
       .getTableRows({
         json: true,
-        code: "eosbocai1111",
+        code: "bosdicetokem",
         table: "stat",
         scope: "BOCAI"
       })

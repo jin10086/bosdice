@@ -101,7 +101,7 @@ export default {
   <li>5. Click ROLL DICE to place your bet.</li>
   <li>6. If your number is lower than your ROLL UNDER TO WIN number, you win!</li>
   <li>7. If you get a notice that your transaction failed, please check that you have enough CPU & bandwidth to make the transaction! Please use <a href="//eostoolkit.io/home" target="_blank">EOSToolkit</a> to make any changes to your account!</li>
-  <li>** Contract code has been verified in eospark, please click to <a href="https://eospark.com/MainNet/contract/bocai.game" target="_blank">view</a></li>
+  <li>** Contract code has been verified in eospark, please click to <a href="https://eospark.com/MainNet/contract/bosdiceadmin" target="_blank">view</a></li>
   </div>
     `,
   vipContent: `

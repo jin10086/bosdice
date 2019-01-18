@@ -116,7 +116,7 @@ export default {
   <li>6, 调整滑条投注骰子号码上限，改变胜出机率</li>
   <li>7, 按下"掷骰子"按钮进行投注，如果 摇到骰子号码小于投注骰子号码上限，立即中奖</li>
   <li>** 由于游戏都在EOS 的智能合约上执，因此游戏保证公平，并不能作弊。我们透过独有的加密技术，保证结果不会被更改，请您放心下注。</li>
-  <li>** 合约代码已在eospark验证,请点击<a href="https://eospark.com/MainNet/contract/bocai.game" target="_blank">查看</a></li>
+  <li>** 合约代码已在eospark验证,请点击<a href="https://eospark.com/MainNet/contract/bosdiceadmin" target="_blank">查看</a></li>
     </div>
     `,
     contact: `
