@@ -113,7 +113,7 @@ export default {
               from: this.$store.state.account.name,
               to: "bosdiceadmin",
               quantity: this.amount,
-              memo: `dice-${new Date().getTime()}-${this.roll}-${this.getref}`
+              memo: `dice-${new Date().getTime()}-0-${this.roll}-${this.getref}`
             },
             this
           );
