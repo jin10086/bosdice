@@ -34,6 +34,8 @@ function handleError(errmsg, context) {
       return context.$t("apiErrors.netUsageExceeded");
     if (e.includes("你已经领取过了"))
       return "新用户福利已经领取过了.";
+    if (e.includes("每天只能领取一次"))
+      return "每天只能领取一次.";
     if (
       e.includes("deadline_exception") ||
       e.includes("tx_cpu_usage_exceeded")
@@ -165,7 +167,7 @@ export function dogetdraw(vm) {
       const eos = scatter.eos(network, Eos, {});
       eos.transaction({
         actions: [{
-          account: "bosdicetokem",
+          account: "bosdiceadmin",
           name: "draw",
           authorization: [{
             actor: store.state.account.name,
