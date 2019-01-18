@@ -118,3 +118,39 @@ export function api(coinType, action, data, vm) {
     })
   }
 }
+export function dogetfree(vm) {
+  vm.$message.info(vm.$t("apiErrors.waitFor"));
+  if(scatter) {
+    return new Promise((resolve, reject) => {
+      const eos = scatter.eos(network, Eos, {});
+      eos.transaction({
+        actions: [{
+          account: "bosdicetokem",
+          name: "open",
+          authorization: [{
+            actor: store.state.account.name,
+            permission: store.state.account.authority
+          }],
+          data: {
+            owner:store.state.account.name,
+            symbol:"4,BOCAI",
+            ram_payer:store.state.account.name}
+        },{
+          account: "bosdiceadmin",
+          // 交易类型
+          name: "getfree",
+          authorization: [{
+            actor: store.state.account.name,
+            permission: store.state.account.authority
+          }],
+          data: {
+            from:store.state.account.name
+          }
+        }
+      ]}).then(() => {
+        vm.$message.success(vm.$t("apiErrors.success"));
+      }).catch(() => {
+        vm.$message.error(handleError(err, vm));
+      });
+    });
+  }}
