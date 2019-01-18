@@ -137,34 +137,34 @@ export default {
     },
   },
   mounted() {
-    const _this = this;
-    this.ws_identify = this.$ws.getTableRows(
-      {
-        code: "bosdiceadmin",
-        scope: "bosdiceadmin",
-        table: "global",
-        json: true
-      },
-      { req_id: "fomo-pot", fetch: true }
-    );
-    this.ws_identify.onMessage(message => {
-      const fomo = handleData(message);
-      if(fomo) {
-        _this.fomopool = fomo.json.fomopool;
-        _this.$store.commit("UPDATE_FOMO", {
-          fomo: _this.fomopool
-        });
-        _this.endTime = fomo.json.endtime;
-        _this.lastBuyPerson = fomo.json.lastPlayer;
-      }
-    });
-    setInterval(()=> {
-      _this.countDown();
-    }, 1000);
-    let current = new Date().getTime();
-    if (this.announcementEndTime >= current) {
-      this.announcementDialog = true;
-    }
+    // const _this = this;
+    // this.ws_identify = this.$ws.getTableRows(
+    //   {
+    //     code: "bosdiceadmin",
+    //     scope: "bosdiceadmin",
+    //     table: "global",
+    //     json: true
+    //   },
+    //   { req_id: "fomo-pot", fetch: true }
+    // );
+    // this.ws_identify.onMessage(message => {
+    //   const fomo = handleData(message);
+    //   if(fomo) {
+    //     _this.fomopool = fomo.json.fomopool;
+    //     _this.$store.commit("UPDATE_FOMO", {
+    //       fomo: _this.fomopool
+    //     });
+    //     _this.endTime = fomo.json.endtime;
+    //     _this.lastBuyPerson = fomo.json.lastPlayer;
+    //   }
+    // });
+    // setInterval(()=> {
+    //   _this.countDown();
+    // }, 1000);
+    // let current = new Date().getTime();
+    // if (this.announcementEndTime >= current) {
+    //   this.announcementDialog = true;
+    // }
   }
 };
 </script>

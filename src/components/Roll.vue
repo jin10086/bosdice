@@ -36,7 +36,7 @@
         </div>
       </div>
       <div class="roll-footer">
-        <div class="eos">{{eosBalance }} <span class="symbol"> EOS</span></div>
+        <div class="eos">{{eosBalance }} <span class="symbol"> BOS</span></div>
         <div class="login-wrap">
           <span v-if="username" @click="doRoll" class="login">{{$t("roll.roll")}}</span>
           <span v-else @click="login" class="login">{{$t("roll.login")}}</span>
