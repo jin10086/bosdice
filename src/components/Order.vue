@@ -121,7 +121,7 @@
     mounted() {
       const _this = this;
       function getresult() {
-        restApi.getActions("bosdicelogss", -1, -30).then(res => {
+        restApi.getActions("bosdicelogss", -1).then(res => {
           if (_this.global_action_seq == 0) {
             _this.global_action_seq = res.actions[res.actions.length - 1].global_action_seq;
           } else {
