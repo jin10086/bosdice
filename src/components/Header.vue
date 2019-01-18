@@ -65,15 +65,15 @@
       <div v-show="mobileShow">
         <!-- <el-button type="text" @click="(window.open('https://jacks.eosdice.vip'))">EOSJACKS</el-button> -->
         <!-- <el-button type="text">历史公告</el-button> -->
-        <el-button
+        <!-- <el-button
           type="text"
           @click="window.open('https://deltadex.io/embed/eosdicevip/bosdicetokem-BOCAI')"
-        >{{$t("header.exchange")}}</el-button>
-        <el-button type="text" @click="openVip">VIP</el-button>
+        >{{$t("header.exchange")}}</el-button> -->
+        <!-- <el-button type="text" @click="openVip">VIP</el-button> -->
         <el-button type="text" @click="getfree">获取免费TOKEN</el-button>
-        <el-button type="text" @click="roadmapDialog= true">{{$t("header.Roadmap")}}</el-button>
-        <el-button type="text" @click="divideDialog = true">{{$t("header.PayoutPool")}}</el-button>
-        <el-button type="text" @click="openToken">{{$t("header.tokenDetail")}}</el-button>
+        <!-- <el-button type="text" @click="roadmapDialog= true">{{$t("header.Roadmap")}}</el-button> -->
+        <!-- <el-button type="text" @click="divideDialog = true">{{$t("header.PayoutPool")}}</el-button> -->
+        <!-- <el-button type="text" @click="openToken">{{$t("header.tokenDetail")}}</el-button> -->
         <el-button type="text" @click="openHowto">{{$t("header.howtoplay")}}</el-button>
         <el-button type="text" @click="inviteFriend=true">{{$t("header.Referrals")}}</el-button>
         <el-button type="text" style="margin-left:10px;" @click="openContact">{{$t("header.Social")}}</el-button>
