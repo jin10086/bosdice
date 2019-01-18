@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <img src="../assets/eosdice.png" class="logo">
+      <img src="" class="logo">
       <div class="right">
         <div class="mobile-none">
           <!-- <el-button type="text" @click="(window.open('https://jacks.eosdice.vip'))">EOSJACKS</el-button> -->
