@@ -12,7 +12,7 @@
           >{{$t("header.exchange")}}</el-button> -->
           <!-- <el-button type="text" @click="openVip">VIP</el-button> -->
           <el-button type="text" @click="getfree">新用户福利</el-button>
-          <el-button type="text" @click="getdraw">每次抽奖</el-button>
+          <el-button type="text" @click="getdraw">每天抽奖</el-button>
           <!-- <el-button type="text" @click="roadmapDialog=true">{{$t("header.Roadmap")}}</el-button> -->
           <!-- <el-button type="text" @click="divideDialog = true">{{$t("header.PayoutPool")}}</el-button> -->
           <!-- <el-button type="text" @click="openToken">{{$t("header.tokenDetail")}}</el-button> -->
@@ -72,7 +72,7 @@
         >{{$t("header.exchange")}}</el-button> -->
         <!-- <el-button type="text" @click="openVip">VIP</el-button> -->
         <el-button type="text" @click="getfree">新用户福利</el-button>
-        <el-button type="text" @click="getdraw">每次抽奖</el-button>
+        <el-button type="text" @click="getdraw">每天抽奖</el-button>
         <!-- <el-button type="text" @click="roadmapDialog= true">{{$t("header.Roadmap")}}</el-button> -->
         <!-- <el-button type="text" @click="divideDialog = true">{{$t("header.PayoutPool")}}</el-button> -->
         <!-- <el-button type="text" @click="openToken">{{$t("header.tokenDetail")}}</el-button> -->
