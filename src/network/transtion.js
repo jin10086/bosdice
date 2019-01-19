@@ -24,6 +24,8 @@ function handleError(errmsg, context) {
       });
     if (e.includes("overdrawn balance"))
       return context.$t("apiErrors.overdrawnBalance");
+    if (e.includes("unable to find key"))
+      return context.$t("请先领取新手福利,再来抽奖");
     if (e.includes("ram_usage_exceeded"))
       return context.$t("apiErrors.ramUsageExceeded");
     if (e.includes("signature_rejected"))
