@@ -500,7 +500,7 @@ export default {
   computed: {
     ...mapGetters(["username"]),
     myRefer() {
-      return "https://eosdice.vip?ref=" + (this.username ? this.username : "");
+      return "https://bosdice.info?ref=" + (this.username ? this.username : "");
     },
     canGet() {
       if (this.earningsPerShare && this.currentStake) {
