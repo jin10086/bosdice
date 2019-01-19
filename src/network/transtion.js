@@ -10,7 +10,7 @@ export const network = {
 }
 
 export const restApi = Eos({
-  httpEndpoint: `${network.protocol}://hapi.bos.eosrio.io:${network.port}`,
+  httpEndpoint: `${network.protocol}://bos.api.blockgo.vip:${network.port}`,
   chainId: network.chainId
 })
 
