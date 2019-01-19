@@ -108,15 +108,18 @@ export default {
     howto: `
     <div class="howto">
     <h1>玩法介绍</h1>
-  <li>1. 准备好你的EOS 帐号，如果还未有EOS帐号，可根据教程<a href="//medium.com/dapppub/create-your-own-eos-account-easily-using-the-non-service-fee-dapp-signupeoseos-b15c5347f2fc" target="_blank">创建</a></li>
+  <li>1. 准备好你的BOS 帐号，如果还未有BOS帐号，可根据教程<a href="//medium.com/dapppub/create-your-own-eos-account-easily-using-the-non-service-fee-dapp-signupeoseos-b15c5347f2fc" target="_blank">创建</a></li>
   <li>2, 您需要透过Scatter 在网页上操作帐号，如果还未有安装Scatter，请<a href="//get-scatter.com/" target="_blank">安装Scatter</a></li>
   <li>3, 按下登入按钮，透过Scatter 进行登入</li>
-  <li>4, 选择需要投注货币，您可使用EOS投注</li>
+  <li>4, 选择需要投注货币，您可使用BOCAI投注,BOCAI可以通过新手福利来领取</li>
   <li>5, 设置需要投注量</li>
   <li>6, 调整滑条投注骰子号码上限，改变胜出机率</li>
   <li>7, 按下"掷骰子"按钮进行投注，如果 摇到骰子号码小于投注骰子号码上限，立即中奖</li>
-  <li>** 由于游戏都在EOS 的智能合约上执，因此游戏保证公平，并不能作弊。我们透过独有的加密技术，保证结果不会被更改，请您放心下注。</li>
-  <li>** 合约代码已在eospark验证,请点击<a href="https://eospark.com/MainNet/contract/bosdiceadmin" target="_blank">查看</a></li>
+  <li>** 由于游戏都在BOS 的智能合约上执，因此游戏保证公平，并不能作弊。我们透过独有的加密技术，保证结果不会被更改，请您放心下注。</li>
+  <li>** 新手福利每位用户可以免费领取一次</li>
+  <li>** 每日抽奖可以随机到0.1-100个BOCAI,具体是你随机到了1-1000中的某个数,然后得到随机到的数/10的代币</li>
+
+    </div>
     </div>
     `,
     contact: `
