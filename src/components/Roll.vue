@@ -15,12 +15,19 @@
       </div>
     </div>
     <div class="roll-main">
-      <vue-slider v-model="roll" class="slider-roll" :process-style="{background: '#3c3'}" :tooltip-style="{background: '#3c3'}" :min="2" :max="96"></vue-slider>
+      <vue-slider
+        v-model="roll"
+        class="slider-roll"
+        :process-style="{background: '#3c3'}"
+        :tooltip-style="{background: '#3c3'}"
+        :min="2"
+        :max="96"
+      ></vue-slider>
       <div class="roll-middle">
         <div class="field-amount">
           <div class="title">{{$t("roll.betAmount")}}</div>
           <div class="content">
-            <input type="text" autocomplete="off" class="jack-input" v-model="amount"/>
+            <input type="text" autocomplete="off" class="jack-input" v-model="amount">
             <div class="amount-action">
               <span @click="changeAmount(1/2)">1/2</span>
               <span @click="changeAmount(2)">x2</span>
@@ -30,18 +37,51 @@
         </div>
         <div class="field-profit">
           <div class="title">{{$t("roll.payOutWin")}}</div>
-          <div class="content">
-            {{winMoney}}
-          </div>
+          <div class="content">{{winMoney}}</div>
         </div>
       </div>
+      
       <div class="roll-footer">
-        <div class="eos">{{eosBalance }} <span class="symbol"> BOS</span></div>
+        <div class="eos">
+          {{eosBalance }}
+          <span class="symbol">BOS</span>
+        </div>
         <div class="login-wrap">
           <span v-if="username" @click="doRoll" class="login">{{$t("roll.roll")}}</span>
           <span v-else @click="login" class="login">{{$t("roll.login")}}</span>
         </div>
-        <div class="token">{{otherToken }} <span class="symbol"> {{showToekn.toUpperCase()}}</span> </div>
+        
+        <div class="token">
+          {{otherToken }}
+          <span class="symbol">{{showToekn.toUpperCase()}}</span>
+        </div>
+      </div>
+      <div class="roll-auto">
+        <span>{{$t("roll.autoBet")}}</span>
+        <el-switch
+          
+          v-model="autoStatus"
+          active-color="#13ce66"
+          inactive-color="#ff4949"
+          >
+        </el-switch>
+        <span style="margin-right:30px;">{{$t("roll.manualBet")}}</span>
+        <span>{{$t("roll.noMoreBet")}}</span>
+        <el-switch
+          style=""
+          v-model="moreBetStatus"
+          active-color="#13ce66"
+          inactive-color="#ff4949"
+          
+          @change="moreBet">
+        </el-switch>
+        <span>{{$t("roll.moreBet")}}</span>
+      </div>
+      <div class="more_bet_btn" v-show="moreBetStatus">
+
+        <el-button v-bind:class="{btnactive:betNum===1}"  @click="moreBet(1)">{{$t("roll.tenBet")}}</el-button>
+        <el-button v-bind:class="{btnactive:betNum===2}"   @click="moreBet(2)">{{$t("roll.twentyBet")}}</el-button>
+        <el-button v-bind:class="{btnactive:betNum===5}"   @click="moreBet(5)">{{$t("roll.fiftyBet")}}</el-button>
       </div>
     </div>
   </div>
@@ -58,7 +98,13 @@ export default {
     return {
       roll: 50,
       amount: 0.5,
-      totalAmount: 0
+      totalAmount: 100,
+      autoStatus:false,
+      t:'',
+      limitAmount:1,
+      moreBetStatus:true,
+      activenum:'',
+      betNum:0
     };
   },
   components: {
@@ -83,50 +129,23 @@ export default {
         return "";
       }
     },
-    ...mapGetters(["username","eosBalance", "otherToken"])
+    ...mapGetters(["username", "eosBalance", "otherToken"])
   },
   watch: {
     activeToken() {
-      this.getMax();
-      this.amount = supportCoin[this.activeToken].minAmount
+      // this.getMax();
+      this.amount = supportCoin[this.activeToken].minAmount;
     }
   },
   methods: {
     login() {
       login(this);
     },
-    doRoll() {
-      if(this.totalAmount) {
-        // if (this.activeToken === 'eos' && this.amount > this.eosBalance) {
-        //   this.$message.info(this.$t("roll.noEos"));
-        //   return;
-        // }
-        // if (this.amount > this.otherToken) {
-        //   this.$message.info(this.$t("roll.noToken", {token: this.activeToken.toUpperCase()}));
-        //   return;
-        // }
-        if (this.winAmout <= this.totalAmount) {
-          api(
-            this.activeToken,
-            "transfer",
-            {
-              from: this.$store.state.account.name,
-              to: "bosdiceadmin",
-              quantity: this.amount,
-              memo: `dice-${new Date().getTime()}-0-${this.roll}-${this.getref}`
-            },
-            this
-          );
-          this.getMax();
-        } else {
-          this.$message.warning(this.$t("roll.maxPayout", {Amount: this.totalAmount}));
-        }
-      }
-    },
     changeAmount(number) {
       if (number === 3) {
         if (this.username) {
-          this.amount = this.activeToken === 'eos' ? this.eosBalance : this.otherToken;
+          this.amount =
+            this.activeToken === "eos" ? this.eosBalance : this.otherToken;
         }
       } else {
         this.amount *= number;
@@ -135,39 +154,69 @@ export default {
         }
       }
     },
-    getMax() {
-      restApi.getTableRows({
-        code: supportCoin[this.activeToken].contract,
-        table: 'accounts',
-        scope: 'bosdiceadmin',
-        json: true
-      }).then(res => {
-        if (res && res.rows) {
-          res.rows.forEach(item => {
-            if (item.balance.split(" ")[1] === this.activeToken.toUpperCase()) {
-              this.totalAmount = Number(item.balance.split(" ")[0]);
+    doRoll () {
+      var that=this;
+      if (this.totalAmount) {
+        if (this.amount <= this.totalAmount) {
+          if(this.totalAmount)
+          api(
+            this.activeToken,
+            "transfer",
+            {
+              from: this.$store.state.account.name,
+              to: "bosdiceadmin",
+              quantity: this.betNum==0?this.amount:10*this.amount*this.betNum,
+              memo: `dice-${new Date().getTime()}-${this.betNum}-${this.roll}-${this.getref}`
+            },
+            this,
+            function(res){
+              if(that.autoStatus){
+                that.doRoll();
+              }
+            },
+            function(error){
+              if(that.autoStatus){
+                that.doRoll();
+              }
             }
-          });
-          if(!res.rows.some(item => {
-            return item.balance.split(" ")[1] === this.activeToken.toUpperCase();
-          })) {
-            this.totalAmount = 0;
-          }
+          );
+        } else {
+          this.$message.warning(
+            this.$t("roll.maxPayout", { Amount: this.totalAmount })
+          );
         }
-        if (this.activeToken === 'eos' && this.$store.state.fomoPool) {
-          this.totalAmount -= Number(this.$store.state.fomoPool.split(" ")[0]);
-        }
-        this.totalAmount = (Number(this.totalAmount) / 10).toFixed(4);
-      });
+      }
+      
+    },
+    moreBet(num){
+      if(this.moreBetStatus){
+        this.betNum=num;
+        this.activenum=num;
+      }else{
+        this.activenum=0;
+        this.betNum=0;
+      }
     }
   },
   mounted() {
-    this.getMax();
+    // this.getMax();
   }
 };
 </script>
 
 <style lang="less">
+.roll-auto{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.btnactive{
+  background: #28b6e4!important;
+  color:#fff!important;
+}
+.btnnoactive{
+  background: #fff;
+  color:#28b6e4;
+}
 @media (max-width: 768px) {
   .sidebar {
     position: relative !important;
@@ -191,7 +240,7 @@ export default {
 .vue-slider-tooltip {
   display: none !important;
 }
-@media (max-width:768px) {
+@media (max-width: 768px) {
   .roll {
     width: 100% !important;
   }
@@ -337,7 +386,6 @@ export default {
     display: block !important;
   }
 }
-
 .roll-footer {
   display: flex;
   margin-top: 24px;
@@ -345,7 +393,8 @@ export default {
     flex-grow: 1;
     flex-basis: 142px;
   }
-  .eos, .token {
+  .eos,
+  .token {
     font-size: 22px;
     font-weight: 600;
     height: 48px;
@@ -363,20 +412,21 @@ export default {
   }
 }
 @media (max-width: 768px) {
-    .roll-footer {
-      flex-direction: column;
-      .login-wrap {
-        order: -1;
-      }
-      .eos, .token {
-        text-align: left;
-        justify-content: flex-start;
-      }
-      div {
-        flex-basis: auto;
-      }
+  .roll-footer {
+    flex-direction: column;
+    .login-wrap {
+      order: -1;
+    }
+    .eos,
+    .token {
+      text-align: left;
+      justify-content: flex-start;
+    }
+    div {
+      flex-basis: auto;
     }
   }
+}
 .login {
   width: 132px;
   height: 48px;

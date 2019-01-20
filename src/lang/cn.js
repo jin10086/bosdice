@@ -164,7 +164,14 @@ export default {
     login: "登录",
     noEos: "您的EOS余额不足",
     noToken: "您的{token}余额不足",
-    maxPayout: "赢取最大金额不能超过{Amount}"
+    maxPayout: "赢取最大金额不能超过{Amount}",
+    autoBet: "自动投注",
+    manualBet: '手动投注',
+    moreBet: '批量下注',
+    noMoreBet: "开启",
+    tenBet: "掷骰子(10)",
+    twentyBet: "掷骰子(20)",
+    fiftyBet: "掷骰子(50)"
   },
   apiErrors: {
     "unsatisfiedAuthorization": "请确认您正在使用 {accountName} 的 {permission} 私钥",

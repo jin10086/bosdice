@@ -152,7 +152,14 @@ export default {
     login: "LOGIN",
     noEos: "YOUR EOS BALANCE IS NOT ENOUGH",
     noToken: "YOUR {token} BALANCE IS NOT ENOUGH",
-    maxPayout: "THE MAX AMOUNT YOU MAY WIN CAN NOT MORE THAN {Amount}"
+    maxPayout: "THE MAX AMOUNT YOU MAY WIN CAN NOT MORE THAN {Amount}",
+    autoBet: "Bet Auto",
+    manualBet: 'off',
+    moreBet: 'Batch Model',
+    noMoreBet: "On",
+    tenBet: "Roll(10)",
+    twentyBet: "Roll(20)",
+    fiftyBet: "Roll(50)"
   },
   apiErrors: {
     "unsatisfiedAuthorization": "Please ensure you are using a corresponding private key for {accountName}@{permission}",
