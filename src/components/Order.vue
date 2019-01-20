@@ -19,8 +19,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr :class="{win: bet.random_roll < bet.roll_under, lose: !(bet.random_roll < bet.roll_under)}" v-for="(bet, index) in allBets"
-              :key="index">
+            <tr :class="{win: Number(parseFloat(bet.amount)) <=Number(parseFloat(bet.payout)), lose: !(Number(parseFloat(bet.amount)) <=Number(parseFloat(bet.payout)))}"
+              v-for="(bet, index) in allBets" :key="index">
               <td>{{bet.block_time}}</td>
               <td>{{bet.player}}</td>
               <td>{{bet.roll_under}}</td>
@@ -120,6 +120,7 @@
 
     mounted() {
       const _this = this;
+
       function getresult() {
         restApi.getActions("bosdicelogss", -1).then(res => {
           console.log('get dice result...');
@@ -138,7 +139,7 @@
                     _this.$store.dispatch("UPDATE_TOKEN_ASYNC", {
                       type: _this.activeToken === "bos" ? "bocai" : _this.activeToken
                     });
-                    if (Number(parseFloat(mes.amount)) <=Number(parseFloat(mes.payout))) {
+                    if (Number(parseFloat(mes.amount)) <= Number(parseFloat(mes.payout))) {
                       console.log("win");
                       _this.$message.success(_this.$t("order.win", {
                         random: mes.random_roll,
@@ -162,7 +163,7 @@
           }
         })
       }
-      setInterval(getresult,10000);
+      setInterval(getresult, 10000);
 
     },
 
