@@ -96,14 +96,13 @@ export default {
     `,
     howto:`
     <div class="howto">
-    <li>1. Make sure you have an EOS account. For more information on how to create one, <a href="//medium.com/dapppub/create-your-own-eos-account-easily-using-the-non-service-fee-dapp-signupeoseos-b15c5347f2fc" target="_blank">click here</a>.</li>
+    <li>1. Make sure you have an BOS account. For more information on how to create one, <a href="//medium.com/dapppub/create-your-own-eos-account-easily-using-the-non-service-fee-dapp-signupeoseos-b15c5347f2fc" target="_blank">click here</a>.</li>
   <li>2. If you haven’t already, download and install <a href="//get-scatter.com/" target="_blank">Scatter</a>, an EOS wallet that facilitates interaction between users and dApps.</li>
-  <li>3. Set your BET AMOUNT. This is the amount of EOS you will be wagering.</li>
+  <li>3. Set your BET AMOUNT. This is the amount of BOS you will be wagering.</li>
   <li>4. Adjust the slider to change your chance of winning.</li>
   <li>5. Click ROLL DICE to place your bet.</li>
   <li>6. If your number is lower than your ROLL UNDER TO WIN number, you win!</li>
   <li>7. If you get a notice that your transaction failed, please check that you have enough CPU & bandwidth to make the transaction! Please use <a href="//eostoolkit.io/home" target="_blank">EOSToolkit</a> to make any changes to your account!</li>
-  <li>** Contract code has been verified in eospark, please click to <a href="https://eospark.com/MainNet/contract/bosdiceadmin" target="_blank">view</a></li>
   </div>
     `,
   vipContent: `
