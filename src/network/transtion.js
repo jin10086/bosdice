@@ -119,7 +119,7 @@ export function api(coinType, action, data, vm,successBack, errorCallback) {
         }],
         data: data
       }]
-    }).then(() => {
+    }).then((res) => {
       vm.$message.success(vm.$t("apiErrors.success"));
       successBack(res)
     }).catch((err) => {
