@@ -122,6 +122,7 @@
       const _this = this;
       function getresult() {
         restApi.getActions("bosdicelogss", -1).then(res => {
+          console.log('get dice result...');
           if (_this.global_action_seq == 0) {
             _this.global_action_seq = res.actions[res.actions.length - 1].global_action_seq;
           } else {
@@ -132,20 +133,20 @@
                   let mes = element.action_trace.act.data.result;
                   mes.block_time = element.block_time;
                   _this.allBets.unshift(mes);
-                  if (mes.player === this._username) {
-                    this.$store.dispatch("UPDATE_EOS_ASYNC");
-                    this.$store.dispatch("UPDATE_TOKEN_ASYNC", {
-                      type: this.activeToken === "eos" ? "bocai" : this.activeToken
+                  if (mes.player === _this.username) {
+                    _this.$store.dispatch("UPDATE_EOS_ASYNC");
+                    _this.$store.dispatch("UPDATE_TOKEN_ASYNC", {
+                      type: _this.activeToken === "bos" ? "bocai" : _this.activeToken
                     });
                     if (mes.random_roll < mes.roll_under) {
                       console.log("win");
-                      _this.$message.success(this.$t("order.win", {
+                      _this.$message.success(_this.$t("order.win", {
                         random: mes.random_roll,
                         payout: mes.payout
                       }));
                     } else {
                       console.log("lose");
-                      _this.$message.error(this.$t("order.lose", {
+                      _this.$message.error(_this.$t("order.lose", {
                         random: mes.random_roll,
                         amount: mes.amount
                       }));
