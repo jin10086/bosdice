@@ -35,10 +35,8 @@ export default {
     stakefail:"承诺不能超过目前的BOCAI余额",
     unstakefail:"赎回不能超过当前质押BOCAI总数",
     logout:"登出成功",
-
-
-
-
+    NoviceWelfare:"新用户福利",
+    DailyDraw:"每天抽奖",
     vipContent:`
     <div class="vip-content">
     <h1>VIP</h1>
@@ -184,7 +182,10 @@ export default {
     "signature_rejected": "交易失败,你取消了交易",
     "waitFor": "等待交易确认",
     "noLessThan": "交易金额不能小于",
-    "success": "交易成功,等待结果"
+    "success": "交易成功,等待结果",
+    a:'新用户福利已经领取过了',
+    b:'很抱歉,你不满足领取条件.',
+    c:'请确定距离上次领取超过24小时',
   },
   home: {
     lastBuy: "最后购买者",

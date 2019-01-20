@@ -40,6 +40,8 @@ export default {
     road2: `The JACKS game was transferred to BOCAI, the JACKS token was converted to BOCAI according to the ratio, the large arena opened, and the auction JKR was changed to use the BOCAI auction.`,
     road3: "New game development and testing",
     road4: "New game online",
+    NoviceWelfare:"Novice Welfare",
+    DailyDraw:"Daily Draw",
     contact: `
     <div class="contact">
     <h1>Join the community</h1>
@@ -172,7 +174,10 @@ export default {
     "signature_rejected": "Transaction failed,you canceled the transaction",
     "waitFor": "Wait for transaction verification",
     "noLessThan": "Transaction amount can not be less",
-    "success": "SUCCESS ! Wait for Result"
+    "success": "SUCCESS ! Wait for Result",
+    a:'New user benefits have been received',
+    b:"Sorry, you can't get it now..",
+    c:'Can only claim taken once a day',
   },
   home: {
     lastBuy: "Last purchaser",

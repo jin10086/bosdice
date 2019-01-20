@@ -35,11 +35,11 @@ function handleError(errmsg, context) {
     if (e.includes("tx_net_usage_exceeded"))
       return context.$t("apiErrors.netUsageExceeded");
     if (e.includes("你已经领取过了"))
-      return "新用户福利已经领取过了.";
+      return context.$t("apiErrors.a");
     if (e.includes("你不满足领取条件"))
-      return "很抱歉,你不满足领取条件.";
+      return context.$t("apiErrors.b");
     if (e.includes("每天只能领取一次"))
-      return "每天只能领取一次.";
+    return context.$t("apiErrors.c");
     if (
       e.includes("deadline_exception") ||
       e.includes("tx_cpu_usage_exceeded")
