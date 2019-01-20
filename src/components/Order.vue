@@ -143,13 +143,13 @@
                       console.log("win");
                       _this.$message.success(_this.$t("order.win", {
                         random: mes.random_roll,
-                        payout: mes.payout
+                        payout: (Number(parseFloat(mes.payout)) - Number(parseFloat(mes.amount))),
                       }));
                     } else {
                       console.log("lose");
                       _this.$message.error(_this.$t("order.lose", {
                         random: mes.random_roll,
-                        amount: mes.amount
+                        amount: Number(parseFloat(mes.amount)) - Number(parseFloat(mes.payout)),
                       }));
                     }
                   }
