@@ -138,7 +138,7 @@
                     _this.$store.dispatch("UPDATE_TOKEN_ASYNC", {
                       type: _this.activeToken === "bos" ? "bocai" : _this.activeToken
                     });
-                    if (mes.random_roll < mes.roll_under) {
+                    if (Number(parseFloat(mes.amount)) <=Number(parseFloat(mes.payout))) {
                       console.log("win");
                       _this.$message.success(_this.$t("order.win", {
                         random: mes.random_roll,
