@@ -36,6 +36,8 @@ function handleError(errmsg, context) {
       return context.$t("apiErrors.netUsageExceeded");
     if (e.includes("你已经领取过了"))
       return "新用户福利已经领取过了.";
+    if (e.includes("你不满足领取条件"))
+      return "很抱歉,你不满足领取条件.";
     if (e.includes("每天只能领取一次"))
       return "每天只能领取一次.";
     if (
