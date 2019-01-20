@@ -186,7 +186,7 @@ export function dogetdraw(vm) {
         ]
       }).then(() => {
         vm.$message.success(vm.$t("apiErrors.success"));
-      }).catch(err => {
+      }).catch((err) => {
         vm.$message.error(handleError(err, vm));
       });
     });
