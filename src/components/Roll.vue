@@ -171,6 +171,7 @@ export default {
             this,
             function(res){
               if(that.autoStatus){
+                console.log('autorun...');
                 that.doRoll();
               }
             },

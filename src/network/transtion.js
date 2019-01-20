@@ -95,7 +95,7 @@ export function eosTransaction(account, name, data) {
   }
 }
 
-export function api(coinType, action, data, vm) {
+export function api(coinType, action, data, vm,successBack, errorCallback) {
   // coinType 表示 押注使用的代币
   vm.$message.info(vm.$t("apiErrors.waitFor"));
   if (data.quantity) {
@@ -121,8 +121,10 @@ export function api(coinType, action, data, vm) {
       }]
     }).then(() => {
       vm.$message.success(vm.$t("apiErrors.success"));
+      successBack(res)
     }).catch((err) => {
       vm.$message.error(handleError(err, vm));
+      errorCallback(err)
     })
   }
 }
