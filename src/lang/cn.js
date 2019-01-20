@@ -169,9 +169,9 @@ export default {
     manualBet: '手动投注',
     moreBet: '批量下注',
     noMoreBet: "开启",
-    tenBet: "掷骰子(10)",
-    twentyBet: "掷骰子(20)",
-    fiftyBet: "掷骰子(50)"
+    tenBet: "10连投",
+    twentyBet: "20连投",
+    fiftyBet: "50连投"
   },
   apiErrors: {
     "unsatisfiedAuthorization": "请确认您正在使用 {accountName} 的 {permission} 私钥",
