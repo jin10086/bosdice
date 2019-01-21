@@ -338,6 +338,7 @@ export default {
             font-size: 16px;
             padding-left: 6px;
             border-right: 1px dashed #1c233f;
+            user-select: auto;
             &:focus {
               outline: none;
             }
