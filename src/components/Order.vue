@@ -22,7 +22,7 @@
             <tr 
             :class="{win: Number(parseFloat(bet.amount)) <=Number(parseFloat(bet.payout)), lose: !(Number(parseFloat(bet.amount)) <=Number(parseFloat(bet.payout)))}"
               v-for="(bet, index) in allBets" :key="index">
-              <td>{{bet.block_time}}</td>
+              <td>{{dateFormat(bet.block_time)}}</td>
               <td>{{bet.player}}</td>
               <td>{{bet.roll_under}}</td>
               <td class="mobile-none">{{bet.amount}}</td>
@@ -49,7 +49,7 @@
             :class="{win: Number(parseFloat(bet.amount)) <=Number(parseFloat(bet.payout)), lose: !(Number(parseFloat(bet.amount)) <=Number(parseFloat(bet.payout)))}"
             v-for="(bet, index) in myBets"
               :key="index">
-              <td>{{bet.block_time}}</td>
+              <td>{{dateFormat(bet.block_time)}}</td>
               <td>{{bet.player}}</td>
               <td>{{bet.roll_under}}</td>
               <td class="mobile-none">{{bet.amount}}</td>
@@ -101,7 +101,13 @@
             this.tab3 = true;
             this.tab1 = this.tab2 = false;
         }
-      }
+      },
+      dateFormat(raw) {
+      // console.log(Date.parse(raw), 'time');
+      let localTime = new Date(raw + "Z").toTimeString();
+      localTime = localTime.split(" ")[0];
+      return localTime;
+      },
     },
     props: ["activeToken"],
     watch: {
