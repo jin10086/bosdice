@@ -97,7 +97,7 @@ export default {
   data() {
     return {
       roll: 50,
-      amount: 0.5,
+      amount: 0.25,
       totalAmount: 100,
       autoStatus:false,
       t:'',
@@ -145,7 +145,7 @@ export default {
       if (number === 3) {
         if (this.username) {
           this.amount =
-            this.activeToken === "eos" ? this.eosBalance : this.otherToken;
+            this.activeToken === "bos" ? this.eosBalance : this.otherToken;
         }
       } else {
         this.amount *= number;

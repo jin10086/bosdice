@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       supportCoin: supportCoin,
-      activeToken: "bocai",
+      activeToken: "bos",
       ws_identify: "",
       endTime: "",
       lastBuyPerson: "",
