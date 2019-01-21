@@ -177,6 +177,7 @@ export default {
     a:'New user benefits have been received',
     b:"Sorry, you can't get it now..",
     c:'Can only claim taken once a day',
+    "maxlimit":"Exceeding the maximum amount of bets",
   },
   home: {
     lastBuy: "Last purchaser",

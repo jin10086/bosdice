@@ -34,6 +34,8 @@ function handleError(errmsg, context) {
       return context.$t("apiErrors.cpuUsageExceeded");
     if (e.includes("tx_net_usage_exceeded"))
       return context.$t("apiErrors.netUsageExceeded");
+    if (e.includes("offered overflow, expected earning is greater than the maximum bonus"))
+      return context.$t("apiErrors.maxlimit");
     if (e.includes("你已经领取过了"))
       return context.$t("apiErrors.a");
     if (e.includes("你不满足领取条件"))
