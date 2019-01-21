@@ -19,7 +19,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr :class="{win: Number(parseFloat(bet.amount)) <=Number(parseFloat(bet.payout)), lose: !(Number(parseFloat(bet.amount)) <=Number(parseFloat(bet.payout)))}"
+            <tr 
+            :class="{win: Number(parseFloat(bet.amount)) <=Number(parseFloat(bet.payout)), lose: !(Number(parseFloat(bet.amount)) <=Number(parseFloat(bet.payout)))}"
               v-for="(bet, index) in allBets" :key="index">
               <td>{{bet.block_time}}</td>
               <td>{{bet.player}}</td>
@@ -44,7 +45,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr :class="{win: bet.random_roll < bet.roll_under, lose: !(bet.random_roll < bet.roll_under)}" v-for="(bet, index) in myBets"
+            <tr 
+            :class="{win: Number(parseFloat(bet.amount)) <=Number(parseFloat(bet.payout)), lose: !(Number(parseFloat(bet.amount)) <=Number(parseFloat(bet.payout)))}"
+            v-for="(bet, index) in myBets"
               :key="index">
               <td>{{bet.block_time}}</td>
               <td>{{bet.player}}</td>
