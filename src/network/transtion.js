@@ -159,6 +159,9 @@ export function dogetfree(vm) {
           }
         }]
       }).then(() => {
+        $store.dispatch("UPDATE_TOKEN_ASYNC", {
+          type: "bocai"
+        });
         vm.$message.success(vm.$t("apiErrors.success"));
       }).catch(err => {
         vm.$message.error(handleError(err, vm));
@@ -185,6 +188,9 @@ export function dogetdraw(vm) {
         }
         ]
       }).then(() => {
+        $store.dispatch("UPDATE_TOKEN_ASYNC", {
+          type: "bocai"
+        });
         vm.$message.success(vm.$t("apiErrors.success"));
       }).catch((err) => {
         vm.$message.error(handleError(err, vm));

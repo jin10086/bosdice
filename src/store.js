@@ -54,6 +54,7 @@ export default new Vuex.Store({
         type: bocai
       }
       */
+     console.log('update token');
       let num = '0.0000';
       restApi.getTableRows({
         code: supportCoin[(payload.type)].contract,

@@ -354,12 +354,10 @@ export default {
       this.$message.success(this.$t("header.logout"));
     },
     getfree(){
-      dogetfree(this);
-      this.bocaiAmount();
+       dogetfree(this);
     }, 
     getdraw(){
       dogetdraw(this);
-      this.bocaiAmount();
     }, 
     openVip() {
       this.getMyEosBet();
