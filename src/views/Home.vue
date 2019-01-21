@@ -86,7 +86,7 @@ export default {
     },
     token: {
       get() {
-        return this.activeToken === "eos" ? "bocai" : this.activeToken;
+        return this.activeToken === "bos" ? "bocai" : this.activeToken;
       },
       set(newValue) {
         this.activeToken = newValue;
@@ -99,14 +99,14 @@ export default {
     token(newValue) {
       if (this.username) {
         this.$store.dispatch("UPDATE_TOKEN_ASYNC", {
-          type: newValue === "eos" ? "bocai" : newValue
+          type: newValue === "bos" ? "bocai" : newValue
         });
       }
     },
     username(newValue) {
       if (newValue) {
         this.$store.dispatch("UPDATE_TOKEN_ASYNC", {
-          type: newValue === "eos" ? "bocai" : this.token
+          type: newValue === "bos" ? "bocai" : this.token
         });
         this.$store.dispatch("UPDATE_EOS_ASYNC");
       }
