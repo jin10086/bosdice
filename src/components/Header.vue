@@ -200,8 +200,7 @@
     data() {
       return {
         dicelang: window.localStorage.getItem("dicelang") ?
-          window.localStorage.getItem("dicelang") :
-          "en",
+          window.localStorage.getItem("dicelang") : "en",
         window: window,
         inviteFriend: false,
         mobileShow: false,
@@ -235,7 +234,7 @@
         // 我的累计下注
         myAllbet: '0.0000',
         nextLevel: 1,
-        nextDividendAmount: 0,
+        nextDividendAmount: 0, //下次能分多少
       };
     },
     watch: {
@@ -427,6 +426,20 @@
           customClass: "custom-class"
         });
       },
+      getstat() {
+        restApi
+          .getTableRows({
+            json: true,
+            code: "bosdicetokem",
+            table: "stat",
+            scope: "BOCAI"
+          })
+          .then(res => {
+            if (res.rows && res.rows.length !== 0) {
+              this.supply = res.rows[0].supply.slice(0, -6);
+            }
+          });
+      },
       getpoolamout() {
         restApi.getTableRows({
           json: true,
@@ -551,6 +564,9 @@
       mostRedeem() {
         return this.$t("header.maxcanunstake") + `${Number(this.currentStake).toFixed(4)} BOCAI`;
       },
+      w1tokeneso(){ //10000代币 预计能分多少.
+        return 10000/this.supply*this.nextDividendAmount;
+      },
       nextLevelAmount() {
         let amount = 0;
         if (this.myAllbet < 1000) {
@@ -588,19 +604,10 @@
       },
     },
     mounted() {
-      // this.getSubCirculate();
-      restApi
-        .getTableRows({
-          json: true,
-          code: "bosdicetokem",
-          table: "stat",
-          scope: "BOCAI"
-        })
-        .then(res => {
-          if (res.rows && res.rows.length !== 0) {
-            this.supply = res.rows[0].supply.slice(0, -6);
-          }
-        });
+      setInterval(() => {
+        this.getpoolamout();
+        this.getstat();
+      }, 10000);
     }
   };
 </script>
