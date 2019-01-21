@@ -14,7 +14,7 @@
           <el-button type="text" @click="getfree">{{$t("header.NoviceWelfare")}}</el-button>
           <el-button type="text" @click="getdraw">{{$t("header.DailyDraw")}}</el-button>
           <!-- <el-button type="text" @click="roadmapDialog=true">{{$t("header.Roadmap")}}</el-button> -->
-          <!-- <el-button type="text" @click="divideDialog = true">{{$t("header.PayoutPool")}}</el-button> -->
+          <el-button type="text" @click="divideDialog = true">{{$t("header.PayoutPool")}}</el-button>
           <!-- <el-button type="text" @click="openToken">{{$t("header.tokenDetail")}}</el-button> -->
           <el-button type="text" @click="openHowto">{{$t("header.howtoplay")}}</el-button>
           <el-button type="text" @click="inviteFriend=true">{{$t("header.Referrals")}}</el-button>
@@ -114,17 +114,17 @@
         <h3>{{$t("header.Stake")}}</h3>
         <div class="item">
           <div class="left">
-            <img src="../assets/eos.png">
-            <p>{{$t("header.currentDividends")}}: {{totalShare}} EOS</p>
+            <img src="../assets/bos.png">
+            <p>{{$t("header.currentDividends")}}: {{totalShare}} BOS</p>
           </div>
           <div class="right">
             <div>
               <p>{{$t("header.yourtotalstake")}}</p>
-              <p>{{totalout}} EOS</p>
+              <p>{{totalout}} BOS</p>
             </div>
             <div>
               <p>{{$t("header.canGet")}}</p>
-              <p>{{canGet}} EOS</p>
+              <p>{{canGet}} BOS</p>
             </div>
           </div>
         </div>
@@ -149,7 +149,7 @@
       <div class="stake" v-show="!tab1">
         <div class="my-divide">
           <div class="item-1">
-            <div class="title">{{$t("header.myDividend")}}: {{canGet}} EOS</div>
+            <div class="title">{{$t("header.myDividend")}}: {{canGet}} BOS</div>
             <el-button type="primary" @click="withdraw">{{$t("header.withdraw")}}</el-button>
           </div>
         </div>
