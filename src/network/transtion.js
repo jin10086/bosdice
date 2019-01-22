@@ -41,7 +41,7 @@ function handleError(errmsg, context) {
     if (e.includes("你不满足领取条件"))
       return context.$t("apiErrors.b");
     if (e.includes("每天只能领取一次"))
-    return context.$t("apiErrors.c");
+      return context.$t("apiErrors.c");
     if (
       e.includes("deadline_exception") ||
       e.includes("tx_cpu_usage_exceeded")
@@ -178,6 +178,18 @@ export function dogetdraw(vm) {
       const eos = scatter.eos(network, Eos, {});
       eos.transaction({
         actions: [{
+          account: "bosdicetokem",
+          name: "open",
+          authorization: [{
+            actor: store.state.account.name,
+            permission: store.state.account.authority
+          }],
+          data: {
+            owner: store.state.account.name,
+            symbol: "4,BOCAI",
+            ram_payer: store.state.account.name
+          }
+        },{
           account: "bosdiceadmin",
           name: "draw",
           authorization: [{
