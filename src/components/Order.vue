@@ -162,10 +162,9 @@
                       }));
                     }
                   }
-
-                  // if (this.allBets.length > 30) {
-                  //   this.allBets.shift();
-                  // }
+                  if (_this.allBets.length > 30) {
+                    _this.allBets.shift();
+                  }
                 }
               }
             });
