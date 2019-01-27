@@ -201,7 +201,7 @@ export function dogetdraw(vm) {
           }
         }
         ]
-      }).then(() => {
+      }).then((res) => {
         $store.dispatch("UPDATE_TOKEN_ASYNC", {
           type: "bocai"
         });
