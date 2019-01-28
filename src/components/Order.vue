@@ -163,7 +163,7 @@
                     }
                   }
                   if (_this.allBets.length > 30) {
-                    _this.allBets.shift();
+                    _this.allBets.pop();
                   }
                 }
               }
