@@ -98,7 +98,7 @@ export default {
     return {
       roll: 50,
       amount: 0.25,
-      totalAmount: 100,
+      totalAmount: 10000,
       autoStatus:false,
       t:'',
       limitAmount:1,
