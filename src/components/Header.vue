@@ -14,7 +14,7 @@
           <!-- <el-button type="text" @click="getfree">{{$t("header.NoviceWelfare")}}</el-button> -->
           <el-button type="text" @click="getdraw">{{$t("header.DailyDraw")}}</el-button>
           <!-- <el-button type="text" @click="roadmapDialog=true">{{$t("header.Roadmap")}}</el-button> -->
-          <!-- <el-button type="text" @click="divideDialog = true">{{$t("header.PayoutPool")}}</el-button> -->
+          <el-button type="text" @click="divideDialog = true">{{$t("header.PayoutPool")}}</el-button>
           <!-- <el-button type="text" @click="openToken">{{$t("header.tokenDetail")}}</el-button> -->
           <el-button type="text" @click="openHowto">{{$t("header.howtoplay")}}</el-button>
           <el-button type="text" @click="inviteFriend=true">{{$t("header.Referrals")}}</el-button>
@@ -254,7 +254,7 @@
       withdraw() {
         // 提现
         if (this.username) {
-          eosTransaction("eosbocaidivi", "claim", {
+          eosTransaction("bosdicepool2", "claim", {
             from: this.username
           }).then(() => {
             this.$message.success(this.$t("header.Cashwithdrawalsuccess"));
@@ -276,7 +276,7 @@
         if (this.stake <= this.myBocai) {
           eosTransaction("bosdicetokem", "transfer", {
             from: this.username,
-            to: "eosbocaidivi",
+            to: "bosdicepool2",
             quantity: `${(+this.stake).toFixed(4)} BOSDICE`,
             memo: "stake"
           }).then(() => {
@@ -298,7 +298,7 @@
           return;
         }
         if (this.redeem <= this.currentStake) {
-          eosTransaction("eosbocaidivi", "unstake", {
+          eosTransaction("bosdicepool2", "unstake", {
             from: this.username,
             quantity: `${(+this.redeem).toFixed(4)} BOSDICE`,
           }).then(() => {
@@ -314,17 +314,18 @@
         }
       },
       updateDivide() {
+        this.getstat()
         restApi
           .getTableRows({
-            code: "eosbocaidivi",
-            scope: "eosbocaidivi",
+            code: "bosdicepool2",
+            scope: "bosdicepool2",
             table: "global",
             json: true
           })
           .then(res => {
             if (res.rows && res.rows.length !== 0) {
-              this.totalStaked = res.rows[0].total_staked / 10000;
-              this.totalShare = res.rows[0].total_share / 10000;
+              this.totalStaked = res.rows[0].total_staked.split(' ')[0];
+              this.totalShare = res.rows[0].total_share.split(' ')[0];
               this.earningsPerShare =
                 parseInt(
                   res.rows[0].earnings_per_share
@@ -339,7 +340,7 @@
         if (this.username) {
           restApi
             .getTableRows({
-              code: "eosbocaidivi",
+              code: "bosdicepool2",
               scope: this.username,
               table: "voters",
               json: true
@@ -352,9 +353,22 @@
               }
             });
         }
-        if (this.subBocai) {
-          this.allCirculate = (this.supply - this.subBocai).toFixed(4);
-        }
+       restApi.getTableRows({
+          json: true,
+          code: "bosdicetokem",
+          table: "accounts",
+          scope: "bosdiceadmin"
+        }).then(res => {
+          res.rows.forEach(item => {
+            if (item.balance.split(" ")[1] === "BOSDICE") {
+              this.subBocai = item.balance.split(" ")[0];
+              console.log(this.subBocai);
+              console.log(this.supply);
+              
+              this.allCirculate = (this.supply - this.subBocai).toFixed(4);
+            }
+          });
+        })
       },
       changeLang(command) {
         this.dicelang = command;
@@ -436,7 +450,7 @@
           })
           .then(res => {
             if (res.rows && res.rows.length !== 0) {
-              this.supply = res.rows[0].supply.slice(0, -6);
+              this.supply = res.rows[0].supply.split(" ")[0];
             }
           });
       },
