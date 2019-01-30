@@ -122,16 +122,16 @@
         <div class="item">
           <div class="left">
             <img src="../assets/token.png">
-            <p>当前分红池金额:{{nextDividendAmount}} BOS</p>
+            <p>{{$t("header.stakea")}}:{{nextDividendAmount}} BOS</p>
           </div>
           <div class="right">
             <div>
               <div>
-              <p>我预计可以分</p>
+              <p>{{$t("header.stakeb")}}</p>
               <p>{{mytokeneso}} BOS</p>
             </div>
             <div>
-              <p>每万BOSDICE收益</p>
+              <p>{{$t("header.stakec")}}</p>
               <p>{{w1tokeneso}} BOS</p>
             </div>
             </div>

@@ -37,6 +37,9 @@ export default {
     logout:"登出成功",
     NoviceWelfare:"新用户福利",
     DailyDraw:"每天抽奖",
+    "stakea":"当前分红池金额",
+    "stakeb":"我的预估分红",
+    "stakec":"每万BOSDICE预估分红",
     vipContent:`
     <div class="vip-content">
     <h1>VIP</h1>
