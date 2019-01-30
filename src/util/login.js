@@ -17,7 +17,7 @@ export function login(ctx) {
     });
     ctx.$store.dispatch("UPDATE_EOS_ASYNC");
     ctx.$store.dispatch("UPDATE_TOKEN_ASYNC", {
-      type: 'bocai'
+      type: 'bosdice'
     });
   }).catch(err => {
     ctx.$message({

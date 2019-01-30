@@ -8,7 +8,7 @@
           <!-- <el-button type="text">历史公告</el-button> -->
           <!-- <el-button
             type="text"
-            @click="window.open('https://deltadex.io/embed/eosdicevip/bosdicetokem-BOCAI', '_self')"
+            @click="window.open('https://deltadex.io/embed/eosdicevip/bosdicetokem-BOSDICE', '_self')"
           >{{$t("header.exchange")}}</el-button> -->
           <!-- <el-button type="text" @click="openVip">VIP</el-button> -->
           <!-- <el-button type="text" @click="getfree">{{$t("header.NoviceWelfare")}}</el-button> -->
@@ -68,7 +68,7 @@
         <!-- <el-button type="text">历史公告</el-button> -->
         <!-- <el-button
           type="text"
-          @click="window.open('https://deltadex.io/embed/eosdicevip/bosdicetokem-BOCAI')"
+          @click="window.open('https://deltadex.io/embed/eosdicevip/bosdicetokem-BOSDICE')"
         >{{$t("header.exchange")}}</el-button> -->
         <!-- <el-button type="text" @click="openVip">VIP</el-button> -->
         <!-- <el-button type="text" @click="getfree">新用户福利</el-button> -->
@@ -144,11 +144,11 @@
           <div class="right">
             <div>
               <p>{{$t("header.currentCirculation")}}</p>
-              <p>{{allCirculate}} BOCAI</p>
+              <p>{{allCirculate}} BOSDICE</p>
             </div>
             <div>
               <p>{{$t("header.currentStake")}}</p>
-              <p>{{totalStaked}} BOCAI</p>
+              <p>{{totalStaked}} BOSDICE</p>
             </div>
           </div>
         </div>
@@ -161,14 +161,14 @@
           </div>
         </div>
         <div class="stake-content">
-          <div class="title">{{$t("header.canstake")}}: {{myBocai}} BOCAI</div>
+          <div class="title">{{$t("header.canstake")}}: {{myBocai}} BOSDICE</div>
           <div class="input-content">
             <el-input :placeholder="mostStake" class="dice-input" v-model="stake"></el-input>
             <el-button type="primary" @click="handleStake">{{$t("header.stake1")}}</el-button>
           </div>
         </div>
         <div class="stake-content">
-          <div class="title">{{$t("header.staked")}}: {{Number(currentStake).toFixed(4)}}BOCAI</div>
+          <div class="title">{{$t("header.staked")}}: {{Number(currentStake).toFixed(4)}}BOSDICE</div>
           <div class="input-content">
             <el-input :placeholder="mostRedeem" class="dice-input" v-model="redeem"></el-input>
             <el-button type="primary" @click="handleUnstake">{{$t("header.unstake1")}}</el-button>
@@ -277,7 +277,7 @@
           eosTransaction("bosdicetokem", "transfer", {
             from: this.username,
             to: "eosbocaidivi",
-            quantity: `${(+this.stake).toFixed(4)} BOCAI`,
+            quantity: `${(+this.stake).toFixed(4)} BOSDICE`,
             memo: "stake"
           }).then(() => {
             this.updateDivide();
@@ -300,7 +300,7 @@
         if (this.redeem <= this.currentStake) {
           eosTransaction("eosbocaidivi", "unstake", {
             from: this.username,
-            quantity: `${(+this.redeem).toFixed(4)} BOCAI`,
+            quantity: `${(+this.redeem).toFixed(4)} BOSDICE`,
           }).then(() => {
             this.updateDivide();
             this.bocaiAmount();
@@ -432,7 +432,7 @@
             json: true,
             code: "bosdicetokem",
             table: "stat",
-            scope: "BOCAI"
+            scope: "BOSDICE"
           })
           .then(res => {
             if (res.rows && res.rows.length !== 0) {
@@ -520,7 +520,7 @@
             })
             .then(res => {
               res.rows.forEach(item => {
-                if (item.balance.split(" ")[1] === "BOCAI") {
+                if (item.balance.split(" ")[1] === "BOSDICE") {
                   _this.myBocai = item.balance.split(" ")[0];
                 }
               });
@@ -559,10 +559,10 @@
         return ((this.totalStaked / this.allCirculate) * 100).toFixed(2);
       },
       mostStake() {
-        return this.$t("header.maxcanstake") + `${this.myBocai} BOCAI`;
+        return this.$t("header.maxcanstake") + `${this.myBocai} BOSDICE`;
       },
       mostRedeem() {
-        return this.$t("header.maxcanunstake") + `${Number(this.currentStake).toFixed(4)} BOCAI`;
+        return this.$t("header.maxcanunstake") + `${Number(this.currentStake).toFixed(4)} BOSDICE`;
       },
       w1tokeneso(){ //10000代币 预计能分多少.
         return 10000/this.supply*this.nextDividendAmount;

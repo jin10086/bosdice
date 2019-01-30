@@ -146,7 +146,7 @@
                   if (mes.player === _this.username) {
                     _this.$store.dispatch("UPDATE_EOS_ASYNC");
                     _this.$store.dispatch("UPDATE_TOKEN_ASYNC", {
-                      type: _this.activeToken === "bos" ? "bocai" : _this.activeToken
+                      type: _this.activeToken === "bos" ? "bosdice" : _this.activeToken
                     });
                     if (Number(parseFloat(mes.amount)) <= Number(parseFloat(mes.payout))) {
                       console.log("win");
