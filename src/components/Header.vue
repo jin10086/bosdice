@@ -121,6 +121,25 @@
         <h3>{{$t("header.Stake")}}</h3>
         <div class="item">
           <div class="left">
+            <img src="../assets/token.png">
+            <p>当前分红池金额:{{nextDividendAmount}} BOS</p>
+          </div>
+          <div class="right">
+            <div>
+              <div>
+              <p>我预计可以分</p>
+              <p>{{mytokeneso}} BOS</p>
+            </div>
+            <div>
+              <p>每万BOSDICE收益</p>
+              <p>{{w1tokeneso}} BOS</p>
+            </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="item">
+          <div class="left">
             <img src="../assets/bos.png">
             <p>{{$t("header.currentDividends")}}: {{totalShare}} BOS</p>
           </div>
@@ -314,7 +333,8 @@
         }
       },
       updateDivide() {
-        this.getstat()
+        this.getstat();
+        this.getpoolamout();
         restApi
           .getTableRows({
             code: "bosdicepool2",
@@ -457,7 +477,7 @@
           json: true,
           code: "eosio.token",
           table: "accounts",
-          scope: "bosdiceadmin"
+          scope: "bosdicepool1"
         }).then(res => {
           res.rows.forEach(item => {
             if (item.balance.split(" ")[1] === "BOS") {
@@ -577,7 +597,10 @@
         return this.$t("header.maxcanunstake") + `${Number(this.currentStake).toFixed(4)} BOSDICE`;
       },
       w1tokeneso(){ //10000代币 预计能分多少.
-        return 10000/this.supply*this.nextDividendAmount;
+        return (10000/this.allCirculate*this.nextDividendAmount).toFixed(4);
+      },
+      mytokeneso(){ //我预计能分多少.
+        return ((Number(this.currentStake) + Number(this.myBocai))/this.allCirculate * this.nextDividendAmount).toFixed(4);
       },
       nextLevelAmount() {
         let amount = 0;
