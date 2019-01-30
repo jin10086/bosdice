@@ -127,7 +127,7 @@
           <div class="right">
             <div>
               <p>{{$t("header.yourtotalstake")}}</p>
-              <p>{{totalout}} BOS</p>
+              <p>{{totalout}}</p>
             </div>
             <div>
               <p>{{$t("header.canGet")}}</p>
@@ -168,7 +168,7 @@
           </div>
         </div>
         <div class="stake-content">
-          <div class="title">{{$t("header.staked")}}: {{Number(currentStake).toFixed(4)}}BOSDICE</div>
+          <div class="title">{{$t("header.staked")}}: {{Number(currentStake).toFixed(4)}} BOSDICE</div>
           <div class="input-content">
             <el-input :placeholder="mostRedeem" class="dice-input" v-model="redeem"></el-input>
             <el-button type="primary" @click="handleUnstake">{{$t("header.unstake1")}}</el-button>
@@ -217,7 +217,7 @@
         // 每个股份的价格
         earningsPerShare: "0.0000",
         // 已领取分红
-        totalout: "0.0000",
+        totalout: "0.0000 BOS",
         // 已领取分红
         payout: "0.0000",
         // 质押的BOCAI
@@ -347,9 +347,9 @@
             })
             .then(res => {
               if (res.rows && res.rows.length !== 0) {
-                this.currentStake = res.rows[0].staked / 10000;
+                this.currentStake = res.rows[0].staked.split(" ")[0];
                 this.payout = res.rows[0].payout;
-                this.totalout = (res.rows[0].totalout / 10000).toFixed(4);
+                this.totalout = res.rows[0].totalout;
               }
             });
         }
