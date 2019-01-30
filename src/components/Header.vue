@@ -74,7 +74,7 @@
         <!-- <el-button type="text" @click="getfree">新用户福利</el-button> -->
         <el-button type="text" @click="getdraw">{{$t("header.DailyDraw")}}</el-button>
         <!-- <el-button type="text" @click="roadmapDialog= true">{{$t("header.Roadmap")}}</el-button> -->
-        <!-- <el-button type="text" @click="divideDialog = true">{{$t("header.PayoutPool")}}</el-button> -->
+        <el-button type="text" @click="divideDialog = true">{{$t("header.PayoutPool")}}</el-button>
         <!-- <el-button type="text" @click="openToken">{{$t("header.tokenDetail")}}</el-button> -->
         <el-button type="text" @click="openHowto">{{$t("header.howtoplay")}}</el-button>
         <el-button type="text" @click="inviteFriend=true">{{$t("header.Referrals")}}</el-button>
@@ -173,7 +173,7 @@
             <el-input :placeholder="mostRedeem" class="dice-input" v-model="redeem"></el-input>
             <el-button type="primary" @click="handleUnstake">{{$t("header.unstake1")}}</el-button>
           </div>
-          <div class="tips">{{$t("header.unstakeMsg")}}</div>
+          <!-- <div class="tips">{{$t("header.unstakeMsg")}}</div> -->
         </div>
       </div>
     </el-dialog>
@@ -362,8 +362,6 @@
           res.rows.forEach(item => {
             if (item.balance.split(" ")[1] === "BOSDICE") {
               this.subBocai = item.balance.split(" ")[0];
-              console.log(this.subBocai);
-              console.log(this.supply);
               
               this.allCirculate = (this.supply - this.subBocai).toFixed(4);
             }
