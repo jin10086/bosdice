@@ -725,6 +725,9 @@
 
           .dice-input {
             margin-right: 24px;
+            input {
+              user-select: auto;
+            }
           }
         }
       }
