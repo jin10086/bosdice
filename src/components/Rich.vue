@@ -14,6 +14,7 @@
               <th>RANK</th>
               <th>PLAYER</th>
               <th>WAGER</th>
+              <th>CANGET</th>
             </tr>
           </thead>
             <tbody>
@@ -26,6 +27,12 @@
                 <td v-else>{{index + 1}}</td>
                 <td>{{rank.player}}</td>
                 <td>{{rank.amount}}</td>
+                <td v-if="index === 0">{{(parseFloat(rankAmount.split(' ')[0])*0.45).toFixed(4)}} BOS</td>
+                <td  v-else-if="index === 1">{{(parseFloat(rankAmount.split(' ')[0])*0.25).toFixed(4)}} BOS</td>
+                <td  v-else-if="index === 2">{{(parseFloat(rankAmount.split(' ')[0])*0.15).toFixed(4)}} BOS</td>
+                <td  v-else-if="index === 3">{{(parseFloat(rankAmount.split(' ')[0])*0.10).toFixed(4)}} BOS</td>
+                <td  v-else-if="index === 4">{{(parseFloat(rankAmount.split(' ')[0])*0.05).toFixed(4)}} BOS</td>
+                <td v-else>0.0000 BOS</td>
               </tr>
             </tbody>
         </table>
