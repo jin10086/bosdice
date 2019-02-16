@@ -22,7 +22,7 @@ const i18n = {
 import ScatterJS from "scatterjs-core";
 import ScatterEOS from "scatterjs-plugin-eosjs";
 ScatterJS.plugins(new ScatterEOS());
-ScatterJS.scatter.connect("https://eosdice.vip").then(connected => {
+ScatterJS.scatter.connect("https://bosdice.info").then(connected => {
   if (!connected) {
     if (!window.localStorage.getItem("dicelang") || window.localStorage.getItem("dicelang") === "en"){
       alert("Fail to connect to Scatter Wallet");
