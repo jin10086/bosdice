@@ -46,14 +46,14 @@ ScatterJS.scatter.connect("https://eosdice.vip").then(connected => {
 Vue.config.productionTip = false
 Vue.prototype.$ws = client;
 
-Vue.prototype.$ws
-  .connect()
-  .then(() => {
-    console.log('connect success');
-  })
-  .catch(error => {
-    console.log("Unable to connect to dfuse endpoint.", error);
-  });
+// Vue.prototype.$ws
+//   .connect()
+//   .then(() => {
+//     console.log('connect success');
+//   })
+//   .catch(error => {
+//     console.log("Unable to connect to dfuse endpoint.", error);
+//   });
 
 new Vue({
   router,
