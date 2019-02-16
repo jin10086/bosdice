@@ -73,27 +73,7 @@ export default {
   watch: {
     username(newValue) {
       const _this = this;
-      if (newValue) {
-        this.my_ws_identify = this.$ws.getTableRows(
-          {
-            code: "eosbocaijack",
-            scope: newValue,
-            table: "rank",
-            json: true
-          },
-          { req_id: "dice-rich-my", fetch: true }
-        );
-        this.my_ws_identify.onMessage(mes => {
-          const res = handleData(mes);
-          if (typeof res === "object") {
-            if (res.length !== 0) {
-              _this.myBet = res[0].amount;
-            }
-          }
-        });
-      } else {
-        this.my_ws_identify.unlisten();
-      }
+    
     }
     // sortedRunData1(newValue) {
     //   const tempData = newValue;
@@ -115,19 +95,6 @@ export default {
       this.showTable = false;
     }
     const _this = this;
-    this.ws_identify = this.$ws.getTableRows(
-      {
-        code: "eosbocaijack",
-        scope: "eosbocaijack",
-        table: "rank",
-        json: true
-      },
-      { req_id: "dice-rich", fetch: true }
-    );
-    this.ws_identify.onMessage(message => {
-      const mes = handleData(message);
-      if (mes) _this.runData = mes.slice(0, 10);
-      let tempData = [];
       this.runData.forEach(item => {
         restApi
           .getTableRows({
@@ -147,13 +114,8 @@ export default {
             }
           });
       });
-      // console.log(tempData, )
-      this.sortedRunData1 = tempData;
-    });
+     
   },
-  destroyed() {
-    this.ws_identify.unlisten();
-  }
 };
 </script>
 
