@@ -597,7 +597,7 @@
       },
       w1tokeneso(){ //10000代币 预计能分多少.
         console.log(this.$store.state.poolamount);
-        return (10000/this.allCirculate * this.$store.state.poolamount).toFixed(4);
+        return (10000/this.totalStaked * this.$store.state.poolamount).toFixed(4);
       },
       mytokeneso(){ //我预计能分多少.
         return ((Number(this.currentStake) + Number(this.myBocai))/this.allCirculate * this.$store.state.poolamount).toFixed(4);
