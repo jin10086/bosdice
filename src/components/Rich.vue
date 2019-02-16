@@ -137,7 +137,7 @@ export default {
               scope: "bosdiceadmin"
       }).then(res=>{
           this.$store.state.rankid = res.rows[0].current_id;
-          this.$store.state.poolamount = res.rows[0].poolamount;
+          this.$store.state.poolamount = res.rows[0].poolamount.split(' ')[0];
           this.$store.state.rankendtime = res.rows[0].endtime;
           this.rankAmount = res.rows[0].amount;
           

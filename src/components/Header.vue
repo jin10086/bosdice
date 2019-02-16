@@ -122,7 +122,7 @@
         <div class="item">
           <div class="left">
             <img src="../assets/token.png">
-            <p>{{$t("header.stakea")}}:{{nextDividendAmount}} BOS</p>
+            <p>{{$t("header.stakea")}}:{{$store.state.poolamount}} BOS</p>
           </div>
           <div class="right">
             <div>
@@ -334,7 +334,6 @@
       },
       updateDivide() {
         this.getstat();
-        this.getpoolamout();
         restApi
           .getTableRows({
             code: "bosdicepool2",
@@ -472,21 +471,21 @@
             }
           });
       },
-      getpoolamout() {
-        restApi.getTableRows({
-          json: true,
-          code: "eosio.token",
-          table: "accounts",
-          scope: "bosdicepool1"
-        }).then(res => {
-          res.rows.forEach(item => {
-            if (item.balance.split(" ")[1] === "BOS") {
-              this.nextDividendAmount = item.balance.split(" ")[0];
-            }
-          });
-        })
+      // getpoolamout() {
+      //   restApi.getTableRows({
+      //     json: true,
+      //     code: "eosio.token",
+      //     table: "accounts",
+      //     scope: "bosdicepool1"
+      //   }).then(res => {
+      //     res.rows.forEach(item => {
+      //       if (item.balance.split(" ")[1] === "BOS") {
+      //         this.nextDividendAmount = item.balance.split(" ")[0];
+      //       }
+      //     });
+      //   })
 
-      },
+      // },
       // 需要減去的BOCAI
       // getSubCirculate() {
       //   const _this = this;
@@ -597,10 +596,11 @@
         return this.$t("header.maxcanunstake") + `${Number(this.currentStake).toFixed(4)} BOSDICE`;
       },
       w1tokeneso(){ //10000代币 预计能分多少.
-        return (10000/this.allCirculate*this.nextDividendAmount).toFixed(4);
+        console.log(this.$store.state.poolamount);
+        return (10000/this.allCirculate * this.$store.state.poolamount).toFixed(4);
       },
       mytokeneso(){ //我预计能分多少.
-        return ((Number(this.currentStake) + Number(this.myBocai))/this.allCirculate * this.nextDividendAmount).toFixed(4);
+        return ((Number(this.currentStake) + Number(this.myBocai))/this.allCirculate * this.$store.state.poolamount).toFixed(4);
       },
       nextLevelAmount() {
         let amount = 0;
@@ -640,7 +640,7 @@
     },
     mounted() {
       setInterval(() => {
-        this.getpoolamout();
+        // this.getpoolamout();
         this.getstat();
       }, 10000);
     }
