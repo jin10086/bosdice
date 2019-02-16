@@ -10,7 +10,10 @@ export default new Vuex.Store({
     // 分别是eos余额和别的代币余额
     eosBalance: '0.0000',
     otherToken: '0.0000',
-    fomoPool: 0
+    fomoPool: 0,
+    rankid:"",
+    poolamount:"",
+    rankendtime:"",
   },
   getters: {
     eosBalance: state => {

@@ -4,8 +4,8 @@
       <div class="box-table-total">
         <div @click="showTable=!showTable">
         <p>RUN FOR</p>
-        <strong>23 EOS</strong>
-        <em>44:00</em>
+        <strong>{{rankAmount}}</strong>
+        <em>{{rankEndtime}}</em>
         </div>
         <transition name="el-zoom-in-top">
         <table width="100%" style="text-align: center;" v-show="showTable">
@@ -43,6 +43,8 @@
 import { restApi } from "@/network/transtion";
 import { handleData } from "@/network/ws.js";
 import { mapGetters } from "vuex";
+import moment from "moment";
+
 export default {
   name: "dice-rich",
   data() {
@@ -51,70 +53,139 @@ export default {
       runData: [],
       sortedRunData1: [],
       my_ws_identify: "",
-      myBet: "0.0000 EOS",
-      showTable: true
+      myBet: "0.0000 BOS",
+      showTable: true,
+      rankAmount:"",
+      rankEndtime:"59:59"
     };
   },
   computed: {
     ...mapGetters(["username"]),
     sortedRunData() {
-      const tempdata = this.sortedRunData1;
-      return tempdata.sort(function(a, b) {
-        if (Number(a.amount.split(" ")[0]) > Number(b.amount.split(" ")[0])) {
-          return -1;
+      let newArr = [...this.runData];
+      return newArr.sort((a, b) => {
+        if (a.amount && b.amount) {
+          return b.amount.split(" ")[0] - a.amount.split(" ")[0];
         }
-        if (Number(a.amount.split(" ")[0]) < Number(b.amount.split(" ")[0])) {
-          return 1;
-        }
-        return 0;
+        return b.rank_id - a.rank_id;
       });
-    }
+    },
   },
   watch: {
     username(newValue) {
-      const _this = this;
-    
-    }
-    // sortedRunData1(newValue) {
-    //   const tempData = newValue;
-    //   tempData.sort(function(a, b) {
-    //     if (Number(a.amount.split(" ")[0]) > Number(b.amount.split(" ")[0])) {
-    //       return -1;
-    //     }
-    //     if (Number(a.amount.split(" ")[0]) < Number(b.amount.split(" ")[0])) {
-    //       return 1;
-    //     }
-    //     return 0;
-    //   });
-    //   this.sortedRunData = tempData;
-    // }
+      restApi.getTableRows({
+              code: "bosdiceadmin",
+              scope: newValue,
+              table: "rankusers",
+              json: true
+      }).then(res=>{
+        if (res.rows.length !== 0){
+          this.myBet = res.rows[0].amount;
+        }
+      })
+    },
+  },
+  methods:{
+    getRankList() {
+      restApi
+        .getTableRows({
+          json: true,
+          code: "bosdiceadmin",
+          table: "rank",
+          scope: "bosdiceadmin"
+        })
+        .then(res => {
+          if (res.rows) {
+            this.runData = res.rows;
+            if (this.runData.length) {
+              for (let i = 0; i < this.runData.length; i++) {
+                this.getRankItem(this.runData[i].player, i);
+              }
+            }
+          }
+        });
+    },
+    getRankItem(name, index) {
+      restApi
+        .getTableRows({
+          json: true,
+          code: "bosdiceadmin",
+          table: "rankusers",
+          scope: name
+        })
+        .then(res => {
+          if (res.rows && res.rows.length) {
+            const amount = res.rows[0].amount;
+            const temp = { ...this.runData[index] };
+            temp.amount = amount;
+            this.$set(this.runData, index, temp);
+          }
+        });
+    },
+    getRankGlobal(){
+      restApi.getTableRows({
+              json: true,
+              code: "bosdiceadmin",
+              table: "rankglobal",
+              scope: "bosdiceadmin"
+      }).then(res=>{
+          this.$store.state.rankid = res.rows[0].current_id;
+          this.$store.state.poolamount = res.rows[0].poolamount;
+          this.$store.state.rankendtime = res.rows[0].endtime;
+          this.rankAmount = res.rows[0].amount;
+          
+      })
+    },
+    getMyBetAmount() {
+      const name = this.$store.state.account.name;
+      if (name) {
+        restApi
+          .getTableRows({
+            json: true,
+            code: "bosdiceadmin",
+            table: "rankusers",
+            scope: name
+          })
+          .then(res => {
+            if (res.rows && res.rows.length) {
+              let current_id = res.rows[0].current_id;
+              if (current_id == this.$store.state.rankid) {
+                this.myBet = res.rows[0].amount;
+              } else {
+                this.myBet = "0.0000 EOS";
+              }
+            }
+          });
+      }
+    },
+    calcRankTimer() {
+      let current = new Date().getTime();
+      let left = this.$store.state.rankendtime * 1000 - current;
+      if (left <= 0) {
+        this.rankEndtime = "0:00";
+        return;
+      }
+      let duration = moment.duration(left);
+      let seconds = duration.seconds() || 0;
+      if (seconds < 10) {
+        seconds = "0" + seconds;
+      }
+      this.rankEndtime = `${duration.minutes() || 0}:${seconds}`;
+    },
   },
   mounted() {
     const width = document.body.clientWidth
     if (width < 768 ) {
       this.showTable = false;
-    }
-    const _this = this;
-      this.runData.forEach(item => {
-        restApi
-          .getTableRows({
-            code: "eosbocaijack",
-            scope: item.json.player,
-            table: "users",
-            json: true
-          })
-          .then(res => {
-            if (res.rows && res.rows.length) {
-              const amount = res.rows[0].amount;
-              const person = {
-                amount: amount,
-                player: item.json.player
-              };
-              tempData.push(person);
-            }
-          });
-      });
-     
+    };
+    this.interval = setInterval(() => {
+      this.getRankGlobal();
+      this.getMyBetAmount();
+      this.getRankList();
+    }, 5000);
+    this.fomoTimer = setInterval(() => {
+      this.calcRankTimer();
+    }, 1000)    
   },
 };
 </script>
