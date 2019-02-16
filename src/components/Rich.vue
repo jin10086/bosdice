@@ -11,10 +11,10 @@
         <table width="100%" style="text-align: center;" v-show="showTable">
           <thead>
             <tr>
-              <th>RANK</th>
-              <th>PLAYER</th>
-              <th>WAGER</th>
-              <th>CANGET</th>
+              <th>{{$t("RANK")}}</th>
+              <th>{{$t("PLAYER")}}</th>
+              <th>{{$t("WAGER")}}</th>
+              <th>{{$t("CANGET")}}</th>
             </tr>
           </thead>
             <tbody>
@@ -39,7 +39,7 @@
         </transition>
         <div>
           <div>{{username ? username : "------"}}</div>
-          <div>WAGER {{myBet}}</div>
+          <div>{{$t("CANGET")}} {{myBet}}</div>
         </div>
       </div>
     </div>

@@ -190,6 +190,10 @@ export default {
     next: "Wait for next game"
   },
   announcement:"Since the amount of dividends is relatively small, the dividend will be changed to 8:00 pm every Sunday.",
-  "announcementTitle":"announcement"
+  "announcementTitle":"announcement",
+  RANK:"RANK",
+    PLAYER:"PLAYER",
+    WAGER:"WAGER",
+    CANGET:"CANGET",
 
 }

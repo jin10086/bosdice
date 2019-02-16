@@ -199,6 +199,10 @@ export default {
     next: "等待下一局开始"
   },
   announcement:"由于分红金额比较少，改为每周日晚上8点开始分红.",
-  "announcementTitle":"公告"
+  "announcementTitle":"公告",
+  RANK:"排名",
+    PLAYER:"玩家",
+    WAGER:"赌注",
+    CANGET:"奖金",
 
 }
