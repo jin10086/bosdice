@@ -39,7 +39,7 @@
         </transition>
         <div>
           <div>{{username ? username : "------"}}</div>
-          <div>{{$t("CANGET")}} {{myBet}}</div>
+          <div>{{$t("WAGER")}} {{myBet}}</div>
         </div>
       </div>
     </div>
