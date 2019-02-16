@@ -18,7 +18,7 @@
       </div>
     </div> -->
     <div class="main">
-      <!-- <dice-rich></dice-rich> -->
+      <dice-rich></dice-rich>
       <dice-roll :activeToken="activeToken" :showToekn="token"></dice-roll>
       <div style="display:none">
       <dice-auction class="mobile-none"></dice-auction>
@@ -43,7 +43,7 @@ import DiceHeader from "@/components/Header.vue";
 import DiceOrder from "@/components/Order.vue";
 import DiceRoll from "@/components/Roll.vue";
 import DiceAuction from "@/components/Auction.vue";
-// import DiceRich from "@/components/Rich.vue";
+import DiceRich from "@/components/Rich.vue";
 import { login } from "@/util/login";
 import { api, supportCoin } from "@/network/transtion";
 import { handleData } from "@/network/ws.js";
@@ -70,8 +70,8 @@ export default {
     DiceHeader,
     DiceRoll,
     DiceOrder,
-    DiceAuction
-    // DiceRich
+    DiceAuction,
+    DiceRich
   },
   computed: {
     currentProp() {
