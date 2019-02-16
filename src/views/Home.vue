@@ -18,7 +18,6 @@
       </div>
     </div> -->
     <div class="main">
-      <dice-rich></dice-rich>
       <dice-roll :activeToken="activeToken" :showToekn="token"></dice-roll>
       <div style="display:none">
       <dice-auction class="mobile-none"></dice-auction>
@@ -28,7 +27,9 @@
       </div>
       <component :is="currentComponent" class="mobile-show" v-bind="currentProp"></component>
       </div>
+      <dice-rich></dice-rich>
     </div>
+
     <dice-order :activeToken="activeToken"></dice-order>
     <el-dialog :visible.sync="announcementDialog" custom-class="announcement-class">
       <h2 slot="title">{{$t("announcementTitle")}}</h2>
