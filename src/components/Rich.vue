@@ -169,7 +169,7 @@ export default {
       let current = new Date().getTime();
       let left = this.$store.state.rankendtime * 1000 - current;
       if (left <= 0) {
-        this.rankEndtime = "0:00";
+        this.rankEndtime = "59:59";
         return;
       }
       let duration = moment.duration(left);
