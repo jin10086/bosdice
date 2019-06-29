@@ -189,10 +189,10 @@ export default {
       this.getRankGlobal();
       this.getMyBetAmount();
       this.getRankList();
-    }, 5000);
+    }, 10000);
     this.fomoTimer = setInterval(() => {
       this.calcRankTimer();
-    }, 1000)    
+    }, 10000)    
   },
 };
 </script>
