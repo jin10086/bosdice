@@ -10,7 +10,7 @@ export const network = {
 }
 
 export const restApi = Eos({
-  httpEndpoint: `${network.protocol}://api.bos42.io:${network.port}`,
+  httpEndpoint: `${network.protocol}://api.bossweden.org:${network.port}`,
   chainId: network.chainId
 })
 
